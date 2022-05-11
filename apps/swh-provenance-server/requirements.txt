@@ -1,0 +1,1 @@
+swh.provenance @ git+https://forge.softwareheritage.org/source/swh-provenance.git
