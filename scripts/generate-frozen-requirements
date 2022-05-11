@@ -1,0 +1,84 @@
+#!/usr/bin/env python3
+
+# Copyright (C) 2022  The Software Heritage developers
+# See the AUTHORS file at the top-level directory of this distribution
+# License: GNU General Public License v3 or later
+# See top-level LICENSE file for more information
+
+"""Generate the requirements-frozen.txt file for a given app"""
+
+import pathlib
+import subprocess
+import sys
+import tempfile
+from venv import EnvBuilder
+
+from common import APPS_DIR
+
+
+class AppEnvBuilder(EnvBuilder):
+    """A virtualenv builder specialized for our usecase"""
+
+    @classmethod
+    def bootstrap_venv(cls, directory):
+        """Create a clean venv in ``directory``"""
+
+        builder = cls(clear=True, symlinks=True, with_pip=True)
+
+        builder.create(directory)
+
+        return builder
+
+    def post_setup(self, context):
+        """Do post-setup operations like upgrade setuptools and pip, install the"""
+        super().post_setup(context)
+
+        self.context = context
+
+        self.run_pip("install", "--upgrade", "pip", "setuptools")
+
+    def run_pip(self, *args, capture_output=False):
+        cmd = [self.context.env_exe, "-m", "pip", *args]
+
+        return subprocess.run(cmd, capture_output=capture_output, check=True)
+
+
+def usage():
+    print(__doc__, file=sys.stderr)
+    print("", file=sys.stderr)
+    print(f"Usage: {sys.argv[0]} app1 ... appN", file=sys.stderr)
+
+
+def generate_requirements_frozen(app):
+    """Generate the ``requirements-frozen.txt`` file out of the
+    ``requirements.txt`` file present in the ``app`` directory"""
+
+    app_dir = APPS_DIR / app
+    src_req_file = app_dir / "requirements.txt"
+    dst_req_file = app_dir / "requirements-frozen.txt"
+
+    if not src_req_file.is_file():
+        raise FileNotFoundError(
+            f"requirements.txt file for app {app} not found (checked {src_req_file})"
+        )
+
+    with tempfile.TemporaryDirectory(prefix=app) as envdir:
+        builder = AppEnvBuilder.bootstrap_venv(envdir)
+
+        builder.run_pip("install", "-r", str(src_req_file))
+        freeze_output = builder.run_pip("freeze", capture_output=True)
+
+        with tempfile.NamedTemporaryFile(mode="wb", dir=app_dir, delete=False) as f:
+            f.write(freeze_output.stdout)
+            p = pathlib.Path(f.name)
+            p.chmod(0o644)
+            p.rename(dst_req_file)
+
+
+if __name__ == "__main__":
+    if not sys.argv[1:]:
+        usage()
+        sys.exit(2)
+
+    for app in sys.argv[1:]:
+        generate_requirements_frozen(app)
