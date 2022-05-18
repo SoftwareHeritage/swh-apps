@@ -5,3 +5,4 @@ graphql-core
 h11
 starlette
 typing-extensions
+swh-graphql
