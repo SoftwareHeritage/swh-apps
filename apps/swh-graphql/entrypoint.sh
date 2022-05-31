@@ -10,7 +10,6 @@ case "$1" in
   echo Starting the swh-graphql API server
 
   exec gunicorn --bind "0.0.0.0:${PORT}" \
-    --reload \
     --threads "${THREADS}" \
     --workers "${WORKERS}" \
     --log-level "${LOG_LEVEL}" \
