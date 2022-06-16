@@ -39,6 +39,7 @@ port-for==0.6.2
 psutil==5.9.1
 psycopg2==2.9.3
 py==1.11.0
+py4j==0.10.9.5
 pycparser==2.21
 pymongo==4.1.1
 pyparsing==3.0.9
@@ -57,11 +58,12 @@ six==1.16.0
 sortedcontainers==2.4.0
 swh.core==2.11
 swh.counters==0.9.1
+swh.graph==0.5.2
 swh.journal==1.0.0
 swh.model==6.2.0
 swh.objstorage==1.0.5
 swh.perfecthash==0.1.2
-swh.provenance @ git+https://forge.softwareheritage.org/source/swh-provenance.git@d6e88dabb3bcbb69b6701f5dc1115a998c5c2bff
+swh.provenance @ git+https://forge.softwareheritage.org/source/swh-provenance.git@2453c3ef3b53a595d70cb018baa1a45002c541d1
 swh.storage==1.4.1
 tenacity==8.0.1
 tomli==2.0.1
