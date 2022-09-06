@@ -18,8 +18,9 @@ case "$1" in
        worker \
        --pool=prefork --events \
        --concurrency=${CONCURRENCY} \
-       --max-tasks-per-child=${MAX_TASKS_PER_CHILD} \
+       --maxtasksperchild=${MAX_TASKS_PER_CHILD} \
        -Ofair --loglevel=${LOGLEVEL} \
+       --without-gossip --without-mingle --without-heartbeat \
        --hostname "${SWH_WORKER_INSTANCE}@%h"
     ;;
 esac
