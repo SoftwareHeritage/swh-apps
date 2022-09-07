@@ -2,9 +2,6 @@
 
 set -e
 
-source /srv/softwareheritage/utils/pyutils.sh
-setup_pip
-
 case "$1" in
   "shell")
     shift
