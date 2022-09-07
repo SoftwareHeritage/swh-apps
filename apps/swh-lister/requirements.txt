@@ -1,2 +1,3 @@
 swh-lister
+swh-core[logging]
 

@@ -19,7 +19,7 @@ click-didyoumean==0.3.0
 click-plugins==1.1.1
 click-repl==0.2.0
 confluent-kafka==1.9.2
-cryptography==37.0.4
+cryptography==38.0.1
 Deprecated==1.2.13
 distro==1.7.0
 exceptiongroup==1.0.0rc9
@@ -85,6 +85,7 @@ swh.objstorage==2.0.1
 swh.perfecthash==0.1.2
 swh.scheduler==1.2.1
 swh.storage==1.6.0
+systemd-python==234
 tenacity==8.0.1
 tomli==2.0.1
 typing_extensions==4.3.0
