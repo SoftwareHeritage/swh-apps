@@ -5,4 +5,4 @@ graphql-core
 h11
 starlette
 typing-extensions
-swh-graphql
+swh-graphql==0.0.4
