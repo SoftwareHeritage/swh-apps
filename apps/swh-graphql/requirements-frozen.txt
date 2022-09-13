@@ -75,7 +75,7 @@ sortedcontainers==2.4.0
 starlette==0.20.4
 swh.core==2.14.1
 swh.counters==0.9.1
-swh.graphql==0.0.4
+swh.graphql==0.0.5
 swh.indexer==2.6.0
 swh.journal==1.1.0
 swh.model==6.4.1
@@ -89,6 +89,7 @@ tomli==2.0.1
 tree-sitter==0.20.1
 typing_extensions==4.3.0
 urllib3==1.26.12
+uvicorn==0.18.3
 vine==5.0.0
 wcwidth==0.2.5
 Werkzeug==2.2.2
