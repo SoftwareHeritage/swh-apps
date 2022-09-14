@@ -1,2 +1,2 @@
-swh-loader-core
+swh-loader-core==4.1.0
 
