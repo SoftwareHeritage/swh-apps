@@ -13,7 +13,7 @@ case "$1" in
     exec python -m celery \
        --app=swh.scheduler.celery_backend.config.app \
        worker \
-       --pool=prefork --events \
+       --pool=prefork \
        --concurrency=${CONCURRENCY} \
        --max-tasks-per-child=${MAX_TASKS_PER_CHILD} \
        -Ofair --loglevel=${LOGLEVEL} \
