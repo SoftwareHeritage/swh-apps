@@ -4,8 +4,8 @@ FROM python:3.10-bullseye
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get install -y libcmph-dev librdkafka-dev \
-      libsvn-dev libapr1-dev libaprutil1-dev subversion && \
-      cvs bzr opam git patool mercurial \
+      libsvn-dev libapr1-dev libaprutil1-dev subversion \
+      cvs bzr opam git patool mercurial && \
     apt clean && \
     addgroup --gid 1000 swh && \
     useradd --gid 1000 --uid 1000 -m -d /opt/swh swh && \
