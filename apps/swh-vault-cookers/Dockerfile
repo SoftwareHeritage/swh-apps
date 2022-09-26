@@ -24,7 +24,7 @@ RUN chmod u+x /opt/swh/entrypoint.sh && \
     pip install gunicorn
 
 ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
-ENV SWH_WORKER_INSTANCE=lister
+ENV SWH_WORKER_INSTANCE=vault
 ENV CONCURRENCY=1
 ENV MAX_TASKS_PER_CHILD=1
 ENV LOGLEVEL=INFO
