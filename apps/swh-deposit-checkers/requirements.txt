@@ -1,2 +1,2 @@
 swh-deposit
-
+swh-scheduler
