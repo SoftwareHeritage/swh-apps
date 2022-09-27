@@ -1,23 +1,25 @@
 #!/bin/bash
 
-set -e
+if [ -z "${SWH_CONFIG_FILENAME}" ]; then
+  echo "The SWH_CONFIG_FILENAME environment variable must be set"
+  exit 1
+fi
 
-case "$1" in
-  "shell")
-    shift
-    echo "Running command $@"
-    exec bash -i "$@"
-    ;;
-  *)
-    echo Starting the swh Celery worker for ${SWH_WORKER_INSTANCE}
-    exec python -m celery \
-       --app=swh.scheduler.celery_backend.config.app \
-       worker \
-       --pool=prefork \
-       --concurrency=${CONCURRENCY} \
-       --max-tasks-per-child=${MAX_TASKS_PER_CHILD} \
-       -Ofair --loglevel=${LOGLEVEL} \
-       --without-gossip --without-mingle --without-heartbeat \
-       --hostname "${SWH_WORKER_INSTANCE}@%h"
-    ;;
-esac
+if [ -z "${SWH_INDEXER_TYPE}" ]; then
+  echo "The SWH_INDEXER_TYPE environment variable must be set"
+  exit 1
+fi
+
+if [ ! -e "${SWH_CONFIG_FILENAME}" ]; then
+  echo "The config file ${SWH_CONFIG_FILENAME} does not exist"
+  exit 1
+fi
+
+# start the replayer
+echo "Starting indexer journal client..."
+/usr/bin/swh \
+  --log-level $LOGLEVEL \
+  --log-level azure.core.pipeline.policies.http_logging_policy:WARNING \
+  indexer \
+  --config-file $SWH_CONFIG_FILENAME \
+  journal-client $SWH_INDEXER_TYPE
