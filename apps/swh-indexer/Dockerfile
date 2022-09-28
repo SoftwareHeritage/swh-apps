@@ -1,10 +1,15 @@
 # Deeply inspired from the Dockerfile of the swh-graph project
 FROM python:3.10-bullseye
 
+RUN echo deb http://deb.debian.org/debian/ bullseye-backports main \
+      > /etc/apt/sources.list.d/backports.list
+RUN echo deb [trusted=yes] https://debian.softwareheritage.org/ bullseye-swh main  \
+      > /etc/apt/sources.list.d/softwareheritage.list
+
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get install -y libcmph-dev librdkafka-dev \
-      libsvn-dev libapr1-dev libaprutil1-dev subversion && \
+      fossology-nomossa && \
     apt clean && \
     addgroup --gid 1000 swh && \
     useradd --gid 1000 --uid 1000 -m -d /opt/swh swh && \
