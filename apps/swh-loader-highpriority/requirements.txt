@@ -4,3 +4,4 @@ swh-loader-cvs
 swh-loader-git
 swh-loader-svn
 swh-loader-mercurial
+swh-loader-metadata
