@@ -1,1 +1,2 @@
 swh-loader-git
+swh-loader-metadata
