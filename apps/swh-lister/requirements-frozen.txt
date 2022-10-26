@@ -82,7 +82,7 @@ soupsieve==2.3.2.post1
 swh.core==2.17.0
 swh.counters==0.9.1
 swh.journal==1.2.0
-swh.lister==4.1.0
+swh.lister==4.1.1
 swh.model==6.6.0
 swh.objstorage==2.0.1
 swh.perfecthash==0.1.2
