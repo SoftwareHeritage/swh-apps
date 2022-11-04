@@ -35,7 +35,7 @@ class AppEnvBuilder(EnvBuilder):
 
         self.context = context
 
-        self.run_pip("install", "--upgrade", "pip", "setuptools")
+        self.run_pip("install", "--upgrade", "pip", "setuptools", "wheel")
 
     def run_pip(self, *args, capture_output=False):
         cmd = [self.context.env_exe, "-m", "pip", *args]
