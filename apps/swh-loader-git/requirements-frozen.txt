@@ -88,7 +88,7 @@ swh.counters==0.9.1
 swh.journal==1.2.1
 swh.lister==4.1.1
 swh.loader.core==5.1.0
-swh.loader.git==2.0.0
+swh.loader.git==2.1.0
 swh.loader.metadata==0.0.3
 swh.model==6.6.0
 swh.objstorage==2.0.1
