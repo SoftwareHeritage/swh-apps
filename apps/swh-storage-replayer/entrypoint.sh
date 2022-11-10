@@ -12,4 +12,4 @@ fi
 
 # start the replayer
 echo "Starting the replayer..."
-swh storage replay
+exec swh storage replay
