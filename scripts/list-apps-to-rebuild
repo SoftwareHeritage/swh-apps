@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+
+# Copyright (C) 2023  The Software Heritage developers
+# See the AUTHORS file at the top-level directory of this distribution
+# License: GNU General Public License v3 or later
+# See top-level LICENSE file for more information
+
+"""A script to generate the list of applications impacted by an updated dependency
+application.
+
+"""
+
+from typing import Iterator
+from common import APPS_DIR
+import click
+
+# The file to read to determine impacted image to rebuild.
+# Note: We cannot use the requirements.txt as it does not explicit the python module it
+# depends upon
+requirements_file="requirements-frozen.txt"
+
+
+def from_application_to_module(app_name: str) -> str:
+    """Compute python module name from the application name."""
+    return app_name.replace("-", ".")
+
+
+def from_tag_to_version(version: str) -> str:
+    """Compute python module version from a version tag (prefixed with 'v')."""
+    return version.lstrip("v")
+
+
+def list_impacted_apps(application: str, version: str) -> Iterator[str]:
+    """List all apps whose constraint does not match `application==version.`.
+
+    Expectedly, only applications who have `application` in their
+    requirements-frozen.txt have a chance to be listed.
+
+    """
+    app_module = from_application_to_module(application)
+    version = from_tag_to_version(version)
+    for req_file in sorted(APPS_DIR.glob(f"*/{requirements_file}")):
+        with open(req_file, 'r') as f:
+            for line in f:
+                line = line.rstrip()
+                if '==' in line:  # we ignore the `@` case for now
+                    module, version_ = line.rstrip().split('==')
+                    if module == app_module:
+                        if version == version_:
+                            # Application is already built for the right version, stop
+                            break
+                        # Application has the dependency for another version, rebuild
+                        yield req_file.parent.stem
+
+
+@click.command()
+@click.argument("application")
+@click.argument("version")
+def main(application: str, version: str) -> None:
+    """Determine list of applications impacted by change of application @ version."""
+    for app in list_impacted_apps(application, version):
+        print(app)
+
+if __name__ == "__main__":
+    main()
