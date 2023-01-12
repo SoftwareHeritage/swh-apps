@@ -9,7 +9,7 @@ from common import APPS_DIR
 
 
 def list_apps():
-    """List all the known apps with a requirements.txt file"""
+    """List all known apps with a requirements.txt file"""
     for req_file in sorted(APPS_DIR.glob("*/requirements.txt")):
         yield req_file.parent.stem
 

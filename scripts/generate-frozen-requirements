@@ -29,7 +29,7 @@ class AppEnvBuilder(EnvBuilder):
         return builder
 
     def post_setup(self, context):
-        """Do post-setup operations like upgrade setuptools and pip, install the"""
+        """Do post-setup operations like upgrade setuptools and pip."""
         super().post_setup(context)
 
         self.context = context
