@@ -15,9 +15,11 @@ import os
 import pathlib
 import subprocess
 import sys
+import yaml
+from collections import defaultdict
 import tempfile
 from venv import EnvBuilder
-from typing import Iterator
+from typing import Dict, Iterator, Set
 
 
 APPS_DIR = pathlib.Path(__file__).absolute().parent.parent / "apps"
@@ -177,6 +179,99 @@ def list(ctx, application: str, version: str) -> None:
 
     for app in apps:
         print(app)
+
+
+def compute_information(current_values: Dict):
+    """Compute pivot structure as a Dict from the values-swh-application-versions.yaml
+    file. The dict has keys a _ separated image name (e.g. swh_vault_cookers, ...).
+    The associated value is also dict with key {"image" registry uri, image "version"}
+    and their respective value.
+
+    """
+    current_information: Dict[str, Dict[str, str]] = defaultdict(dict)
+    for key, value in current_values.items():
+        if key.endswith("_image"):
+            str_key = key.replace("_image", "")
+            current_information[str_key].update({"image": value})
+        elif key.endswith("_image_version"):
+            str_key = key.replace("_image_version", "")
+            current_information[str_key].update({"version": value})
+    return current_information
+
+
+def compute_yaml(updated_information: Dict[str, Dict[str, str]]) -> Dict[str, str]:
+    """Computes the yaml dict to serialize in the values...yaml file.
+
+    """
+    yaml_dict = {}
+    for image_name, info in updated_information.items():
+        yaml_dict[f"{image_name}_image"] = info["image"]
+        yaml_dict[f"{image_name}_image_version"] = info["version"]
+
+    return yaml_dict
+
+
+@app.command("update-values")
+@click.option("-v", "--values-filepath",
+              help="Path to file swh-charts:/values-swh-application-versions.yaml")
+@click.pass_context
+def update_values(ctx, values_filepath: str) -> None:
+    """Update docker image version in swh-charts:values-swh-application-versions.yaml
+    based on swh-apps' git tags.
+
+    """
+
+    with open(values_filepath, 'r') as f:
+        yml_dict = yaml.safe_load(f)
+        current_information = compute_information(yml_dict)
+
+    # The information to update in the yaml configuration
+    updated_information: Dict[str, Dict[str, str]] = {}
+
+    already_treated: Set[str] = set()
+    # This reads tags (tags) from the standard input entry. Those swh-apps tags are
+    # sorted in most recent order first (`git tag -l | sort -r`). So, we treat the first
+    # application tag, then discards the next:
+    # <image-name-with-dash>-<release-date>
+    # swh-vault-cookers-20221107.1
+    # swh-vault-cookers-20220926.2     <- discarded
+    # swh-vault-cookers-20220926.1     <- discarded
+    # swh-storage-replayer-20221227.1
+    # swh-storage-replayer-20220927.1  <- discarded
+    # swh-storage-replayer-20220819.1  <- discarded
+    # swh-storage-replayer-20220817.1  <- discarded
+    for line in sys.stdin:
+        line = line.strip()
+        line_data = line.split("-")
+
+        # Image name is _ separated in the values.yaml file
+        image_name = "_".join(line_data[:-1])
+        image_version = line_data[-1]
+
+        if image_name in already_treated:
+            # Most recent version already treated, we discard the rest
+            continue
+
+        already_treated.add(image_name)
+
+        current_info = current_information[image_name]
+        if not current_info:
+            print(f"Missing or inconsistent current_information for {image_name}")
+            continue
+
+        if image_version != current_info["version"]:
+            info = {
+                "image": current_info["image"],
+                "version": image_version,
+            }
+        else:
+            info = current_info
+
+        updated_information[image_name] = info
+
+    with open(values_filepath, 'w') as f:
+        yaml_dict = compute_yaml(updated_information)
+        f.write(yaml.dump(yaml_dict))
 
 
 if __name__ == "__main__":
