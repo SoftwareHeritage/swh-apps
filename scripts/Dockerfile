@@ -12,18 +12,18 @@ RUN apt-get -y update && \
       librdkafka-dev \
       # svn loader (subvertpy)
       libsvn-dev libapr1-dev libaprutil1-dev \
+      libpython3-dev \
       libpq-dev \
+      python3-click \
       python3-venv \
     && \
     apt clean
 
 RUN mkdir -p /opt/scripts/
-COPY common.py /opt/scripts/
-COPY generate-frozen-requirements /opt/scripts/
-RUN chmod +x /opt/scripts/generate-frozen-requirements
+COPY app_manager.py /opt/scripts/
+RUN chmod +x /opt/scripts/app_manager.py
 
 # This expects the /src/ to be mounted on swh-apps repository folder at runtime
 ENV SWH_APPS_DIR=/src/apps
 
-WORKDIR /opt/scripts
-ENTRYPOINT [ "./generate-frozen-requirements" ]
+ENTRYPOINT [ "/opt/scripts/app_manager.py" ]
