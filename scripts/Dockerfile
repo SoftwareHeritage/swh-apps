@@ -16,6 +16,7 @@ RUN apt-get -y update && \
       libpq-dev \
       python3-click \
       python3-venv \
+      python3-yaml \
     && \
     apt clean
 
