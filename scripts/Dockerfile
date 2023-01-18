@@ -17,6 +17,7 @@ RUN apt-get -y update && \
       python3-click \
       python3-venv \
       python3-yaml \
+      python3-dulwich \
     && \
     apt clean
 

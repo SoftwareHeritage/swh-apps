@@ -5,22 +5,28 @@
 # License: GNU General Public License v3 or later
 # See top-level LICENSE file for more information
 
-"""Cli to list applications (with/without filters) or generate the
-requirements-frozen.txt file for app(s) provided as parameters.
+"""Cli to manipulate applications (with/without filters), generate/update the
+requirements-frozen.txt file for app(s) provided as parameters, list or generate tags,
+...
 
 """
 
-import click
+from __future__ import annotations
+
+from collections import defaultdict
 import os
 import pathlib
 import subprocess
 import sys
-import yaml
-from collections import defaultdict
 import tempfile
+from typing import TYPE_CHECKING, Dict, Iterator, List, Set, Tuple
 from venv import EnvBuilder
-from typing import Dict, Iterator, Set
 
+import click
+import yaml
+
+if TYPE_CHECKING:
+    from dulwich.repo import Repo
 
 APPS_DIR = pathlib.Path(__file__).absolute().parent.parent / "apps"
 
@@ -213,6 +219,95 @@ def compute_yaml(updated_information: Dict[str, Dict[str, str]]) -> Dict[str, st
         yaml_dict[f"{image_name}_image_version"] = info["version"]
 
     return yaml_dict
+
+
+def application_tags(repo: Repo, application: str) -> List[Tuple[str, str, str]]:
+    """Returns list of tuple application (tag, date, increment) (from most recent to
+    oldest)."""
+    import re
+
+    pattern = re.compile(
+        fr"refs/tags/{re.escape(application)}-(?P<date>[0-9]+)\.(?P<inc>[0-9]+)"
+    )
+
+    tags = []
+    for current_ref in repo.get_refs():
+        ref = current_ref.decode()
+        is_match = pattern.fullmatch(ref)
+        if not is_match:
+            continue
+        mdata = is_match.groupdict()
+        tag = ref.replace("refs/tags/", "")
+        tags.append((tag, mdata["date"], mdata["inc"]))
+
+    return sorted(tags, reverse=True)
+
+
+@app.group("tag")
+@click.pass_context
+def tag(ctx):
+    """Manipulate application tag, for example either determine the last tag or compute
+    the next one. Without any parameters this lists the current application tags.
+
+    """
+    from dulwich.repo import Repo
+    repo_dirpath = ctx.obj["apps_dir"] / '..'
+
+    ctx.obj["repo"] = Repo(repo_dirpath)
+
+
+@tag.command("list")
+@click.argument("application", required=True)
+@click.pass_context
+def tag_list(ctx, application: str):
+    """List all tags for the application provided."""
+    repo = ctx.obj["repo"]
+    tags = application_tags(repo, application)
+
+    if not tags:
+        raise ValueError(f"No tag to display for application '{application}'")
+
+    # else, with no params, just print the application tags
+    for tag in tags:
+        print(tag[0])
+
+
+@tag.command("latest")
+@click.argument("application", required=True)
+@click.pass_context
+def tag_latest(ctx, application: str):
+    """Determine the latest tag for the application provided."""
+    repo = ctx.obj["repo"]
+    tags = application_tags(repo, application)
+
+    if not tags:
+        raise ValueError(f"No tag to display for application '{application}'")
+
+    # Determine the application's latest tag if any
+    print(tags[0][0])
+
+
+@tag.command("next")
+@click.argument("application", required=True)
+@click.pass_context
+def tag_next(ctx, application: str):
+    """Compute the next tag for the application provided."""
+    from datetime import datetime, timezone
+
+    repo = ctx.obj["repo"]
+    tags = application_tags(repo, application)
+
+    now = datetime.now(tz=timezone.utc)
+    current_date = now.strftime("%Y%m%d")
+    if tags:
+        _, previous_date, previous_tag_date_inc = tags[0]
+        inc = int(previous_tag_date_inc) + 1 if current_date == previous_date else 1
+    else:
+        # First time we ask a tag for that application
+        inc = 1
+
+    tag = f"{application}-{current_date}.{inc}"
+    print(tag)
 
 
 @app.command("update-values")
