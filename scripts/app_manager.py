@@ -130,7 +130,9 @@ def from_tag_to_version(version: str) -> str:
     return version.lstrip("v")
 
 
-def list_impacted_apps(apps_dir: pathlib.Path, application: str, version: str) -> Iterator[str]:
+def list_impacted_apps(
+    apps_dir: pathlib.Path, application: str, version: str
+) -> Iterator[str]:
     """List all apps whose constraint does not match `application==version.`.
 
     Expectedly, only applications who have `application` in their
@@ -140,11 +142,11 @@ def list_impacted_apps(apps_dir: pathlib.Path, application: str, version: str) -
     app_module = from_application_to_module(application)
     version = from_tag_to_version(version)
     for req_file in sorted(apps_dir.glob(f"*/{requirements_frozen}")):
-        with open(req_file, 'r') as f:
+        with open(req_file, "r") as f:
             for line in f:
                 line = line.rstrip()
-                if '==' in line:  # we ignore the `@` case for now
-                    module, version_ = line.rstrip().split('==')
+                if "==" in line:  # we ignore the `@` case for now
+                    module, version_ = line.rstrip().split("==")
                     if module == app_module:
                         if version == version_:
                             # Application is already built for the right version, stop
@@ -160,8 +162,12 @@ def list_apps(apps_dir: pathlib.Path) -> Iterator[str]:
 
 
 @app.command("list")
-@click.option("-a", "--application", "application", default=None, help="Application name")
-@click.option("-v", "--version", "version", default=None, help="Version of the application")
+@click.option(
+    "-a", "--application", "application", default=None, help="Application name"
+)
+@click.option(
+    "-v", "--version", "version", default=None, help="Version of the application"
+)
 @click.pass_context
 def list(ctx, application: str, version: str) -> None:
     """With no parameters, list all known applications with a requirements.txt. With
@@ -200,9 +206,7 @@ def compute_information(current_values: Dict):
 
 
 def compute_yaml(updated_information: Dict[str, Dict[str, str]]) -> Dict[str, str]:
-    """Computes the yaml dict to serialize in the values...yaml file.
-
-    """
+    """Computes the yaml dict to serialize in the values...yaml file."""
     yaml_dict = {}
     for image_name, info in updated_information.items():
         yaml_dict[f"{image_name}_image"] = info["image"]
@@ -212,8 +216,11 @@ def compute_yaml(updated_information: Dict[str, Dict[str, str]]) -> Dict[str, st
 
 
 @app.command("update-values")
-@click.option("-v", "--values-filepath",
-              help="Path to file swh-charts:/values-swh-application-versions.yaml")
+@click.option(
+    "-v",
+    "--values-filepath",
+    help="Path to file swh-charts:/values-swh-application-versions.yaml",
+)
 @click.pass_context
 def update_values(ctx, values_filepath: str) -> None:
     """Update docker image version in swh-charts:values-swh-application-versions.yaml
@@ -221,7 +228,7 @@ def update_values(ctx, values_filepath: str) -> None:
 
     """
 
-    with open(values_filepath, 'r') as f:
+    with open(values_filepath, "r") as f:
         yml_dict = yaml.safe_load(f)
         current_information = compute_information(yml_dict)
 
@@ -269,7 +276,7 @@ def update_values(ctx, values_filepath: str) -> None:
 
         updated_information[image_name] = info
 
-    with open(values_filepath, 'w') as f:
+    with open(values_filepath, "w") as f:
         yaml_dict = compute_yaml(updated_information)
         f.write(yaml.dump(yaml_dict))
 
