@@ -15,7 +15,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 import os
-import pathlib
+from pathlib import Path
 import subprocess
 import sys
 import tempfile
@@ -28,7 +28,7 @@ import yaml
 if TYPE_CHECKING:
     from dulwich.repo import Repo
 
-APPS_DIR = pathlib.Path(__file__).absolute().parent.parent / "apps"
+APPS_DIR = Path(__file__).absolute().parent.parent / "apps"
 
 # The file to read to determine impacted image to rebuild.
 # Note: We cannot use the requirements.txt as it does not explicit the python module it
@@ -47,7 +47,7 @@ def app(ctx):
     if not apps_dir:
         absolute_apps_dirpath = APPS_DIR
     else:
-        absolute_apps_dirpath = pathlib.Path(apps_dir)
+        absolute_apps_dirpath = Path(apps_dir)
 
     ctx.ensure_object(dict)
     ctx.obj["apps_dir"] = absolute_apps_dirpath
@@ -80,7 +80,7 @@ class AppEnvBuilder(EnvBuilder):
         return subprocess.run(cmd, capture_output=capture_output, check=True)
 
 
-def generate_requirements_frozen(app: str, absolute_apps_dirpath: pathlib.Path) -> None:
+def generate_requirements_frozen(app: str, absolute_apps_dirpath: Path) -> None:
     """Generate the ``requirements-frozen.txt`` file out of the ``requirements.txt``
     file present in the ``app`` directory
 
@@ -107,7 +107,7 @@ def generate_requirements_frozen(app: str, absolute_apps_dirpath: pathlib.Path) 
 
         with tempfile.NamedTemporaryFile(mode="wb", dir=app_dir, delete=False) as f:
             f.write(freeze_output.stdout)
-            p = pathlib.Path(f.name)
+            p = Path(f.name)
             p.chmod(0o644)
             p.rename(dst_req_file)
 
@@ -137,7 +137,7 @@ def from_tag_to_version(version: str) -> str:
 
 
 def list_impacted_apps(
-    apps_dir: pathlib.Path, application: str, version: str
+    apps_dir: Path, application: str, version: str
 ) -> Iterator[str]:
     """List all apps whose constraint does not match `application==version.`.
 
@@ -161,7 +161,7 @@ def list_impacted_apps(
                         yield req_file.parent.stem
 
 
-def list_apps(apps_dir: pathlib.Path) -> Iterator[str]:
+def list_apps(apps_dir: Path) -> Iterator[str]:
     """List all known apps with a requirements.txt file"""
     for req_file in sorted(apps_dir.glob(f"*/{requirements}")):
         yield req_file.parent.stem
@@ -200,35 +200,44 @@ def compute_information(current_values: Dict):
     and their respective value.
 
     """
-    current_information: Dict[str, Dict[str, str]] = defaultdict(dict)
+    applications_information: Dict[str, Dict[str, str]] = defaultdict(dict)
     for key, value in current_values.items():
         if key.endswith("_image"):
             str_key = key.replace("_image", "")
-            current_information[str_key].update({"image": value})
+            applications_information[str_key].update({"image": value})
         elif key.endswith("_image_version"):
             str_key = key.replace("_image_version", "")
-            current_information[str_key].update({"version": value})
-    return current_information
+            applications_information[str_key].update({"version": value})
+    return applications_information
 
 
 def compute_yaml(updated_information: Dict[str, Dict[str, str]]) -> Dict[str, str]:
     """Computes the yaml dict to serialize in the values...yaml file."""
     yaml_dict = {}
     for image_name, info in updated_information.items():
+        if "image" not in info or "version" not in info:
+            # FIXME: Those are inconsistent application that will be fixed soon (in
+            # charts). See next fixme in `update-values` subcommand.
+            continue
         yaml_dict[f"{image_name}_image"] = info["image"]
         yaml_dict[f"{image_name}_image_version"] = info["version"]
 
     return yaml_dict
 
 
-def application_tags(repo: Repo, application: str) -> List[Tuple[str, str, str]]:
+def application_tags(repo: Repo, application: Optional[str] = None) -> List[Tuple[str, str, str]]:
     """Returns list of tuple application (tag, date, increment) (from most recent to
     oldest)."""
     import re
 
-    pattern = re.compile(
-        fr"refs/tags/{re.escape(application)}-(?P<date>[0-9]+)\.(?P<inc>[0-9]+)"
-    )
+    if application:
+        pattern = re.compile(
+            fr"refs/tags/{re.escape(application)}-(?P<date>[0-9]+)\.(?P<inc>[0-9]+)"
+        )
+    else:
+        pattern = re.compile(
+            fr"refs/tags/.*-(?P<date>[0-9]+)\.(?P<inc>[0-9]+)"
+        )
 
     tags = []
     for current_ref in repo.get_refs():
@@ -310,45 +319,69 @@ def tag_next(ctx, application: str):
     print(tag)
 
 
-@app.command("update-values")
+def yaml_read(filepath: Path) -> Dict:
+    """Read yaml file and returns its data as a Dict."""
+    with open(filepath, "r") as f:
+        return yaml.safe_load(f)
+
+
+def yaml_write(filepath: Path, data: Dict) -> None:
+    """Read yaml file and returns its data as a Dict."""
+    with open(filepath, 'w') as f:
+        f.write(yaml.dump(data))
+
+
+@app.command("update-versions")
 @click.option(
-    "-v",
-    "--values-filepath",
-    help="Path to file swh-charts:/values-swh-application-versions.yaml",
+    "-a", "--applications-filepath",
+    required=True,
+    help="Path to the values.yaml file holding the current deployed image versions",
+)
+@click.option(
+    "-c", "--chart-filepath",
+    required=True,
+    help="Path to the swh-charts:/swh/Charts.yaml",
 )
 @click.pass_context
-def update_values(ctx, values_filepath: str) -> None:
-    """Update docker image version in swh-charts:values-swh-application-versions.yaml
-    based on swh-apps' git tags.
+def update_values(ctx, applications_filepath: str, chart_filepath) -> None:
+    """Update docker image version in swh-charts:/values-swh-application-versions.yaml
+    and appVersion in swh-charts:/swh/Chart.yaml.
+
+    This uses the swh-apps' git tags to determine the list of versions to update.
 
     """
 
-    with open(values_filepath, "r") as f:
-        yml_dict = yaml.safe_load(f)
-        current_information = compute_information(yml_dict)
+    from dulwich.repo import Repo
+    apps_repository_path = ctx.obj["apps_dir"] / '..'
+    apps_repository = Repo(apps_repository_path)
+
+    # Read chart application
+    chart_information = yaml_read(chart_filepath)
+    app_version = int(chart_information['appVersion'])
+
+    # Read application currently deployed
+    applications_information = compute_information(yaml_read(applications_filepath))
 
     # The information to update in the yaml configuration
     updated_information: Dict[str, Dict[str, str]] = {}
 
     already_treated: Set[str] = set()
-    # This reads tags (tags) from the standard input entry. Those swh-apps tags are
-    # sorted in most recent order first (`git tag -l | sort -r`). So, we treat the first
-    # application tag, then discards the next:
+    # This reads tags (tags) from the swh-apps repository. Those tags are read in
+    # most recent order first (like `git tag -l | sort -r` output). Hence, we treat the
+    # first tag of an application, then discards the next occurence (considered
+    # too old):
     # <image-name-with-dash>-<release-date>
     # swh-vault-cookers-20221107.1
     # swh-vault-cookers-20220926.2     <- discarded
-    # swh-vault-cookers-20220926.1     <- discarded
     # swh-storage-replayer-20221227.1
     # swh-storage-replayer-20220927.1  <- discarded
     # swh-storage-replayer-20220819.1  <- discarded
-    # swh-storage-replayer-20220817.1  <- discarded
-    for line in sys.stdin:
-        line = line.strip()
-        line_data = line.split("-")
+    for tag, _, _ in application_tags(apps_repository):
+        tag_data = tag.split("-")
 
         # Image name is _ separated in the values.yaml file
-        image_name = "_".join(line_data[:-1])
-        image_version = line_data[-1]
+        image_name = "_".join(tag_data[:-1])
+        image_version = tag_data[-1]
 
         if image_name in already_treated:
             # Most recent version already treated, we discard the rest
@@ -356,9 +389,15 @@ def update_values(ctx, values_filepath: str) -> None:
 
         already_treated.add(image_name)
 
-        current_info = current_information[image_name]
+        current_info = applications_information[image_name]
+
         if not current_info:
-            print(f"Missing or inconsistent current_information for {image_name}")
+            # FIXME: Fix the values.yaml to normalize the misnamed application.  Lots of
+            # charts to change it immediately, so let's bypass them for now to focus on
+            # wiring the automation first.
+            print(
+                f"Missing or inconsistent information for <{image_name}>"
+            )
             continue
 
         if image_version != current_info["version"]:
@@ -371,9 +410,14 @@ def update_values(ctx, values_filepath: str) -> None:
 
         updated_information[image_name] = info
 
-    with open(values_filepath, "w") as f:
-        yaml_dict = compute_yaml(updated_information)
-        f.write(yaml.dump(yaml_dict))
+    # Flush chart update
+    chart_information['appVersion'] = app_version + 1
+    yaml_write(chart_filepath, chart_information)
+
+    # Flush new application information
+    yaml_write(applications_filepath, compute_yaml({
+        **applications_information, **updated_information
+    }))
 
 
 if __name__ == "__main__":
