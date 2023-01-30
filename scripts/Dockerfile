@@ -2,6 +2,10 @@
 # application (e.g. swh-loader-svn, swh-loader-git, ...)
 FROM python:3.10-bullseye
 
+RUN addgroup --gid 1000 swh && \
+    useradd --gid 1000 --uid 1000 -m -d /opt/swh swh
+
+
 # First install the runtime deps of all swh applications
 RUN apt-get -y update && \
     apt-get -y upgrade && \
@@ -21,6 +25,9 @@ RUN mkdir -p /opt/scripts/
 COPY app_manager.py /opt/scripts/
 COPY requirements.txt /opt/scripts/
 RUN chmod +x /opt/scripts/app_manager.py
+
+USER swh
+WORKDIR /opt/swh
 
 RUN pip install -U pip setuptools wheel && \
     pip install -r /opt/scripts/requirements.txt
