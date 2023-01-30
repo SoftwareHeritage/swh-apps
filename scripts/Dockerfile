@@ -14,16 +14,16 @@ RUN apt-get -y update && \
       libsvn-dev libapr1-dev libaprutil1-dev \
       libpython3-dev \
       libpq-dev \
-      python3-click \
-      python3-venv \
-      python3-yaml \
-      python3-dulwich \
     && \
     apt clean
 
 RUN mkdir -p /opt/scripts/
 COPY app_manager.py /opt/scripts/
+COPY requirements.txt /opt/scripts/
 RUN chmod +x /opt/scripts/app_manager.py
+
+RUN pip install -U pip setuptools wheel && \
+    pip install -r /opt/scripts/requirements.txt
 
 # This expects the /src/ to be mounted on swh-apps repository folder at runtime
 ENV SWH_APPS_DIR=/src/apps
