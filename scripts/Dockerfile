@@ -1,10 +1,11 @@
 # build-deps container to call scripts/generate-frozen-requirements.txt on an
 # application (e.g. swh-loader-svn, swh-loader-git, ...)
 FROM python:3.10-bullseye
+ARG userid=1000
+ARG groupid=1000
 
-RUN addgroup --gid 1000 swh && \
-    useradd --gid 1000 --uid 1000 -m -d /opt/swh swh
-
+RUN addgroup --gid $groupid swh && \
+    useradd --gid $groupid --uid $userid -m -d /opt/swh swh
 
 # First install the runtime deps of all swh applications
 RUN apt-get -y update && \
