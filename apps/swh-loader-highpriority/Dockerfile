@@ -1,5 +1,10 @@
 # Deeply inspired from the Dockerfile of the swh-graph project
+ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
+ARG RSVNDUMP=/usr/local/bin/rsvndump
+FROM ${REGISTRY}rsvndump-base:latest AS rsvndump_image
+
 FROM python:3.10-bullseye
+COPY --from=rsvndump_image ${RSVNDUMP} ${RSVNDUMP}
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
