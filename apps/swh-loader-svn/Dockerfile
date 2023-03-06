@@ -1,5 +1,5 @@
 # ARG REGISTRY=container-registry.softwareheritage.org/infra/swh-apps/
-ARG REGISTRY=container-registry.softwareheritage.org/infra/swh-apps/
+ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
 ARG RSVNDUMP=/usr/local/bin/rsvndump
 
 FROM ${REGISTRY}rsvndump-base:latest AS rsvndump_image
