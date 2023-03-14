@@ -95,7 +95,7 @@ swh.objstorage==2.1.0
 swh.perfecthash==0.1.2
 swh.scheduler==1.6.0
 swh.search==0.16.4
-swh.storage==1.10.0
+swh.storage==1.11.0
 tenacity==8.2.2
 tomli==2.0.1
 tree-sitter==0.20.1
