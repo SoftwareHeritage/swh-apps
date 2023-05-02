@@ -1,2 +1,3 @@
 swh-loader-bzr
+python-json-logger
 
