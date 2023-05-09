@@ -1,1 +1,2 @@
 swh.storage
+swh.objstorage[azure,libcloud]
