@@ -1,3 +1,0 @@
-This used to be the "highpriority" image used by the save-code-now functionality
-(bundling multiple [d]vcs loaders into one docker image). It's been deprecated in favor
-of the "savecodenow" image.
