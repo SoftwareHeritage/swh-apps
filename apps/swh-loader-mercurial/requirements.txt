@@ -1,2 +1,2 @@
 swh-loader-mercurial
-
+python-json-logger
