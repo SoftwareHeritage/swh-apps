@@ -1,2 +1,2 @@
 swh-loader-core
-
+python-json-logger
