@@ -1,3 +1,5 @@
 swh-lister
+python-json-logger
+
 
 
