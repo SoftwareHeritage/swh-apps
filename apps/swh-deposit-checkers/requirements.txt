@@ -1,2 +1,3 @@
 swh-deposit
 swh-scheduler
+python-json-logger
