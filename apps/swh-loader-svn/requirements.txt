@@ -1,1 +1,2 @@
 swh-loader-svn
+python-json-logger
