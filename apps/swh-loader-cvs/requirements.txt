@@ -1,2 +1,2 @@
 swh-loader-cvs
-
+python-json-logger
