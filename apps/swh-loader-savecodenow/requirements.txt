@@ -5,3 +5,4 @@ swh-loader-git
 swh-loader-svn
 swh-loader-mercurial
 swh-loader-metadata
+python-json-logger
