@@ -9,7 +9,7 @@ COPY --from=rsvndump_image ${RSVNDUMP} ${RSVNDUMP}
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get install -y libcmph-dev librdkafka-dev \
-    subversion && \
+    subversion libsvn-dev && \
     apt clean && \
     addgroup --gid 1000 swh && \
     useradd --gid 1000 --uid 1000 -m -d /opt/swh swh && \
