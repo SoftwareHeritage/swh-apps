@@ -167,7 +167,7 @@ def list_apps(apps_dir: Path) -> Iterator[str]:
         yield req_file.parent.stem
 
 
-@app.command("list")
+@app.command("list-dependent-apps")
 @click.option(
     "-a", "--application", "application", default=None, help="Application name"
 )
@@ -175,11 +175,11 @@ def list_apps(apps_dir: Path) -> Iterator[str]:
     "-v", "--version", "version", default=None, help="Version of the application"
 )
 @click.pass_context
-def list(ctx, application: str, version: str) -> None:
+def list_dependent_apps(ctx, application: str, version: str) -> None:
     """With no parameters, list all known applications with a requirements.txt. With
     application and version, list known applications (with requirements.txt) whose
     constraint does not match exactly application & version. Applications without
-    constraint  of `application` are ignored.
+    constraint  of `application` are ignored.
 
     """
     absolute_apps_dirpath = ctx.obj["apps_dir"]
