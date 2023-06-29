@@ -103,11 +103,11 @@ swh.scheduler==1.9.1
 swh.search==0.16.4
 swh.storage==1.15.0
 swh.vault==1.8.1
-swh.web==0.2.30
+swh.web==0.2.32
 tenacity==8.2.2
 tomli==2.0.1
 tree-sitter==0.20.1
-typing_extensions==4.6.3
+typing_extensions==4.7.0
 tzdata==2023.3
 urllib3==1.26.16
 vine==5.0.0
