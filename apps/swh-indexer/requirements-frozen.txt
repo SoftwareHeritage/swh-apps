@@ -71,7 +71,7 @@ swh.model==6.7.0
 swh.objstorage==2.2.0
 swh.perfecthash==0.1.2
 swh.scheduler==1.9.1
-swh.storage==1.15.0
+swh.storage==1.15.1
 tenacity==8.2.2
 tomli==2.0.1
 typing_extensions==4.7.1
