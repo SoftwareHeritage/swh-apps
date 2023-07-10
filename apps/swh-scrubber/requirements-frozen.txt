@@ -69,7 +69,7 @@ swh.loader.git==2.5.2
 swh.model==6.7.0
 swh.objstorage==2.2.0
 swh.perfecthash==0.1.2
-swh.scheduler==1.9.1
+swh.scheduler==1.9.2
 swh.scrubber==1.0.3
 swh.storage==1.15.1
 tenacity==8.2.2
