@@ -101,7 +101,7 @@ swh.loader.svn==1.8.1
 swh.model==6.7.0
 swh.objstorage==2.2.0
 swh.perfecthash==0.1.2
-swh.scheduler==1.9.1
+swh.scheduler==1.9.2
 swh.storage==1.15.1
 tenacity==8.2.2
 testing.common.database==2.0.3
