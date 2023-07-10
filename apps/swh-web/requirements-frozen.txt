@@ -101,7 +101,7 @@ swh.objstorage==2.2.0
 swh.perfecthash==0.1.2
 swh.scheduler==1.9.2
 swh.search==0.16.4
-swh.storage==1.15.1
+swh.storage==1.15.2
 swh.vault==1.8.1
 swh.web==0.2.32
 tenacity==8.2.2
