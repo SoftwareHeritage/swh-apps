@@ -86,7 +86,7 @@ redis==4.6.0
 requests==2.31.0
 requests-toolbelt==1.0.0
 rsa==4.9
-sentry-sdk==1.28.0
+sentry-sdk==1.28.1
 six==1.16.0
 sortedcontainers==2.4.0
 soupsieve==2.4.1
@@ -102,7 +102,7 @@ swh.perfecthash==0.1.2
 swh.scheduler==1.9.2
 swh.search==0.16.4
 swh.storage==1.15.2
-swh.vault==1.8.1
+swh.vault==1.8.2
 swh.web==0.2.33
 tenacity==8.2.2
 tomli==2.0.1
