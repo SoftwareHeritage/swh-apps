@@ -70,7 +70,7 @@ swh.model==6.7.0
 swh.objstorage==2.3.0
 swh.perfecthash==0.1.2
 swh.scheduler==1.9.2
-swh.scrubber==2.0.0
+swh.scrubber==2.0.1
 swh.storage==1.15.2
 tenacity==8.2.2
 toml==0.10.2
