@@ -103,7 +103,7 @@ swh.scheduler==1.9.2
 swh.search==0.16.4
 swh.storage==1.15.2
 swh.vault==1.8.2
-swh.web==0.2.33
+swh.web==0.2.34
 tenacity==8.2.2
 tomli==2.0.1
 tree-sitter==0.20.1
