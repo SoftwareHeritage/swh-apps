@@ -19,7 +19,12 @@ BRANCH="$(git symbolic-ref --quiet HEAD | sed 's|refs/heads/||')"
 
 # do-while...
 false; while [ $? -ne 0 ]; do
+  # Update local refs
   git pull --rebase
+  # Drop existing tag if any
+  git push origin :refs/tags/${APPLICATION_TAG}
+  # Tag on the latest commit we just rebased
   git tag -f -a ${APPLICATION_TAG} -m "${COMMIT_MSG}"
+  # Finally push the tag (and if any problem, loop until it works)
   git push origin $BRANCH ${APPLICATION_TAG}
 done
