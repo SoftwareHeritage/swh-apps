@@ -41,7 +41,7 @@ geomet==0.2.1.post1
 gunicorn==21.2.0
 htmlmin==0.1.12
 humanize==4.7.0
-hypothesis==6.82.2
+hypothesis==6.82.3
 idna==3.4
 importlib-metadata==4.13.0
 iniconfig==2.0.0
@@ -101,7 +101,7 @@ swh.objstorage==2.3.0
 swh.perfecthash==1.0.0
 swh.scheduler==1.9.2
 swh.search==0.16.4
-swh.storage==1.15.2
+swh.storage==1.15.3
 swh.vault==1.8.2
 swh.web==0.2.34
 tenacity==8.2.2
