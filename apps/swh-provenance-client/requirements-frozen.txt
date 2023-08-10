@@ -5,8 +5,8 @@ async-timeout==4.0.2
 attrs==23.1.0
 attrs-strict==1.0.0
 blinker==1.6.2
-boto3==1.28.22
-botocore==1.31.22
+boto3==1.28.23
+botocore==1.31.23
 cassandra-driver==3.28.0
 certifi==2023.7.22
 cffi==1.15.1
@@ -51,7 +51,7 @@ python-dateutil==2.8.2
 python-magic==0.4.27
 python-mimeparse==1.6.0
 PyYAML==6.0.1
-pyzmq==25.1.0
+pyzmq==25.1.1
 redis==4.6.0
 requests==2.31.0
 s3transfer==0.6.1
@@ -67,12 +67,12 @@ swh.model==6.7.0
 swh.objstorage==2.3.0
 swh.perfecthash==1.0.0
 swh.provenance @ git+https://forge.softwareheritage.org/source/swh-provenance.git@ae09086a3bd45c7edbc22691945b9d61200ec3c2
-swh.storage==1.15.3
+swh.storage==1.15.4
 tenacity==8.2.2
 tomli==2.0.1
-tqdm==4.65.2
+tqdm==4.66.0
 types-click==7.1.8
-types-protobuf==4.23.0.3
+types-protobuf==4.24.0.0
 types-PyYAML==6.0.12.11
 typing_extensions==4.7.1
 urllib3==1.26.16
