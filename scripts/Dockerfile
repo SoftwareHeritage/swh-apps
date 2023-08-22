@@ -19,6 +19,8 @@ RUN apt-get -y update && \
       libsvn-dev libapr1-dev libaprutil1-dev \
       libpython3-dev \
       libpq-dev \
+      # swh lister's dependency on rpy2 need this
+      r-base-dev \
     && \
     apt clean
 
