@@ -78,7 +78,7 @@ swh.journal==1.3.5
 swh.loader.bzr==1.3.6
 swh.loader.core==5.9.0
 swh.loader.cvs==0.7.0
-swh.loader.git==2.6.0
+swh.loader.git==2.6.1
 swh.loader.mercurial==3.4.0
 swh.loader.metadata==1.3.2
 swh.loader.svn==1.8.1
