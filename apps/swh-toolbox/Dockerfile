@@ -15,16 +15,13 @@ USER swh
 WORKDIR /opt/swh
 
 COPY --chown=swh:swh requirements-frozen.txt /opt/swh
-COPY --chown=swh:swh entrypoint.sh /opt/swh
 
 ENV PYTHONPATH=/opt/swh
 ENV PATH=/opt/swh/.local/bin:$PATH
 
-RUN chmod u+x /opt/swh/entrypoint.sh && \
-    /usr/local/bin/python -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements-frozen.txt && \
-    pip install gunicorn
+RUN /usr/local/bin/python -m pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements-frozen.txt
 
 ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
 
-ENTRYPOINT "/opt/swh/entrypoint.sh"
+CMD ["/bin/bash", "-i"]
