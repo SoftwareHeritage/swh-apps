@@ -22,6 +22,9 @@ ENV PATH=/opt/swh/.local/bin:$PATH
 RUN /usr/local/bin/python -m pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements-frozen.txt
 
+COPY --chown=swh:swh entrypoint.sh /opt/swh
+RUN chmod u+x /opt/swh/entrypoint.sh
+
 ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
 
-CMD ["/bin/bash", "-i"]
+ENTRYPOINT "/opt/swh/entrypoint.sh"
