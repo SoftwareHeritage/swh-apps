@@ -25,7 +25,7 @@ frozenlist==1.4.0
 geomet==0.2.1.post1
 gunicorn==21.2.0
 humanize==4.8.0
-hypothesis==6.84.0
+hypothesis==6.84.1
 idna==3.4
 importlib-metadata==4.13.0
 iniconfig==2.0.0
