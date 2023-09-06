@@ -11,6 +11,11 @@ case "$1" in
             "$@"
         fi
         ;;
+    "swh")
+        shift
+        echo "Running swh command $@"
+        exec swh $@
+        ;;
     *)
         echo Starting the swh-scheduler API server
         exec gunicorn --bind 0.0.0.0:5008 \
