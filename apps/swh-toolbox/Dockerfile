@@ -1,11 +1,10 @@
-# Deeply inspired from the Dockerfile of the swh-graph project
 FROM python:3.10-bullseye
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get install -y libcmph-dev librdkafka-dev libsystemd-dev \
       opam git r-base-dev \
-      sed && \
+      sed curl telnet host emacs-nox vim && \
     apt clean && \
     addgroup --gid 1000 swh && \
     useradd --gid 1000 --uid 1000 -m -d /opt/swh swh && \
