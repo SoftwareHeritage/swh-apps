@@ -1,4 +1,5 @@
 swh.scheduler
 swh.lister
 swh.loader.core
+swh.storage
 swh.auth
