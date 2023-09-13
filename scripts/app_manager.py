@@ -17,7 +17,6 @@ from collections import defaultdict
 import os
 from pathlib import Path
 import subprocess
-import sys
 import tempfile
 from typing import TYPE_CHECKING, Dict, Iterator, List, Set, Tuple
 from venv import EnvBuilder
@@ -366,7 +365,7 @@ def update_values(ctx, applications_filepath: str, chart_filepath) -> None:
     updated_information: Dict[str, Dict[str, str]] = {}
 
     already_treated: Set[str] = set()
-    # This reads tags (tags) from the swh-apps repository. Those tags are read in
+    # This reads tags from the swh-apps repository. Those tags are read in
     # most recent order first (like `git tag -l | sort -r` output). Hence, we treat the
     # first tag of an application, then discards the next occurence (considered
     # too old):
@@ -392,8 +391,8 @@ def update_values(ctx, applications_filepath: str, chart_filepath) -> None:
         current_info = applications_information[image_name]
 
         if not current_info:
-            # FIXME: Fix the values.yaml to normalize the misnamed application.  Lots of
-            # charts to change it immediately, so let's bypass them for now to focus on
+            # FIXME: Fix the values.yaml to normalize the misnamed application. Lots of
+            # charts to change immediately, so let's bypass them for now to focus on
             # wiring the automation first.
             print(
                 f"Missing or inconsistent information for <{image_name}>"
