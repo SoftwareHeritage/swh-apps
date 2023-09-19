@@ -3,7 +3,7 @@ FROM python:3.10-bullseye
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get install -y libcmph-dev librdkafka-dev libsystemd-dev \
-      opam git r-base-dev \
+      opam git r-base-dev netcat-openbsd jq dnsutils \
       sed curl telnet host emacs-nox vim && \
     apt clean && \
     addgroup --gid 1000 swh && \
@@ -23,7 +23,5 @@ RUN /usr/local/bin/python -m pip install --upgrade pip && \
 
 COPY --chown=swh:swh entrypoint.sh /opt/swh
 RUN chmod u+x /opt/swh/entrypoint.sh
-
-ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
 
 ENTRYPOINT "/opt/swh/entrypoint.sh"
