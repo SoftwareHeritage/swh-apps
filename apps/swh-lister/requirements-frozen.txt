@@ -69,7 +69,7 @@ python-magic==0.4.27
 python-mimeparse==1.6.0
 pytz==2023.3.post1
 PyYAML==6.0.1
-redis==5.0.0
+redis==5.0.1
 regex==2023.8.8
 repomd==0.2.1
 requests==2.31.0
@@ -87,7 +87,7 @@ swh.model==6.8.0
 swh.objstorage==2.3.0
 swh.perfecthash==1.0.0
 swh.scheduler==1.10.1
-swh.storage==1.18.3
+swh.storage==1.18.4
 tabulate==0.9.0
 tenacity==8.2.3
 testing.common.database==2.0.3
