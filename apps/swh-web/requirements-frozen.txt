@@ -82,7 +82,7 @@ python-mimeparse==1.6.0
 pytz==2023.3.post1
 PyYAML==6.0.1
 rdflib==7.0.0
-redis==5.0.0
+redis==5.0.1
 requests==2.31.0
 requests-toolbelt==1.0.0
 rsa==4.9
@@ -101,7 +101,7 @@ swh.objstorage==2.3.0
 swh.perfecthash==1.0.0
 swh.scheduler==1.10.1
 swh.search==0.16.4
-swh.storage==1.18.3
+swh.storage==1.18.4
 swh.vault==1.9.1
 swh.web==0.2.37
 tabulate==0.9.0
