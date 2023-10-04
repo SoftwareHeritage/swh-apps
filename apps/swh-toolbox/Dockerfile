@@ -4,7 +4,7 @@ RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get install -y libcmph-dev librdkafka-dev libsystemd-dev \
       opam git r-base-dev netcat-openbsd jq dnsutils \
-      sed curl telnet host emacs-nox vim postgresql-client-common && \
+      sed curl telnet host emacs-nox vim postgresql-client-13 && \
     apt clean && \
     addgroup --gid 1000 swh && \
     useradd --gid 1000 --uid 1000 -m -d /opt/swh swh && \
