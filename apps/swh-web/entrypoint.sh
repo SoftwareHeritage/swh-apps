@@ -6,9 +6,12 @@ case "$1" in
     "shell")
         exec bash -i
         ;;
+    "refresh")
+        echo "Start periodic save code now refresh statuses routine (in background)"
+        exec sh -c 'date && django-admin refresh_savecodenow_statuses \
+                      --settings=${DJANGO_SETTINGS_MODULE} 2>&1)'
+        ;;
     "cron")
-        wait-for-it swh-web:5004 -s --timeout=0
-
         echo "Start periodic save code now refresh statuses routine (in background)"
         exec sh -c 'trap exit TERM INT; while :; do
         (date && django-admin refresh_savecodenow_statuses \
@@ -19,7 +22,7 @@ case "$1" in
         ;;
 
      *)
-        echo "starting the swh-web server"
+        echo "Starting the swh-web server"
         # run gunicorn workers as in production otherwise
         exec gunicorn \
             --bind 0.0.0.0:${PORT} \

@@ -33,4 +33,4 @@ ENV TIMEOUT 3600
 ENV DJANGO_SETTINGS_MODULE swh.web.settings.production
 ENV SWH_MAIN_PACKAGE swh.web
 
-ENTRYPOINT ["/srv/swh/entrypoint.sh"]
+ENTRYPOINT ["/opt/swh/entrypoint.sh"]
