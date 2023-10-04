@@ -63,7 +63,7 @@ port-for==0.7.1
 prometheus-client==0.17.1
 prompt-toolkit==3.0.39
 psutil==5.9.5
-psycopg2==2.9.8
+psycopg2==2.9.9
 pyasn1==0.5.0
 pybadges==3.0.0
 pycparser==2.21
