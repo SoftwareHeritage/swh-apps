@@ -6,20 +6,20 @@ RUN apt-get -y update && \
     apt-get install -y libcmph-dev librdkafka-dev && \
     apt clean && \
     addgroup --gid 1000 swh && \
-    useradd --gid 1000 --uid 1000 -m -d /srv/swh swh && \
+    useradd --gid 1000 --uid 1000 -m -d /opt/swh swh && \
     mkdir -p /etc/softwareheritage /var/log/softwareheritage/webapp && \
     chown swh:swh /var/log/softwareheritage/webapp
 
 USER swh
-WORKDIR /srv/swh
+WORKDIR /opt/swh
 
-COPY --chown=swh:swh requirements-frozen.txt /srv/swh
-COPY --chown=swh:swh entrypoint.sh /srv/swh
+COPY --chown=swh:swh requirements-frozen.txt /opt/swh
+COPY --chown=swh:swh entrypoint.sh /opt/swh
 
-ENV PYTHONPATH=/srv/swh
-ENV PATH=/srv/swh/.local/bin:$PATH
+ENV PYTHONPATH=/opt/swh
+ENV PATH=/opt/swh/.local/bin:$PATH
 
-RUN chmod u+x /srv/swh/entrypoint.sh && \
+RUN chmod u+x /opt/swh/entrypoint.sh && \
     /usr/local/bin/python -m pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements-frozen.txt && \
     pip install gunicorn
