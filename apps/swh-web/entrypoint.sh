@@ -9,7 +9,7 @@ case "$1" in
     "refresh")
         echo "Start periodic save code now refresh statuses routine (in background)"
         exec sh -c 'date && django-admin refresh_savecodenow_statuses \
-                      --settings=${DJANGO_SETTINGS_MODULE} 2>&1)'
+                      --settings=${DJANGO_SETTINGS_MODULE} 2>&1'
         ;;
     "cron")
         echo "Start periodic save code now refresh statuses routine (in background)"
