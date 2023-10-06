@@ -34,7 +34,7 @@ geomet==0.2.1.post1
 gunicorn==21.2.0
 httplib2==0.22.0
 humanize==4.8.0
-hypothesis==6.87.1
+hypothesis==6.87.2
 idna==3.4
 importlib-metadata==4.13.0
 iniconfig==2.0.0
