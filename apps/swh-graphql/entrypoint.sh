@@ -14,7 +14,7 @@ case "$1" in
     --workers "${WORKERS}" \
     --log-level "${LOG_LEVEL}" \
     --timeout "${TIMEOUT}" \
-    --config 'python:swh.core.api.gunicorn_config' \
+    --config 'python:swh.graphql.gunicorn_config' \
     --worker-class 'uvicorn.workers.UvicornWorker' \
     'swh.graphql.server:make_app_from_configfile()'
   ;;
