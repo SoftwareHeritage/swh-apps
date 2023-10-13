@@ -5,3 +5,4 @@ swh.storage
 swh.auth
 swh.scrubber
 swh.vault
+swh.indexer
