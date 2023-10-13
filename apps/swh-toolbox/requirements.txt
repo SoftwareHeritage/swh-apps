@@ -4,3 +4,4 @@ swh.loader.core
 swh.storage
 swh.auth
 swh.scrubber
+swh.vault
