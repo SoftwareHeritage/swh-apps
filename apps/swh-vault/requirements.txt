@@ -1,3 +1,2 @@
-swh-vault
-
-
+swh.vault
+swh.objstorage[azure]
