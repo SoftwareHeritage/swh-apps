@@ -10,6 +10,8 @@ RUN apt-get -y update && \
 USER swh
 WORKDIR /opt/swh
 
+COPY --chown=swh:swh requirements-frozen.txt /opt/swh
+
 ENV PATH=/opt/swh/.local/bin:$PATH
 
 RUN /usr/local/bin/python -m pip install --upgrade pip && \
