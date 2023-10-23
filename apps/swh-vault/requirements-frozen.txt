@@ -5,7 +5,7 @@ amqp==5.1.1
 async-timeout==4.0.3
 attrs==23.1.0
 attrs-strict==1.0.1
-azure-core==1.29.4
+azure-core==1.29.5
 azure-storage-blob==12.18.3
 billiard==4.1.0
 blinker==1.6.3
@@ -13,7 +13,7 @@ cassandra-driver==3.28.0
 celery==5.3.4
 certifi==2023.7.22
 cffi==1.16.0
-charset-normalizer==3.3.0
+charset-normalizer==3.3.1
 click==8.1.7
 click-didyoumean==0.3.0
 click-plugins==1.1.1
@@ -38,7 +38,7 @@ itsdangerous==2.1.2
 Jinja2==3.1.2
 kombu==5.3.2
 MarkupSafe==2.1.3
-mirakuru==2.5.1
+mirakuru==2.5.2
 msgpack==1.0.7
 multidict==6.0.4
 mypy-extensions==1.0.0
@@ -69,13 +69,13 @@ swh.objstorage==2.3.0
 swh.perfecthash==1.0.0
 swh.scheduler==1.11.0
 swh.storage==1.18.4
-swh.vault==1.9.1
+swh.vault==1.9.2
 tabulate==0.9.0
 tenacity==8.2.3
 tomli==2.0.1
 typing_extensions==4.8.0
 tzdata==2023.3
-urllib3==2.0.6
+urllib3==2.0.7
 vine==5.0.0
 wcwidth==0.2.8
 Werkzeug==3.0.0
