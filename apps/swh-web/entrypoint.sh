@@ -11,6 +11,11 @@ case "$1" in
         exec sh -c 'date && django-admin refresh_savecodenow_statuses \
                       --settings=${DJANGO_SETTINGS_MODULE} 2>&1'
         ;;
+    "sync-mailmaps")
+        shift
+        echo "django-admin sync-mailmaps routine"
+        exec sh -c "date && django-admin sync_mailmaps $@"
+        ;;
     "cron")
         echo "Start periodic save code now refresh statuses routine (in background)"
         exec sh -c 'trap exit TERM INT; while :; do
