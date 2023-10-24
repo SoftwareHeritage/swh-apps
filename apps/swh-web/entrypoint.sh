@@ -14,7 +14,8 @@ case "$1" in
     "sync-mailmaps")
         shift
         echo "django-admin sync-mailmaps routine"
-        exec sh -c "date && django-admin sync_mailmaps $@"
+        date
+        exec sh -c "django-admin sync_mailmaps --perform '$@'"
         ;;
      *)
         echo "Starting the swh-web server"
