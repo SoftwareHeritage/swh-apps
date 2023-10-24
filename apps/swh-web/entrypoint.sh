@@ -16,16 +16,6 @@ case "$1" in
         echo "django-admin sync-mailmaps routine"
         exec sh -c "date && django-admin sync_mailmaps $@"
         ;;
-    "cron")
-        echo "Start periodic save code now refresh statuses routine (in background)"
-        exec sh -c 'trap exit TERM INT; while :; do
-        (date && django-admin refresh_savecodenow_statuses \
-                  --settings=${DJANGO_SETTINGS_MODULE} 2>&1)
-        sleep 15 &
-        wait ${!}
-        done'
-        ;;
-
      *)
         echo "Starting the swh-web server"
         # run gunicorn workers as in production otherwise
