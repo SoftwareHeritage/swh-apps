@@ -4,8 +4,10 @@ set -e
 
 case "$1" in
     "shell")
-        exec bash -i
-        ;;
+        shift
+        echo "Running command $@"
+        exec bash -i "$@"
+    ;;
     "refresh")
         echo "Start periodic save code now refresh statuses routine (in background)"
         exec sh -c 'date && django-admin refresh_savecodenow_statuses \
