@@ -17,7 +17,7 @@ case "$1" in
         exec swh $@
         ;;
     *)
-        echo Starting the swh-scheduler API server
+        echo Starting the swh-search API server
         exec gunicorn --bind 0.0.0.0:${PORT} \
             --log-level ${LOG_LEVEL} \
             --threads ${THREADS} \
