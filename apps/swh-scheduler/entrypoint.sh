@@ -18,7 +18,7 @@ case "$1" in
         ;;
     *)
         echo Starting the swh-scheduler API server
-        exec gunicorn --bind 0.0.0.0:5008 \
+        exec gunicorn --bind 0.0.0.0:${PORT} \
             --log-level ${LOG_LEVEL} \
             --threads ${THREADS} \
             --workers ${WORKERS} \
