@@ -13,8 +13,8 @@ case "$1" in
         ;;
     *)
       echo Starting the swh-objstorage[winery] API server
-      exec gunicorn --bind 0.0.0.0:5003 \
-          --log-level DEBUG \
+      exec gunicorn --bind 0.0.0.0:${PORT} \
+          --log-level ${LOG_LEVEL} \
           --threads 1 \
           --workers ${WORKERS} \
           --reload \
