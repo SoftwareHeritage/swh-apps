@@ -1,1 +1,1 @@
-swh.deposit
+swh.deposit[server]
