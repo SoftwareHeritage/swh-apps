@@ -5,8 +5,11 @@ set -e
 case "$1" in
     "shell")
         shift
-        echo "Running command $@"
-        exec bash -i "$@"
+        if (( $# == 0)); then
+            exec bash -i
+        else
+            "$@"
+        fi
     ;;
     "refresh")
         echo "Start periodic save code now refresh statuses routine (in background)"

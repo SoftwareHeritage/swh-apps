@@ -7,7 +7,7 @@ RUN apt-get -y update && \
     apt clean && \
     addgroup --gid 1000 swh && \
     useradd --gid 1000 --uid 1000 -m -d /opt/swh swh && \
-    mkdir -p /etc/softwareheritage /var/log/softwareheritage/webapp && \
+    mkdir -p /var/log/softwareheritage/webapp && \
     chown swh:swh /var/log/softwareheritage/webapp
 
 USER swh
@@ -24,7 +24,7 @@ RUN chmod u+x /opt/swh/entrypoint.sh && \
     pip install --no-cache-dir -r requirements-frozen.txt && \
     pip install gunicorn
 
-ENV SWH_CONFIG_FILENAME=/etc/softwareheritage/config.yml
+ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
 ENV PORT 5004
 EXPOSE $PORT
 ENV THREADS 2
