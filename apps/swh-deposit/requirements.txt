@@ -1,1 +1,2 @@
 swh.deposit[server]
+django-storages[azure]
