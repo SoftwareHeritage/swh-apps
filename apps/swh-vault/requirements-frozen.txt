@@ -7,7 +7,7 @@ async-timeout==4.0.3
 attrs==23.1.0
 attrs-strict==1.0.1
 azure-core==1.29.5
-azure-storage-blob==12.18.3
+azure-storage-blob==12.19.0
 billiard==4.2.0
 blinker==1.7.0
 cassandra-driver==3.28.0
@@ -72,7 +72,7 @@ swh.objstorage==2.3.0
 swh.perfecthash==1.0.0
 swh.scheduler==1.12.0
 swh.storage==1.18.5
-swh.vault==1.9.3
+swh.vault==1.10.0
 tabulate==0.9.0
 tenacity==8.2.3
 testing.common.database==2.0.3
