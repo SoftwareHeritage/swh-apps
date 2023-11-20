@@ -104,7 +104,7 @@ swh.lister==6.3.1
 swh.loader.core==5.13.1
 swh.loader.git==2.7.3
 swh.model==6.9.1
-swh.objstorage==2.3.0
+swh.objstorage==2.3.1
 swh.perfecthash==1.1.0
 swh.scheduler==1.12.1
 swh.scrubber==2.1.0
