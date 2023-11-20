@@ -65,7 +65,7 @@ swh.core==2.24.0
 swh.counters==0.9.2
 swh.journal==1.4.0
 swh.model==6.9.1
-swh.objstorage==2.3.0
+swh.objstorage==2.3.1
 swh.perfecthash==1.1.0
 swh.scheduler==1.12.1
 swh.storage==1.18.6
