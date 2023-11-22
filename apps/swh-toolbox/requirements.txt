@@ -6,3 +6,4 @@ swh.auth
 swh.scrubber
 swh.vault
 swh.indexer
+swh.webhooks
