@@ -1,12 +1,15 @@
 # Deeply inspired from the Dockerfile of the swh-graphql project
 FROM python:3.10-bullseye
-
+# swhstorage user is 1005 on current static server (saam, ...). To avoid permission
+# changes on PB of data, we'll use the same uid/gid pair
+ARG UID=1005
+ARG GID=1005
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get install -y libcmph-dev librdkafka-dev && \
     apt clean && \
-    addgroup --gid 1000 swh && \
-    useradd --gid 1000 --uid 1000 -m -d /opt/swh swh && \
+    addgroup --gid $GID swh && \
+    useradd --gid $GID --uid $UID -m -d /opt/swh swh && \
     mkdir /etc/swh
 
 USER swh
