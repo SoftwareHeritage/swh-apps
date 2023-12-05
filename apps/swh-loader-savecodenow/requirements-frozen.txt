@@ -88,7 +88,7 @@ swh.model==6.10.0
 swh.objstorage==2.3.1
 swh.perfecthash==1.2.0
 swh.scheduler==1.13.0
-swh.storage==1.18.7
+swh.storage==1.19.0
 tabulate==0.9.0
 tenacity==8.2.3
 testing.common.database==2.0.3
