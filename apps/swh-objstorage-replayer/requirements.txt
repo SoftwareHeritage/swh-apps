@@ -1,0 +1,2 @@
+swh.objstorage.replayer
+swh.objstorage[azure, libcloud]
