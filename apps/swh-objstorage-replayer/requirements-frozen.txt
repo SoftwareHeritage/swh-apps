@@ -21,7 +21,7 @@ Flask==3.0.0
 frozenlist==1.4.1
 gunicorn==21.2.0
 humanize==4.9.0
-hypothesis==6.92.1
+hypothesis==6.92.2
 idna==3.6
 iso8601==2.1.0
 isodate==0.6.1
@@ -46,7 +46,7 @@ swh.core==2.25.0
 swh.journal==1.5.0
 swh.model==6.10.0
 swh.objstorage==2.5.0
-swh.objstorage.replayer==1.5.0
+swh.objstorage.replayer @ git+https://gitlab.softwareheritage.org/olasd/swh-objstorage-replayer.git@3042aa1649230a04af1fdf312e0a0be563bdd984
 swh.perfecthash==1.2.0
 tenacity==8.2.3
 typing_extensions==4.9.0
