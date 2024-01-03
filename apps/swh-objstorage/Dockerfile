@@ -29,9 +29,7 @@ RUN chmod u+x /opt/swh/entrypoint.sh && \
 ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
 ENV PORT 5003
 EXPOSE $PORT
-# Winery is not designed to be thread safe
-# So the number of threads per workers must be 1
-#ENV THREADS 1
+ENV THREADS 2
 ENV WORKERS 8
 ENV LOG_LEVEL INFO
 ENV TIMEOUT 3600

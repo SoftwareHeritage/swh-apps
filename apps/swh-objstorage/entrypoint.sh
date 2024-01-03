@@ -20,7 +20,7 @@ case "$1" in
       echo Starting the swh-objstorage API server
       exec gunicorn --bind 0.0.0.0:${PORT} \
           --log-level ${LOG_LEVEL} \
-          --threads 1 \
+          --threads ${THREADS} \
           --workers ${WORKERS} \
           --reload \
           --timeout 3600 \
