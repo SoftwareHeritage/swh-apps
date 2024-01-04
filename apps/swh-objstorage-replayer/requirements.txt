@@ -1,2 +1,2 @@
-swh.objstorage.replayer @ git+https://gitlab.softwareheritage.org/olasd/swh-objstorage-replayer.git@mr/only-composite-objid
+swh.objstorage.replayer
 swh.objstorage[azure, libcloud]
