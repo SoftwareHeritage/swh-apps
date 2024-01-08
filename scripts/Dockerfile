@@ -11,14 +11,15 @@ RUN addgroup --gid $groupid swh && \
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get install -y \
-      # objstorage deps (winery)
-      libcmph-dev \
       # journal (kafka)
       librdkafka-dev \
       # svn loader (subvertpy)
       libsvn-dev libapr1-dev libaprutil1-dev \
       libpython3-dev \
       libpq-dev \
+      # objstorage deps (winery)
+      libsystemd-dev \
+      pkg-config \
       # swh lister's dependency on rpy2 need this
       r-base-dev \
     && \
