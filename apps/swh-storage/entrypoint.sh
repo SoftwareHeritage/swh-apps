@@ -11,6 +11,10 @@ case "$1" in
         echo "Running swh command $@"
         exec swh $@
         ;;
+    "create-object-references-partitions")
+        echo "Running swh storage create-object-references-partitions $(date +%Y-%m-%d) $(date -d '+1 month' +%Y-%m-%d)"
+        exec swh --log-level ${LOG_LEVEL} storage create-object-references-partitions "$(date +%Y-%m-%d)" "$(date -d '+1 month' +%Y-%m-%d)"
+        ;;
     *)
       echo Starting the swh-storage API server
       exec gunicorn --bind 0.0.0.0:${PORT} \
