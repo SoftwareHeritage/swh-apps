@@ -27,9 +27,6 @@ RUN chmod u+x /opt/swh/entrypoint.sh && \
 ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
 ENV PORT 5004
 EXPOSE $PORT
-ENV THREADS 2
-ENV WORKERS 2
-ENV TIMEOUT 3600
 ENV DJANGO_SETTINGS_MODULE swh.web.settings.production
 ENV SWH_MAIN_PACKAGE swh.web
 
