@@ -8,7 +8,7 @@ asn1crypto==1.5.1
 async-timeout==4.0.3
 attrs==23.2.0
 attrs-strict==1.0.1
-beautifulsoup4==4.12.2
+beautifulsoup4==4.12.3
 billiard==4.2.0
 blinker==1.7.0
 cachetools==5.3.2
@@ -118,7 +118,7 @@ swh.core==2.26.0
 swh.counters==0.10.0
 swh.indexer==3.1.0
 swh.journal==1.5.0
-swh.lister==6.4.0
+swh.lister==6.5.0
 swh.loader.core==5.14.2
 swh.loader.git==2.8.0
 swh.model==6.11.0
