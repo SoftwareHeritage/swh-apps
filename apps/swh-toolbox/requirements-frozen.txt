@@ -114,7 +114,7 @@ sortedcontainers==2.4.0
 soupsieve==2.5
 svix==1.15.0
 swh.auth==0.9.0
-swh.core==2.25.0
+swh.core==2.26.0
 swh.counters==0.10.0
 swh.indexer==3.1.0
 swh.journal==1.5.0
