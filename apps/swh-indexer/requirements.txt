@@ -1,1 +1,2 @@
+swh-objstorage[azure,libcloud]
 swh-indexer
