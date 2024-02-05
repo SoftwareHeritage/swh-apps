@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright (C) 2022-2023  The Software Heritage developers
+# Copyright (C) 2022-2024  The Software Heritage developers
 # See the AUTHORS file at the top-level directory of this distribution
 # License: GNU General Public License v3 or later
 # See top-level LICENSE file for more information
@@ -14,14 +14,17 @@ requirements-frozen.txt file for app(s) provided as parameters, list or generate
 from __future__ import annotations
 
 from collections import defaultdict
+import logging
 import os
 from pathlib import Path
 import subprocess
 import tempfile
+import time
 from typing import TYPE_CHECKING, Dict, Iterator, List, Set, Tuple
 from venv import EnvBuilder
 
 import click
+import requests
 import yaml
 
 if TYPE_CHECKING:
@@ -133,6 +136,140 @@ def from_application_to_module(app_name: str) -> str:
 def from_tag_to_version(version: str) -> str:
     """Compute python module version from a version tag (prefixed with 'v')."""
     return version.lstrip("v")
+
+
+class DistributionNotFound(Exception):
+    pass
+
+
+class VersionNotFound(Exception):
+    pass
+
+
+def check_version_available(
+    dist: str, version: str, required_types: Set[str] = {"source", "bdist_wheel"}
+):
+    """Check whether the distribution ``dist`` is available on PyPI at version ``version``.
+
+    Also check whether the ``required_types`` are properly available.
+
+    Raises:
+      DistributionNotFound if the distribution doesn't exist
+      VersionNotFound if the version isn't found
+    """
+
+    resp = requests.get(
+        f"https://pypi.org/simple/{dist}/",
+        headers={"Accept": "application/vnd.pypi.simple.v1+json"},
+    )
+
+    if resp.status_code == 404:
+        raise DistributionNotFound(f"Distribution {dist} not found on PyPI: {resp}")
+
+    resp.raise_for_status()
+
+    project_info = resp.json()
+
+    if version not in project_info["versions"]:
+        raise VersionNotFound(
+            f"Version {version} of distribution {dist} not found on PyPI. "
+            f"Versions available include: {', '.join(project_info['versions'][:5])}"
+        )
+
+    resp = requests.get(
+        f"https://pypi.org/pypi/{project_info['name']}/{version}/json",
+        headers={"Accept": "application/vnd.pypi.simple.v1+json"},
+    )
+    resp.raise_for_status()
+    version_info = resp.json()
+
+    types_found = {file["packagetype"] for file in version_info["urls"]}
+
+    if not required_types.issubset(types_found):
+        # We've not found the sdist for the package, something went fishy during the upload
+        files_available = [
+            f"{file['packagetype']}: {file['filename']}"
+            for file in version_info["urls"]
+        ]
+
+        raise VersionNotFound(
+            f"Version {version} of distribution {dist} registered on PyPI but no {', '.join(required_types - types_found)} found. "
+            f"Files available: {', '.join(files_available)}"
+        )
+
+    return True
+
+
+@app.group
+@click.pass_context
+def pypi(ctx):
+    pass
+
+
+@pypi.command
+@click.pass_context
+@click.argument("dist")
+@click.argument("version")
+@click.option("required_types", "--required-type", multiple=True)
+def check_version(ctx, dist: str, version: str, required_types: List[str]):
+    kwargs = {}
+    if required_types:
+        kwargs["required_types"] = set(required_types)
+        print(kwargs)
+    if check_version_available(dist=dist, version=version, **kwargs):
+        click.echo("Version found!")
+        ctx.exit(0)
+
+
+@pypi.command
+@click.pass_context
+@click.argument("dist")
+@click.argument("version")
+@click.option("required_types", "--required-type", multiple=True)
+@click.option(
+    "--timeout",
+    default=300,
+    type=click.FLOAT,
+    help="Timeout in seconds",
+    show_default=True,
+)
+def wait_for_version(
+    ctx, dist: str, version: str, required_types: List[str], timeout: float
+):
+    kwargs = {}
+    if required_types:
+        kwargs["required_types"] = set(required_types)
+        print(kwargs)
+
+    sleep_duration = 1
+    sleep_factor = 2
+    start = time.monotonic()
+    end = time.monotonic() + timeout
+    while True:
+        try:
+            check_version_available(dist=dist, version=version, **kwargs)
+        except VersionNotFound:
+            pass
+        else:
+            click.echo(f"{dist}=={version} found!")
+            ctx.exit(0)
+        now = time.monotonic()
+        elapsed = now - start
+        max_sleep = end - now
+        if max_sleep <= 0:
+            break
+        real_sleep = min(max_sleep, sleep_duration)
+        click.echo(
+            f"{dist}=={version} not found on PyPI after {elapsed:.1f}s, sleeping for {real_sleep}s...",
+            err=True,
+        )
+        time.sleep(real_sleep)
+        sleep_duration *= sleep_factor
+
+    click.echo(
+        f"{dist}=={version} not found on PyPI after {timeout}s, bailing out!", err=True
+    )
+    ctx.exit(1)
 
 
 def list_impacted_apps(apps_dir: Path, application: str, version: str) -> Iterator[str]:
@@ -421,4 +558,5 @@ def update_values(ctx, applications_filepath: str, chart_filepath) -> None:
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=os.getenv("SWH_LOG_LEVEL", "info").upper())
     app()
