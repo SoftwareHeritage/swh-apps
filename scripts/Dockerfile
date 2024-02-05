@@ -25,18 +25,20 @@ RUN apt-get -y update && \
     && \
     apt clean
 
-RUN mkdir -p /opt/scripts/
-COPY app_manager.py /opt/scripts/
-COPY requirements.txt /opt/scripts/
-RUN chmod +x /opt/scripts/app_manager.py
+RUN install -d -o swh /opt/scripts/
 
 USER swh
 WORKDIR /opt/swh
 
-RUN pip install -U pip setuptools wheel && \
-    pip install -r /opt/scripts/requirements.txt
+RUN pip install -U pip setuptools wheel
+ENV PATH=$PATH:/opt/swh/.local/bin
+
+COPY --chown=$userid:$groupid --chmod=0644 requirements.txt /opt/scripts/
+RUN pip install -r /opt/scripts/requirements.txt
 
 # This expects the /src/ to be mounted on swh-apps repository folder at runtime
 ENV SWH_APPS_DIR=/src/apps
+
+COPY --chown=$userid:$groupid --chmod=0755 app_manager.py /opt/scripts/
 
 ENTRYPOINT [ "/opt/scripts/app_manager.py" ]
