@@ -16,6 +16,8 @@ COPY --chown=swh:swh requirements-frozen.txt /opt/swh
 
 ENV PYTHONPATH=/opt/swh
 ENV PATH=/opt/swh/.local/bin:$PATH
+ENV MEMRAY_ENABLED=false
+ENV MEMRAY_OPTIONS=
 
 RUN /usr/local/bin/python -m pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements-frozen.txt && \
