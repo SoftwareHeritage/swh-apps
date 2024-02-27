@@ -1,6 +1,9 @@
 swh.scheduler
 swh.lister
 swh.loader.core
+swh.loader.svn
+swh.loader.git
+swh.loader.mercurial
 swh.storage
 swh.auth
 swh.scrubber
