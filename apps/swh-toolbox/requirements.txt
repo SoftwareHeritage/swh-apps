@@ -1,6 +1,8 @@
 swh.scheduler
 swh.lister
+swh.loader.bzr
 swh.loader.core
+swh.loader.cvs
 swh.loader.svn
 swh.loader.git
 swh.loader.mercurial
