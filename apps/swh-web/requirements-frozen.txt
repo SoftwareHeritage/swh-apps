@@ -27,7 +27,7 @@ confluent-kafka==2.3.0
 cryptography==42.0.5
 Deprecated==1.2.14
 deprecation==2.1.0
-Django==5.0.2
+Django==5.0.3
 django-cors-headers==4.3.1
 django-js-reverse-swh==0.10.1b1.dev0
 django-webpack-loader==3.0.1
@@ -48,7 +48,7 @@ htmlmin==0.1.12
 httpcore==1.0.4
 httpx==0.27.0
 humanize==4.9.0
-hypothesis==6.98.14
+hypothesis==6.98.17
 idna==3.6
 importlib-metadata==7.0.1
 iso8601==2.1.0
@@ -63,7 +63,7 @@ kombu==5.3.5
 latexcodec==2.0.1
 lxml==5.1.0
 MarkupSafe==2.1.5
-msgpack==1.0.7
+msgpack==1.0.8
 multidict==6.0.5
 mypy-extensions==1.0.0
 packaging==23.2
@@ -80,7 +80,7 @@ Pygments==2.17.2
 PyLD==2.0.4
 pymemcache==4.0.0
 pyparsing==3.1.1
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
 python-jose==3.3.0
 python-keycloak==3.8.4
 python-magic==0.4.27
@@ -113,7 +113,7 @@ swh.journal==1.5.0
 swh.model==6.12.1
 swh.objstorage==2.8.0
 swh.perfecthash==1.3.0
-swh.scheduler==2.2.0
+swh.scheduler==2.2.1
 swh.search==0.18.2
 swh.storage==2.0.1
 swh.vault==1.12.1
