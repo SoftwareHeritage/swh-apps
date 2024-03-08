@@ -10,6 +10,6 @@ case "$1" in
     ;;
   *)
     echo Starting Cassandra objects checker.
-    exec python -m /opt/swh/snippets/sysadmin/cassandra_checks/get_journal_check_and_replay.py
+    exec /opt/swh/snippets/sysadmin/cassandra_checks/get_journal_check_and_replay.py
     ;;
 esac
