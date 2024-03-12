@@ -8,6 +8,8 @@ RUN apt-get -y update && \
     useradd --gid 1000 --uid 1000 -m -d /opt/swh swh && \
     mkdir /etc/swh
 
+RUN mkdir /volume && chown root: /volume
+
 USER swh
 WORKDIR /opt/swh
 
