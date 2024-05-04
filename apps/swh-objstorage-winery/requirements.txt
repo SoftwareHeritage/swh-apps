@@ -1,1 +1,4 @@
 swh.objstorage[winery]
+swh.core[db]
+gunicorn
+python-json-logger
