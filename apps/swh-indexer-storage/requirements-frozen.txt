@@ -47,7 +47,7 @@ requests==2.31.0
 sentry-sdk==2.1.1
 six==1.16.0
 sortedcontainers==2.4.0
-swh.core==3.0.1
+swh.core==3.1.0
 swh.counters==0.10.0
 swh.indexer==3.2.0
 swh.journal==1.5.0
@@ -55,7 +55,7 @@ swh.model==6.12.1
 swh.objstorage==3.0.2
 swh.perfecthash==1.3.0
 swh.storage==2.3.0
-tenacity==8.2.3
+tenacity==8.3.0
 typing_extensions==4.11.0
 urllib3==2.2.1
 Werkzeug==3.0.3
