@@ -8,11 +8,11 @@ async-timeout==4.0.3
 attrs==23.2.0
 attrs-strict==1.0.1
 azure-core==1.30.1
-azure-storage-blob==12.19.1
+azure-storage-blob==12.20.0
 billiard==4.2.0
 blinker==1.8.2
-boto3==1.34.99
-botocore==1.34.99
+boto3==1.34.104
+botocore==1.34.104
 cassandra-driver==3.29.1
 celery==5.4.0
 certifi==2024.2.2
@@ -22,7 +22,7 @@ click==8.1.7
 click-didyoumean==0.3.1
 click-plugins==1.1.1
 click-repl==0.3.0
-confluent-kafka==2.3.0
+confluent-kafka==2.4.0
 cryptography==42.0.7
 Deprecated==1.2.14
 exceptiongroup==1.2.1
@@ -34,7 +34,7 @@ grpcio==1.63.0
 grpcio-tools==1.62.2
 gunicorn==22.0.0
 humanize==4.9.0
-hypothesis==6.100.5
+hypothesis==6.102.1
 idna==3.7
 importlib_metadata==7.1.0
 iso8601==2.1.0
@@ -80,7 +80,7 @@ swh.model==6.12.1
 swh.objstorage==3.0.2
 swh.perfecthash==1.3.0
 swh.scheduler==2.2.2
-swh.storage==2.3.0
+swh.storage==2.3.1
 swh.vault==1.12.1
 tabulate==0.9.0
 tenacity==8.3.0
