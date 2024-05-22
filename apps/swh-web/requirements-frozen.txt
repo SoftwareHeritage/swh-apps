@@ -114,7 +114,7 @@ swh.scheduler==2.3.0
 swh.search==0.19.1
 swh.storage==2.3.1
 swh.vault==1.12.2
-swh.web==0.5.0
+swh.web==0.5.1
 swh.webhooks==0.2.0
 tabulate==0.9.0
 tenacity==8.3.0
