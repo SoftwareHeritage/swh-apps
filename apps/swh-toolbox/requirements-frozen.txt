@@ -121,7 +121,7 @@ swh.core==3.1.0
 swh.counters==0.10.0
 swh.indexer==3.2.0
 swh.journal==1.5.0
-swh.lister==6.6.1
+swh.lister==6.6.2
 swh.loader.bzr==1.4.1
 swh.loader.core==5.17.0
 swh.loader.cvs==0.8.2
