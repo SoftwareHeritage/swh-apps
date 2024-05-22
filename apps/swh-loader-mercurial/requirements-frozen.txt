@@ -63,7 +63,7 @@ sortedcontainers==2.4.0
 swh.core==3.1.0
 swh.counters==0.10.0
 swh.journal==1.5.0
-swh.loader.core==5.17.0
+swh.loader.core==5.18.0
 swh.loader.mercurial==3.5.2
 swh.model==6.13.0
 swh.objstorage==3.0.2
