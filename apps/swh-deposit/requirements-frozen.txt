@@ -77,7 +77,7 @@ sqlparse==0.5.0
 swh.auth==0.9.1
 swh.core==3.1.0
 swh.counters==0.10.0
-swh.deposit==2.2.1
+swh.deposit==2.2.2
 swh.journal==1.5.0
 swh.loader.core==5.17.0
 swh.model==6.13.0
