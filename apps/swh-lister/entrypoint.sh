@@ -16,7 +16,8 @@ case "$1" in
        --pool=prefork --events \
        --concurrency=${CONCURRENCY} \
        --max-tasks-per-child=${MAX_TASKS_PER_CHILD} \
-       -Ofair --loglevel=${LOGLEVEL} \
+       -Ofair \
+       --loglevel=${SWH_LOG_LEVEL:-INFO} \
        --without-gossip --without-mingle --without-heartbeat \
        --hostname "${SWH_WORKER_INSTANCE}@%h"
     ;;

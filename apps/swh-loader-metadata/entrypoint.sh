@@ -12,7 +12,6 @@ fi
 
 echo "Starting loader metadata journal client..."
 exec swh \
-  --log-level $LOGLEVEL \
   metadata-loader \
   --config-file $SWH_CONFIG_FILENAME \
   journal-client $SWH_INDEXER_TYPE

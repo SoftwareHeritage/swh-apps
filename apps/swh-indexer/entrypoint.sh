@@ -18,7 +18,6 @@ fi
 # start the replayer
 echo "Starting indexer journal client..."
 exec swh \
-  --log-level $LOGLEVEL \
   --log-level azure.core.pipeline.policies.http_logging_policy:WARNING \
   indexer \
   --config-file $SWH_CONFIG_FILENAME \
