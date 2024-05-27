@@ -30,7 +30,6 @@ EXPOSE $PORT
 # So the number of threads per workers must be 1
 #ENV THREADS 1
 ENV WORKERS 8
-ENV LOG_LEVEL INFO
 ENV TIMEOUT 3600
 
 ENTRYPOINT ["/opt/swh/entrypoint.sh"]

@@ -19,7 +19,7 @@ case "$1" in
     *)
         echo Starting the swh-search API server
         exec gunicorn --bind 0.0.0.0:${PORT} \
-            --log-level ${LOG_LEVEL} \
+            --log-level ${SWH_LOG_LEVEL:-INFO} \
             --threads ${THREADS} \
             --workers ${WORKERS} \
             --reload \

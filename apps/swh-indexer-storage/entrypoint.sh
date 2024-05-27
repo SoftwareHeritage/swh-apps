@@ -14,9 +14,9 @@ case "$1" in
     *)
       echo Starting the swh-indexer-storage API server
       exec gunicorn --bind 0.0.0.0:${PORT} \
+           --log-level ${SWH_LOG_LEVEL:-INFO} \
            --threads ${THREADS} \
            --workers ${WORKERS} \
-           --log-level ${LOG_LEVEL} \
            --timeout ${TIMEOUT} \
            --config 'python:swh.core.api.gunicorn_config' \
            'swh.indexer.storage.api.server:make_app_from_configfile()'

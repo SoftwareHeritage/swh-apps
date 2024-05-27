@@ -25,8 +25,8 @@ case "$1" in
      *)
         echo "Starting the swh-web server"
         # run gunicorn workers as in production otherwise
-        exec gunicorn \
-            --bind 0.0.0.0:${PORT} \
+        exec gunicorn --bind 0.0.0.0:${PORT} \
+            --log-level ${SWH_LOG_LEVEL:-INFO} \
             --threads ${THREADS} \
             --workers ${WORKERS} \
             --timeout ${TIMEOUT} \

@@ -9,11 +9,11 @@ case "$1" in
 *)
   echo Starting the swh-graphql API server
 
-  exec gunicorn --bind "0.0.0.0:${PORT}" \
-    --threads "${THREADS}" \
-    --workers "${WORKERS}" \
-    --log-level "${LOG_LEVEL}" \
-    --timeout "${TIMEOUT}" \
+  exec gunicorn --bind 0.0.0.0:${PORT} \
+    --log-level ${SWH_LOG_LEVEL:-INFO} \
+    --threads ${THREADS} \
+    --workers ${WORKERS} \
+    --timeout ${TIMEOUT} \
     --config 'python:swh.graphql.gunicorn_config' \
     --worker-class 'uvicorn.workers.UvicornWorker' \
     'swh.graphql.server:make_app_from_configfile()'

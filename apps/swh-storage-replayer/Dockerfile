@@ -25,7 +25,6 @@ COPY --chown=swh:swh entrypoint.sh /opt/swh
 RUN chmod u+x /opt/swh/entrypoint.sh
 
 ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
-ENV LOG_LEVEL INFO
 ENV STATSD_PORT=9125
 ENV STATSD_HOST=prometheus-statsd-exporter
 
