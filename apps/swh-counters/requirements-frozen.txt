@@ -32,9 +32,9 @@ requests==2.32.2
 sentry-sdk==2.3.1
 six==1.16.0
 sortedcontainers==2.4.0
-swh.core==3.1.0
+swh.core==3.2.0
 swh.counters==0.10.0
-swh.journal==1.5.0
+swh.journal==1.5.1
 swh.model==6.13.0
 tenacity==8.3.0
 typing_extensions==4.12.0
