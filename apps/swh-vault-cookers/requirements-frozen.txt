@@ -11,8 +11,8 @@ azure-core==1.30.1
 azure-storage-blob==12.20.0
 billiard==4.2.0
 blinker==1.8.2
-boto3==1.34.112
-botocore==1.34.112
+boto3==1.34.113
+botocore==1.34.113
 cassandra-driver==3.29.1
 celery==5.4.0
 certifi==2024.2.2
@@ -52,7 +52,7 @@ packaging==24.0
 pg8000==1.31.2
 pika==1.3.2
 plyvel==1.5.1
-prompt-toolkit==3.0.43
+prompt_toolkit==3.0.45
 protobuf==4.25.3
 psutil==5.9.8
 psycopg2==2.9.9
@@ -75,7 +75,7 @@ swh.core==3.1.0
 swh.counters==0.10.0
 swh.dataset==1.5.1
 swh.graph==3.4.0
-swh.journal==1.5.0
+swh.journal==1.5.1
 swh.model==6.13.0
 swh.objstorage==3.1.0
 swh.perfecthash==1.3.0
@@ -97,4 +97,4 @@ wcwidth==0.2.13
 Werkzeug==3.0.3
 wrapt==1.16.0
 yarl==1.9.4
-zipp==3.18.2
+zipp==3.19.0
