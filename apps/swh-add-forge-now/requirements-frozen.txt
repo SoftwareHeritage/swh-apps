@@ -41,7 +41,7 @@ mypy-extensions==1.0.0
 packaging==24.0
 pg8000==1.31.2
 pika==1.3.2
-prompt-toolkit==3.0.43
+prompt_toolkit==3.0.44
 psycopg2==2.9.9
 pyasn1==0.6.0
 pycparser==2.22
@@ -62,7 +62,7 @@ sortedcontainers==2.4.0
 swh.auth==0.9.1
 swh.core==3.1.0
 swh.counters==0.10.0
-swh.journal==1.5.0
+swh.journal==1.5.1
 swh.model==6.13.0
 swh.objstorage==3.1.0
 swh.perfecthash==1.3.0
@@ -80,4 +80,4 @@ wcwidth==0.2.13
 Werkzeug==3.0.3
 wrapt==1.16.0
 yarl==1.9.4
-zipp==3.18.2
+zipp==3.19.0
