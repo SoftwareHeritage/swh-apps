@@ -21,7 +21,6 @@ case "$1" in
            --log-level ${SWH_LOG_LEVEL:-INFO} \
            --threads ${THREADS} \
            --workers ${WORKERS} \
-           --log-level ${LOG_LEVEL} \
            --timeout ${TIMEOUT} \
            --config 'python:swh.core.api.gunicorn_config' \
            'swh.storage.api.server:make_app_from_configfile()'
