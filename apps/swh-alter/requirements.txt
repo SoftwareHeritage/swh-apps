@@ -1,0 +1,2 @@
+swh.alter
+swh.objstorage[azure,libcloud]
