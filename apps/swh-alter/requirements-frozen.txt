@@ -62,11 +62,11 @@ rdflib==7.0.0
 redis==5.0.5
 requests==2.32.3
 s3transfer==0.10.1
-sentry-sdk==2.4.0
+sentry-sdk==2.5.0
 shamir-mnemonic==0.3.0
 six==1.16.0
 sortedcontainers==2.4.0
-swh.alter @ git+https://gitlab.softwareheritage.org/swh/devel/swh-alter.git@a2c24f23c715628c70c265bdb268f05a8041e31a
+swh.alter @ git+https://gitlab.softwareheritage.org/swh/devel/swh-alter.git@937b8d46860e4bf2d85a30c11de63aba89ed281e
 swh.core==3.2.0
 swh.counters==0.11.0
 swh.dataset==1.5.1
