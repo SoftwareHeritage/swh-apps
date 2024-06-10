@@ -66,7 +66,7 @@ sentry-sdk==2.5.1
 shamir-mnemonic==0.3.0
 six==1.16.0
 sortedcontainers==2.4.0
-swh.alter @ git+https://gitlab.softwareheritage.org/swh/devel/swh-alter.git@b2a133dcf325f1c353017b6c91d53577438ff217
+swh.alter @ git+https://gitlab.softwareheritage.org/swh/devel/swh-alter.git@843d3972e292561b462efa3b19eb80838de07f8c
 swh.core==3.2.0
 swh.counters==0.11.0
 swh.dataset==1.5.1
@@ -75,7 +75,7 @@ swh.indexer==3.2.0
 swh.journal==1.5.2
 swh.model==6.13.1
 swh.objstorage==3.2.0
-swh.perfecthash==1.3.1
+swh.perfecthash==1.3.2
 swh.search==0.20.0
 swh.storage @ git+https://gitlab.softwareheritage.org/swh/devel/swh-storage.git@751634c9ff7e5f4b7d0e388ed3199a9eedb59a42
 tenacity==8.3.0
