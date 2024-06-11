@@ -72,7 +72,7 @@ swh.core==3.2.0
 swh.counters==0.11.0
 swh.journal==1.5.2
 swh.loader.bzr==1.4.1
-swh.loader.core==5.18.1
+swh.loader.core==5.18.2
 swh.loader.cvs==0.8.3
 swh.loader.git==2.11.0
 swh.loader.mercurial==3.5.2
