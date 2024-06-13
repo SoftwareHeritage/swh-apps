@@ -34,7 +34,7 @@ itsdangerous==2.2.0
 Jinja2==3.1.4
 kombu==5.3.7
 MarkupSafe==2.1.5
-mercurial==6.7.3
+mercurial==6.7.4
 msgpack==1.0.8
 multidict==6.0.5
 mypy-extensions==1.0.0
@@ -69,7 +69,7 @@ swh.model==6.13.1
 swh.objstorage==3.2.0
 swh.perfecthash==1.3.2
 swh.scheduler==2.3.1
-swh.storage==2.5.0
+swh.storage==2.6.0
 tabulate==0.9.0
 tenacity==8.3.0
 testing.common.database==2.0.3
