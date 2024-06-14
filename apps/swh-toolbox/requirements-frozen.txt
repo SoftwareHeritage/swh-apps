@@ -97,7 +97,7 @@ python-mimeparse==1.6.0
 pytz==2024.1
 PyYAML==6.0.1
 rdflib==7.0.0
-redis==5.0.5
+redis==5.0.6
 referencing==0.35.1
 regex==2024.5.15
 repomd==0.2.1
@@ -119,7 +119,7 @@ svix==1.24.0
 swh.auth==0.9.1
 swh.core==3.2.0
 swh.counters==0.11.0
-swh.indexer==3.2.0
+swh.indexer==3.3.0
 swh.journal==1.5.2
 swh.lister==6.6.2
 swh.loader.bzr==1.4.1
