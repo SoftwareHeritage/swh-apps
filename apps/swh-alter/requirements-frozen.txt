@@ -68,7 +68,7 @@ shamir-mnemonic==0.3.0
 six==1.16.0
 sortedcontainers==2.4.0
 swh.alter @ git+https://gitlab.softwareheritage.org/swh/devel/swh-alter.git@12695e812d1511ad48447291bcb086b50b7772a0
-swh.core==3.2.0
+swh.core==3.3.0
 swh.counters==0.11.0
 swh.dataset==1.5.1
 swh.graph==4.0.0
