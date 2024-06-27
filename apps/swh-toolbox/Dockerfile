@@ -11,6 +11,10 @@ RUN apt-get -y update && \
     useradd --gid 1000 --uid 1000 -m -d /opt/swh swh && \
     mkdir /etc/swh
 
+# Install svix cli
+RUN wget -q https://github.com/svix/svix-cli/releases/download/v0.21.1/svix_0.21.1_linux_amd64.deb && \
+    dpkg -i svix_0.21.1_linux_amd64.deb
+
 USER swh
 WORKDIR /opt/swh
 
