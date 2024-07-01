@@ -11,5 +11,8 @@ echo $MSG >> .bashrc
 echo 'echo -e $USAGE_MSG' >> .bashrc
 echo "find /etc/swh/ -type f -iname '*.yml' | xargs -i echo 'export SWH_CONFIG_FILENAME={}'" >> .bashrc
 
+# Add those directory in .bash_history
+find /etc/swh/ -type f -iname '*.yml' | xargs -i echo 'export SWH_CONFIG_FILENAME={}' >> .bash_history
+
 echo "Administration purpose pod: connect to it and do what you will!"
 while sleep infinity; do :; done
