@@ -8,8 +8,8 @@ attrs-strict==1.0.1
 azure-core==1.30.2
 azure-storage-blob==12.20.0
 blinker==1.8.2
-boto3==1.34.136
-botocore==1.34.136
+boto3==1.34.137
+botocore==1.34.137
 cachetools==5.3.3
 cassandra-driver==3.29.1
 certifi==2024.6.2
@@ -75,7 +75,7 @@ swh.graph==4.0.0
 swh.indexer==3.3.0
 swh.journal==1.5.2
 swh.model==6.13.1
-swh.objstorage==3.2.0
+swh.objstorage==3.3.0
 swh.perfecthash==1.3.2
 swh.search==0.20.0
 swh.storage==2.6.0
