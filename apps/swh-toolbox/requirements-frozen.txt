@@ -46,7 +46,7 @@ httpcore==1.0.5
 httplib2==0.22.0
 httpx==0.27.0
 humanize==4.9.0
-hypothesis==6.104.1
+hypothesis==6.104.2
 idna==3.7
 importlib_metadata==8.0.0
 iso8601==2.1.0
@@ -122,8 +122,8 @@ swh.counters==0.11.0
 swh.indexer==3.3.0
 swh.journal==1.5.2
 swh.lister==6.6.2
-swh.loader.bzr==1.4.1
-swh.loader.core==5.18.2
+swh.loader.bzr==1.4.2
+swh.loader.core==5.18.3
 swh.loader.cvs==0.8.3
 swh.loader.git==2.12.0
 swh.loader.mercurial==3.6.0
