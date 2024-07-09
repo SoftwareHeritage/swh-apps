@@ -1,2 +1,2 @@
-swh.alter @ git+https://gitlab.softwareheritage.org/swh/devel/swh-alter.git
+swh.alter
 swh.objstorage[azure,libcloud]
