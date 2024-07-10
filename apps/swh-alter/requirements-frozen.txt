@@ -16,7 +16,7 @@ certifi==2024.7.4
 cffi==1.16.0
 charset-normalizer==3.3.2
 click==8.1.7
-confluent-kafka==2.4.0
+confluent-kafka==2.5.0
 cryptography==42.0.8
 Deprecated==1.2.14
 elasticsearch==7.17.9
