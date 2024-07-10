@@ -5,10 +5,23 @@ ARG workdir=/opt/${user}
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get install -y libcmph-dev librdkafka-dev libsystemd-dev \
-      netcat-openbsd jq dnsutils \
-      sed curl telnet host emacs-nox vim postgresql-client && \
-    apt clean && \
+    apt-get install -y \
+      curl \
+      dnsutils \
+      emacs-nox \
+      host \
+      jq \
+      libcmph-dev \
+      librdkafka-dev \
+      libsystemd-dev \
+      netcat-openbsd \
+      postgresql-client \
+      sed \
+      strace \
+      telnet \
+      tmux \
+      vim \
+    && apt clean && \
     addgroup --gid 1000 ${user} && \
     useradd --gid 1000 --uid 1000 -m -d ${workdir} ${user} && \
     mkdir /etc/${user}
