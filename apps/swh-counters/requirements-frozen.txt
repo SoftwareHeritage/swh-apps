@@ -14,7 +14,7 @@ exceptiongroup==1.2.2
 Flask==3.0.3
 frozenlist==1.4.1
 gunicorn==22.0.0
-hypothesis==6.108.2
+hypothesis==6.108.3
 idna==3.7
 iso8601==2.1.0
 itsdangerous==2.2.0
@@ -35,7 +35,7 @@ sortedcontainers==2.4.0
 swh.core==3.4.0
 swh.counters==0.11.0
 swh.journal==1.5.2
-swh.model==6.13.1
+swh.model==6.14.0
 tenacity==8.5.0
 typing_extensions==4.12.2
 urllib3==2.2.2
