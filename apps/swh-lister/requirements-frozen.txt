@@ -32,14 +32,14 @@ geomet==0.2.1.post1
 gunicorn==22.0.0
 httplib2==0.22.0
 humanize==4.10.0
-hypothesis==6.108.2
+hypothesis==6.108.3
 idna==3.7
 importlib_metadata==8.0.0
 iso8601==2.1.0
 itsdangerous==2.2.0
 Jinja2==3.1.4
 kombu==5.3.7
-launchpadlib==1.11.0
+launchpadlib==2.0.0
 lazr.restfulclient==0.14.6
 lazr.uri==1.0.6
 lxml==5.2.2
@@ -47,7 +47,7 @@ MarkupSafe==2.1.5
 msgpack==1.0.8
 multidict==6.0.5
 mypy-extensions==1.0.0
-numpy==2.0.0
+numpy==2.0.1
 oauthlib==3.2.2
 packaging==24.1
 pandas==2.2.2
@@ -78,7 +78,7 @@ swh.core==3.4.0
 swh.counters==0.11.0
 swh.journal==1.5.2
 swh.lister==6.7.0
-swh.model==6.13.1
+swh.model==6.14.0
 swh.objstorage==3.3.0
 swh.perfecthash==1.3.2
 swh.scheduler==2.4.0
