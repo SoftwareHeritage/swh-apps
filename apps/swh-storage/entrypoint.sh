@@ -22,6 +22,8 @@ case "$1" in
            --threads ${THREADS} \
            --workers ${WORKERS} \
            --timeout ${TIMEOUT} \
+           --statsd-host=${STATSD_HOST}:${STATSD_PORT} \
+           --statsd-prefix=${STATSD_SERVICE_TYPE} \
            --config 'python:swh.core.api.gunicorn_config' \
            'swh.storage.api.server:make_app_from_configfile()'
       ;;
