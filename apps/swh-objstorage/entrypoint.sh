@@ -23,7 +23,7 @@ case "$1" in
           --threads ${THREADS} \
           --workers ${WORKERS} \
           --reload \
-          --timeout 3600 \
+          --timeout ${TIMEOUT} \
           --statsd-host=${STATSD_HOST}:${STATSD_PORT} \
           --statsd-prefix=${STATSD_SERVICE_TYPE} \
           --config 'python:swh.core.api.gunicorn_config' \
