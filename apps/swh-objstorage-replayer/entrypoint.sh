@@ -10,7 +10,7 @@ if [ ! -e "${SWH_CONFIG_FILENAME}" ]; then
   exit 1
 fi
 
-EXTRA_CLI_OPTIONS=${1-""}
+EXTRA_CLI_OPTIONS=$@
 OPTIONS=""
 
 if [ "${CHECK_DST}" == "false" ]; then
