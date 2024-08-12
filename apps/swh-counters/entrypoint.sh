@@ -22,8 +22,8 @@ case "$1" in
             --log-level ${SWH_LOG_LEVEL:-INFO} \
             --threads ${THREADS} \
             --workers ${WORKERS} \
-            --reload \
             --timeout ${TIMEOUT} \
+            --reload \
             --config 'python:swh.core.api.gunicorn_config' \
             'swh.counters.api.server:make_app_from_configfile()'
 esac
