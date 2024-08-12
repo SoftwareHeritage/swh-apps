@@ -30,6 +30,8 @@ case "$1" in
             --threads ${THREADS} \
             --workers ${WORKERS} \
             --timeout ${TIMEOUT} \
+            --statsd-host=${STATSD_HOST}:${STATSD_PORT} \
+            --statsd-prefix=${STATSD_SERVICE_TYPE} \
             --access-logfile '-' \
             --env DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE} \
             --config 'python:swh.web.gunicorn_config' \
