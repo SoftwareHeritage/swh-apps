@@ -22,8 +22,8 @@ case "$1" in
             --log-level ${SWH_LOG_LEVEL:-INFO} \
             --threads ${THREADS} \
             --workers ${WORKERS} \
-            --reload \
             --timeout ${TIMEOUT} \
+            --reload \
             --env DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE} \
             --config 'python:swh.core.api.gunicorn_config' \
             'django.core.wsgi:get_wsgi_application()'
