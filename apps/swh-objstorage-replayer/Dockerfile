@@ -25,5 +25,6 @@ RUN chmod u+x /opt/swh/entrypoint.sh
 ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
 ENV STATSD_PORT=9125
 ENV STATSD_HOST=prometheus-statsd-exporter
+ENV SWH_EXTRA_CLI_OPTIONS=""
 
 ENTRYPOINT "/opt/swh/entrypoint.sh"

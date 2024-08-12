@@ -10,7 +10,6 @@ if [ ! -e "${SWH_CONFIG_FILENAME}" ]; then
   exit 1
 fi
 
-EXTRA_CLI_OPTIONS=$@
 OPTIONS=""
 
 if [ "${CHECK_DST}" == "false" ]; then
@@ -23,7 +22,7 @@ fi
 
 # start the replayer
 echo "Starting the content replayer..."
-CMD="swh ${EXTRA_CLI_OPTIONS} objstorage replay ${OPTIONS}"
+CMD="swh ${SWH_EXTRA_CLI_OPTIONS} objstorage replay ${OPTIONS}"
 echo "${CMD}"
 
 exec ${CMD}
