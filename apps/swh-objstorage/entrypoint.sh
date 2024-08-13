@@ -18,8 +18,13 @@ case "$1" in
         ;;
     *)
         echo Starting the swh-objstorage API server
+        EXTRA_CLI_FLAGS=""
+        if [ ! -z "${SWH_LOG_CONFIG_JSON}" ]; then
+            EXTRA_CLI_FLAGS="--log-config-json ${SWH_LOG_CONFIG_JSON}"
+        fi
         exec gunicorn --bind 0.0.0.0:${PORT} \
              --log-level ${SWH_LOG_LEVEL:-INFO} \
+             $EXTRA_CLI_FLAGS \
              --threads ${THREADS} \
              --workers ${WORKERS} \
              --timeout ${TIMEOUT} \
