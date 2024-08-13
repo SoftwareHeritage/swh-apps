@@ -17,16 +17,16 @@ case "$1" in
         exec swh $@
         ;;
     *)
-      echo Starting the swh-objstorage API server
-      exec gunicorn --bind 0.0.0.0:${PORT} \
-          --log-level ${SWH_LOG_LEVEL:-INFO} \
-          --threads ${THREADS} \
-          --workers ${WORKERS} \
-          --reload \
-          --timeout ${TIMEOUT} \
-          --statsd-host=${STATSD_HOST}:${STATSD_PORT} \
-          --statsd-prefix=${STATSD_SERVICE_TYPE} \
-          --config 'python:swh.core.api.gunicorn_config' \
-          'swh.objstorage.api.server:make_app_from_configfile()'
+        echo Starting the swh-objstorage API server
+        exec gunicorn --bind 0.0.0.0:${PORT} \
+             --log-level ${SWH_LOG_LEVEL:-INFO} \
+             --threads ${THREADS} \
+             --workers ${WORKERS} \
+             --timeout ${TIMEOUT} \
+             --reload \
+             --statsd-host=${STATSD_HOST}:${STATSD_PORT} \
+             --statsd-prefix=${STATSD_SERVICE_TYPE} \
+             --config 'python:swh.core.api.gunicorn_config' \
+             'swh.objstorage.api.server:make_app_from_configfile()'
       ;;
 esac
