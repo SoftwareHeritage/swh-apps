@@ -1,1 +1,2 @@
 swh.objstorage
+python-json-logger
