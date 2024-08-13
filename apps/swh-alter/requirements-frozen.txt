@@ -72,7 +72,7 @@ swh.alter==1.2.0
 swh.core==3.4.0
 swh.counters==0.11.0
 swh.dataset==1.6.0
-swh.graph==5.0.0
+swh.graph==5.1.0
 swh.indexer==3.4.0
 swh.journal==1.5.2
 swh.model==6.14.0
