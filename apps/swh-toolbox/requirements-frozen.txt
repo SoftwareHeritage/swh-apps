@@ -120,7 +120,7 @@ svix==1.29.0
 swh.auth==0.9.1
 swh.core==3.4.0
 swh.counters==0.11.0
-swh.indexer==3.3.0
+swh.indexer==3.4.0
 swh.journal==1.5.2
 swh.lister==6.7.0
 swh.loader.bzr==1.4.2
