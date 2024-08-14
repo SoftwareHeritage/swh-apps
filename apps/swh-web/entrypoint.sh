@@ -10,7 +10,7 @@ case "$1" in
         else
             "$@"
         fi
-    ;;
+        ;;
     "refresh")
         echo "Start periodic save code now refresh statuses routine (in background)"
         exec sh -c 'date && django-admin refresh_savecodenow_statuses \
@@ -22,18 +22,18 @@ case "$1" in
         date
         exec sh -c "django-admin sync_mailmaps --perform '$@'"
         ;;
-     *)
+    *)
         echo "Starting the swh-web server"
         # run gunicorn workers as in production otherwise
         exec gunicorn --bind 0.0.0.0:${PORT} \
-            --log-level ${SWH_LOG_LEVEL:-INFO} \
-            --threads ${THREADS} \
-            --workers ${WORKERS} \
-            --timeout ${TIMEOUT} \
-            --statsd-host=${STATSD_HOST}:${STATSD_PORT} \
-            --statsd-prefix=${STATSD_SERVICE_TYPE} \
-            --access-logfile '-' \
-            --env DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE} \
-            --config 'python:swh.web.gunicorn_config' \
-            'django.core.wsgi:get_wsgi_application()'
+             --log-level ${SWH_LOG_LEVEL:-INFO} \
+             --threads ${THREADS} \
+             --workers ${WORKERS} \
+             --timeout ${TIMEOUT} \
+             --statsd-host=${STATSD_HOST}:${STATSD_PORT} \
+             --statsd-prefix=${STATSD_SERVICE_TYPE} \
+             --access-logfile '-' \
+             --env DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE} \
+             --config 'python:swh.web.gunicorn_config' \
+             'django.core.wsgi:get_wsgi_application()'
 esac
