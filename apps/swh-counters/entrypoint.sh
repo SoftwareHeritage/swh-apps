@@ -19,13 +19,13 @@ case "$1" in
     *)
         echo Starting the swh-search API server
         exec gunicorn --bind 0.0.0.0:${PORT} \
-            --log-level ${SWH_LOG_LEVEL:-INFO} \
-            --threads ${THREADS} \
-            --workers ${WORKERS} \
-            --timeout ${TIMEOUT} \
-            --statsd-host=${STATSD_HOST}:${STATSD_PORT} \
-            --statsd-prefix=${STATSD_SERVICE_TYPE} \
-            --reload \
-            --config 'python:swh.core.api.gunicorn_config' \
-            'swh.counters.api.server:make_app_from_configfile()'
+             --log-level ${SWH_LOG_LEVEL:-INFO} \
+             --threads ${THREADS} \
+             --workers ${WORKERS} \
+             --timeout ${TIMEOUT} \
+             --statsd-host=${STATSD_HOST}:${STATSD_PORT} \
+             --statsd-prefix=${STATSD_SERVICE_TYPE} \
+             --reload \
+             --config 'python:swh.core.api.gunicorn_config' \
+             'swh.counters.api.server:make_app_from_configfile()'
 esac
