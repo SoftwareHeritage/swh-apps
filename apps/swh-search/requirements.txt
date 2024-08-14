@@ -1,1 +1,2 @@
 swh.search
+python-json-logger
