@@ -16,9 +16,14 @@ case "$1" in
         exec swh storage create-object-reference-partitions "$(date +%Y-%m-%d)" "$(date -d '+1 month' +%Y-%m-%d)"
         ;;
     *)
+        EXTRA_CLI_FLAGS=""
+        if [ ! -z "${SWH_LOG_CONFIG_JSON}" ]; then
+            EXTRA_CLI_FLAGS="--log-config-json ${SWH_LOG_CONFIG_JSON}"
+        fi
         echo Starting the swh-storage API server
         exec gunicorn --bind 0.0.0.0:${PORT} \
              --log-level ${SWH_LOG_LEVEL:-INFO} \
+             $EXTRA_CLI_FLAGS \
              --threads ${THREADS} \
              --workers ${WORKERS} \
              --timeout ${TIMEOUT} \
