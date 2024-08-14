@@ -1,2 +1,3 @@
 swh.storage
 swh.objstorage[azure,libcloud]
+python-json-logger
