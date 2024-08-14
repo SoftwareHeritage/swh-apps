@@ -1,1 +1,2 @@
 swh.counters
+python-json-logger
