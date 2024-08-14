@@ -36,12 +36,13 @@ packaging==24.1
 psycopg2==2.9.9
 pycparser==2.22
 python-dateutil==2.9.0.post0
+python-json-logger==2.0.7
 python-magic==0.4.27
 python-mimeparse==1.6.0
 PyYAML==6.0.2
 redis==5.0.8
 requests==2.32.3
-sentry-sdk==2.12.0
+sentry-sdk==2.13.0
 six==1.16.0
 sortedcontainers==2.4.0
 swh.core==3.4.0
