@@ -16,15 +16,15 @@ case "$1" in
         exec swh storage create-object-reference-partitions "$(date +%Y-%m-%d)" "$(date -d '+1 month' +%Y-%m-%d)"
         ;;
     *)
-      echo Starting the swh-storage API server
-      exec gunicorn --bind 0.0.0.0:${PORT} \
-           --log-level ${SWH_LOG_LEVEL:-INFO} \
-           --threads ${THREADS} \
-           --workers ${WORKERS} \
-           --timeout ${TIMEOUT} \
-           --statsd-host=${STATSD_HOST}:${STATSD_PORT} \
-           --statsd-prefix=${STATSD_SERVICE_TYPE} \
-           --config 'python:swh.core.api.gunicorn_config' \
-           'swh.storage.api.server:make_app_from_configfile()'
-      ;;
+        echo Starting the swh-storage API server
+        exec gunicorn --bind 0.0.0.0:${PORT} \
+             --log-level ${SWH_LOG_LEVEL:-INFO} \
+             --threads ${THREADS} \
+             --workers ${WORKERS} \
+             --timeout ${TIMEOUT} \
+             --statsd-host=${STATSD_HOST}:${STATSD_PORT} \
+             --statsd-prefix=${STATSD_SERVICE_TYPE} \
+             --config 'python:swh.core.api.gunicorn_config' \
+             'swh.storage.api.server:make_app_from_configfile()'
+        ;;
 esac
