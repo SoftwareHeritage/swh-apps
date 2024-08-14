@@ -1,2 +1,3 @@
 swh.deposit[server]
 django-storages[azure]
+python-json-logger
