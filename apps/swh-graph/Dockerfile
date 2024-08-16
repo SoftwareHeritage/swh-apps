@@ -1,13 +1,14 @@
 # Deeply inspired from the Dockerfile of the swh-graphql project
-FROM python:3.11-bookworm
+FROM rust:1.80-bookworm
 ARG UID=1000
 ARG GID=1000
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get install -y libcmph-dev librdkafka-dev \
+    apt-get install -y python3 python3-pip \
+      libcmph-dev librdkafka-dev \
       build-essential libclang-dev \
-      zstd protobuf-compiler && \
+      zstd protobuf-compiler default-jre && \
     apt clean && \
     addgroup --gid $UID swh && \
     useradd --gid $GID --uid $UID -m -d /opt/swh swh && \
@@ -21,25 +22,13 @@ COPY --chown=swh:swh requirements-frozen.txt /opt/swh
 ENV PYTHONPATH=/opt/swh
 ENV PATH=/opt/swh/.local/bin:$PATH
 
-RUN /usr/local/bin/python -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements-frozen.txt
-
-# Install rustup and the default rust toolchain
-
-ENV CARGO_HOME="/opt/swh/.cargo"
-ENV RUSTUP_HOME="/opt/swh/.rustup"
-
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup-init.sh && \
-  chmod +x /tmp/rustup-init.sh && \
-  /tmp/rustup-init.sh -y && \
-  rm /tmp/rustup-init.sh
-
-ENV PATH="${CARGO_HOME}/bin:${PATH}"
+RUN /usr/bin/python3 -m pip install --upgrade pip --break-system-packages && \
+    pip install --no-cache-dir -r requirements-frozen.txt --break-system-packages
 
 # Install
 
 RUN RUSTFLAGS="-C target-cpu=native" \
-  cargo install --git https://gitlab.softwareheritage.org/swh/devel/swh-graph.git \
+  cargo install \
     --features grpc-server \
     swh-graph
 
