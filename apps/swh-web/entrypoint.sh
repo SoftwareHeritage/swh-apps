@@ -17,10 +17,19 @@ case "$1" in
                       --settings=${DJANGO_SETTINGS_MODULE} 2>&1'
         ;;
     "sync-mailmaps")
+        echo Deprecated use django-admin instead
         shift
         echo "django-admin sync-mailmaps routine"
         date
         exec sh -c "django-admin sync_mailmaps --perform '$@'"
+        ;;
+    "django-admin")
+        shift
+        COMMAND=$1
+        shift
+        echo "django-admin ${COMMAND} routine"
+        date
+        exec sh -c "django-admin ${COMMAND} --perform '$@'"
         ;;
     *)
         EXTRA_CLI_FLAGS=""
