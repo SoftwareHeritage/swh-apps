@@ -1,9 +1,11 @@
 # Deeply inspired from the Dockerfile of the swh-storage project
 FROM python:3.10-bullseye
 
+# retry command is used by the refresh-history cron job
+# to ensure the rpc service is well up
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get install -y libcmph-dev librdkafka-dev && \
+    apt-get install -y libcmph-dev librdkafka-dev retry && \
     apt clean && \
     addgroup --gid 1000 swh && \
     useradd --gid 1000 --uid 1000 -m -d /opt/swh swh && \
