@@ -29,7 +29,8 @@ case "$1" in
         shift
         echo "django-admin ${COMMAND} routine"
         date
-        exec sh -c "django-admin ${COMMAND} --perform '$@'"
+        set -x
+        exec sh -c "django-admin ${COMMAND} $*"
         ;;
     *)
         EXTRA_CLI_FLAGS=""
