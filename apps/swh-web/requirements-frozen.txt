@@ -47,10 +47,10 @@ gunicorn==23.0.0
 h11==0.14.0
 htmlmin==0.1.12
 httpcore==1.0.5
-httpx==0.27.0
+httpx==0.27.2
 humanize==4.10.0
-hypothesis==6.111.1
-idna==3.7
+hypothesis==6.111.2
+idna==3.8
 importlib_metadata==8.4.0
 iso8601==2.1.0
 isodate==0.6.1
@@ -80,13 +80,13 @@ pycparser==2.22
 Pygments==2.18.0
 PyLD==2.0.4
 pymemcache==4.0.0
-pyparsing==3.1.2
+pyparsing==3.1.4
 python-dateutil==2.9.0.post0
 python-jose==3.3.0
 python-json-logger==2.0.7
 python-keycloak==3.8.4
 python-magic==0.4.27
-python-mimeparse==1.6.0
+python-mimeparse==2.0.0
 PyYAML==6.0.2
 rdflib==7.0.0
 redis==5.0.8
@@ -136,4 +136,4 @@ Werkzeug==3.0.4
 wrapt==1.16.0
 xmltodict==0.13.0
 yarl==1.9.4
-zipp==3.20.0
+zipp==3.20.1
