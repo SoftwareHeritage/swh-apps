@@ -3,7 +3,7 @@ FROM python:3.10-bullseye
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get install -y libcmph-dev librdkafka-dev libsystemd-dev \
-      opam git r-base-dev \
+      opam git libsvn-dev \
       sed && \
     apt clean && \
     addgroup --gid 1000 swh && \
