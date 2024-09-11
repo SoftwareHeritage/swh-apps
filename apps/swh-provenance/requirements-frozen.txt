@@ -6,8 +6,8 @@ async-timeout==4.0.3
 attrs==24.2.0
 attrs-strict==1.0.1
 blinker==1.8.2
-boto3==1.35.15
-botocore==1.35.15
+boto3==1.35.16
+botocore==1.35.16
 cassandra-driver==3.29.2
 certifi==2024.8.30
 cffi==1.17.1
