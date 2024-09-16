@@ -1,1 +1,2 @@
 swh.webhooks
+svix==1.29.0
