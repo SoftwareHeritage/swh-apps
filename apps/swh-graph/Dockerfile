@@ -9,7 +9,7 @@ RUN apt-get -y update && \
 # Install swh-graph feature swh-graph-grpc-serve
 # TODO: Ensure the target-cpu is ok
 RUN RUSTFLAGS="-C target-cpu=native" \
-  cargo install swh-graph-grpc-server
+  cargo install swh-graph swh-graph-grpc-server
 
 FROM python:3.10-bookworm
 
@@ -40,7 +40,7 @@ ENV PATH=/opt/swh/.local/bin:$PATH
 RUN /usr/bin/python3 -m pip install --upgrade pip --break-system-packages && \
     pip install --no-cache-dir -r requirements-frozen.txt --break-system-packages
 
-COPY --from=rust_build /usr/local/cargo/bin/swh-graph-* /usr/local/bin/
+COPY --from=rust_build /usr/local/cargo/bin/swh-graph* /usr/local/bin/
 ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
 ENV PORT 5009
 EXPOSE $PORT
