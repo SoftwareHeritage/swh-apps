@@ -25,6 +25,10 @@ RUN apt-get -y update && \
     useradd --gid $GID --uid $UID -m -d /opt/swh swh && \
     mkdir /etc/swh
 
+RUN mkdir -p /srv/graph /srv/dataset
+RUN chown $UID:$GID /srv/graph /srv/dataset
+VOLUME /srv/graph /srv/dataset
+
 USER swh
 WORKDIR /opt/swh
 
