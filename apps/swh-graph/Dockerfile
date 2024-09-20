@@ -9,9 +9,7 @@ RUN apt-get -y update && \
 # Install swh-graph feature swh-graph-grpc-serve
 # TODO: Ensure the target-cpu is ok
 RUN RUSTFLAGS="-C target-cpu=native" \
-  cargo install \
-    --features grpc-server \
-    swh-graph
+  cargo install swh-graph-grpc-server
 
 FROM python:3.10-bookworm
 
