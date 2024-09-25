@@ -13,6 +13,12 @@ RUN RUSTFLAGS="-C target-cpu=native" \
 
 FROM python:3.10-bookworm
 
+# Add necessary deps for compressed graph
+RUN apt-get -y update && \
+    apt-get -y upgrade && \
+    apt-get install -y zstd && \
+    apt clean
+
 ARG UID=1000
 ARG GID=1000
 
