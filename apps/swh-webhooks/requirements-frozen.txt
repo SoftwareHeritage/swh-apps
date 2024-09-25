@@ -36,7 +36,7 @@ sortedcontainers==2.4.0
 svix==1.29.0
 swh.core==3.5.0
 swh.journal==1.5.2
-swh.model==6.15.0
+swh.model==6.16.0
 swh.webhooks==0.2.0
 tenacity==9.0.0
 types-Deprecated==1.2.9.20240311
