@@ -76,7 +76,7 @@ swh.dataset==1.7.0
 swh.graph==6.0.0
 swh.indexer==3.5.0
 swh.journal==1.5.2
-swh.model==6.15.0
+swh.model==6.16.0
 swh.objstorage==3.3.0
 swh.perfecthash==1.3.2
 swh.search==0.22.0
