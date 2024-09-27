@@ -15,6 +15,9 @@ RUN apt-get -y update && \
 RUN wget -q https://github.com/svix/svix-cli/releases/download/v0.21.1/svix_0.21.1_linux_amd64.deb && \
     dpkg -i svix_0.21.1_linux_amd64.deb
 
+RUN wget -q https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_amd64.deb && \
+    dpkg -i grpcurl_1.9.1_linux_amd64.deb
+
 USER swh
 WORKDIR /opt/swh
 
