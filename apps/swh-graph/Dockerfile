@@ -25,7 +25,7 @@ ARG GID=1000
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get install -y python3-pip \
-      libcmph-dev librdkafka-dev && \
+      libcmph-dev librdkafka-dev zstd && \
     apt clean && \
     addgroup --gid $UID swh && \
     useradd --gid $GID --uid $UID -m -d /opt/swh swh && \
