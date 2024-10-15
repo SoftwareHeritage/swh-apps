@@ -4,25 +4,20 @@ set -e
 
 case "${GRAPH_TYPE}" in
     "rpc")
-        echo Starting the swh-graph rpc server
-        swh \
-            graph \
-            -C ${SWH_CONFIG_FILENAME} \
-            rpc-serve \
-            -g ${GRAPH_PATH} \
-            -h 0.0.0.0 \
-            -p ${PORT}
+        subcmd="rpc-serve -h 0.0.0.0 -p ${PORT}"
+        if [ ! -z "${GRAPH_PATH}" ]; then
+           subcmd+=" -g ${GRAPH_PATH}"
+        fi
         ;;
     "grpc")
-        echo Starting the swh-graph grpc server
-        swh \
-            graph \
-            -C ${SWH_CONFIG_FILENAME} \
-            grpc-serve \
-            -g ${GRAPH_PATH} \
-            -p ${PORT}
+        subcmd="grpc-serve -g ${GRAPH_PATH} -p ${PORT}"
         ;;
     *)
-        echo "Unknown graph type <$GRAPH_TYPE> (can only be one of rpc or gprc)"
+        echo "Unknown graph type <$GRAPH_TYPE> (either rpc or gprc)"
         exit 1
 esac
+
+echo "Starting the swh-graph ${GRAPH_TYPE} server"
+cmd="swh graph -C ${SWH_CONFIG_FILENAME} $subcmd"
+echo $cmd
+$cmd
