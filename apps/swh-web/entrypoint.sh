@@ -35,7 +35,10 @@ case "$1" in
     *)
         EXTRA_CLI_FLAGS=""
         if [ ! -z "${SWH_LOG_CONFIG_JSON}" ]; then
-            EXTRA_CLI_FLAGS="--log-config-json ${SWH_LOG_CONFIG_JSON}"
+            EXTRA_CLI_FLAGS+="--log-config-json ${SWH_LOG_CONFIG_JSON} "
+        fi
+        if [ ! -z "${SWH_DEV_MODE}" ]; then
+            EXTRA_CLI_FLAGS+="--reload "
         fi
         echo "Starting the swh-web server"
         # run gunicorn workers as in production otherwise
