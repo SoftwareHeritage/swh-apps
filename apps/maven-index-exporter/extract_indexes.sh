@@ -6,16 +6,16 @@
 # See top-level LICENSE file for more information
 
 WORKDIR=${1-/work}
-FILE_IN=$WORKDIR/nexus-maven-repository-index.gz
+FILE_IN="$WORKDIR/nexus-maven-repository-index.gz"
 
-localtime=$(date +"%Y-%m-%d %H:%M:%S")
+localtime=$(date +"%F %T %Z%z")
 echo "Docker Script started on $localtime."
 echo "# Checks.."
 
 echo "* Content of /opt:"
 ls -l /opt
 echo "* Content of $WORKDIR:"
-ls -l $WORKDIR
+ls -l "$WORKDIR"
 
 echo "* Will read files from [$FILE_IN]."
 
@@ -50,40 +50,43 @@ echo "* Java version:."
 java -version
 
 echo "#############################"
-if [ -d $WORKDIR/indexes ]; then
+
+if [ -d "$WORKDIR"/indexes ]; then
     echo "Found $WORKDIR/indexes, skipping index generation."
-    du -sh $WORKDIR/indexes/
+    du -sh "$WORKDIR/indexes/"
 else
     echo "Unpacking [$FILE_IN] to $WORKDIR/indexes"
-    java --illegal-access=permit -jar $indexer \
-         --unpack $FILE_IN \
-         --destination $WORKDIR/indexes/ \
-         --type full 2>&1 | grep -v WARNING
+    java --illegal-access=permit -jar "$indexer" \
+        --index "$WORKDIR" \
+        --unpack "$FILE_IN" \
+        --destination "$WORKDIR/indexes/" \
+        --type full 2>&1 | grep -v WARNING
 fi
 
-localtime=$(date +"%Y-%m-%d %H:%M:%S")
+localtime=$(date +"%F %T %Z%z")
 echo "Unpacking finished on $localtime."
 
 echo "#############################"
-EXPORT_DIR=$WORKDIR/export/
-TEMP_FLD=$(find $EXPORT_DIR -name "*.fld")
-TEMP_FLD_LOCK=$(find $EXPORT_DIR -name "*.lock")
+EXPORT_DIR="$WORKDIR/export/"
+[[ -d "$EXPORT_DIR" ]] || mkdir "$EXPORT_DIR"
+TEMP_FLD=$(find "$EXPORT_DIR" -name "*.fld")
+TEMP_FLD_LOCK=$(find "$EXPORT_DIR" -name "*.lock")
 
-if [[ -f $TMP_FLD && -f $TEMP_FLD_LOCK ]]; then
+if [[ -f $TEMP_FLD && -f $TEMP_FLD_LOCK ]]; then
     exit_code=1
     echo "Found exported file $TEMP_FLD. Another process is updating it. Stopping."
     exit $exit_code
-elif [[ -f $TMP_FLD && ! -f $TEMP_FLD_LOCK ]]; then
+elif [[ -f $TEMP_FLD && ! -f $TEMP_FLD_LOCK ]]; then
     echo "Found final exported file $TEMP_FLD, skipping index export."
-    ls -lh $EXPORT_DIR
+    ls -lh "$EXPORT_DIR"
 else
     echo "Exporting indexes $WORKDIR/indexes to $WORKDIR/export"
-    java --illegal-access=permit -jar $clue \
-         $WORKDIR/indexes/ \
-         export $EXPORT_DIR text 2>&1 | grep -v WARNING
+    java --illegal-access=permit -jar "$clue" \
+         "$WORKDIR/indexes/" \
+         export "$EXPORT_DIR" text 2>&1 | grep -v WARNING
 fi
 
-localtime=$(date +"%Y-%m-%d %H:%M:%S")
+localtime=$(date +"%F %T %Z%z")
 echo "Exporting finished on $localtime."
 
 echo "#############################"
@@ -91,7 +94,7 @@ echo "#############################"
 echo "Cleaning useless files."
 
 echo "Size before cleaning:"
-du -sh $WORKDIR/*
+du -sh "$WORKDIR"/*
 
 # We might want or not to delete the indexes
 # Remember that when they're not present, everything
@@ -103,19 +106,21 @@ du -sh $WORKDIR/*
 # the following lines.
 echo "* Removing useless exports."
 echo "  Keeping only fld text extract."
-rm -f $EXPORT_DIR/*.inf
-rm -f $EXPORT_DIR/*.len
-rm -f $EXPORT_DIR/*.pst
-rm -f $EXPORT_DIR/*.si
-rm -f $EXPORT_DIR/segments*
-rm -f $EXPORT_DIR/*.lock
+rm -f "$EXPORT_DIR"/*.inf
+rm -f "$EXPORT_DIR"/*.len
+rm -f "$EXPORT_DIR"/*.pst
+rm -f "$EXPORT_DIR"/*.si
+rm -f "$EXPORT_DIR"/segments*
+rm -f "$EXPORT_DIR"/*.lock
 
 echo "  Size after cleaning:"
-du -sh $WORKDIR/*
+du -sh "$WORKDIR"/*
 
 echo "* Make files modifiable by the end-user."
-chmod -R 777 $EXPORT_DIR
-chmod -R 777 $WORKDIR/indexes/
+chmod -R 777 "$EXPORT_DIR"
+chmod -R 777 "$WORKDIR/indexes/"
 
-localtime=$(date +"%Y-%m-%d %H:%M:%S")
+localtime=$(date +"%F %T %Z%z")
 echo "Docker Script execution finished on $localtime."
+
+exit 0

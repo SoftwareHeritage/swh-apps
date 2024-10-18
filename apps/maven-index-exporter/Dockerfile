@@ -23,7 +23,6 @@ COPY extract_indexes.sh /opt/
 RUN mkdir /work/ && chmod +x /opt/extract_indexes.sh
 WORKDIR /work/
 
-ENV MVN_IDX_EXPORTER_BASE_URL=http://clojars.org/repo/
 ENV MVN_IDX_EXPORTER_WORK_DIR=/work
 ENV MVN_IDX_EXPORTER_PUBLISH_DIR=/publish
 

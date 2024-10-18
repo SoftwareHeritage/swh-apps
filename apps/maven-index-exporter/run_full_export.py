@@ -47,6 +47,8 @@ def _download_indexes(base_url: str, work_dir: str) -> None:
     content = requests.get(properties_url).content.decode()
     open(properties_file, "w").write(content)
 
+    updated = False
+
     diff_re = re.compile("^nexus.index.incremental-[0-9]+=([0-9]+)")
     for line in content.split("\n"):
         diff_group = diff_re.match(line)
@@ -67,6 +69,7 @@ def _download_indexes(base_url: str, work_dir: str) -> None:
                 # Retrieve incremental gz file
                 contentb = requests.get(ind_url).content
                 open(ind_path, "wb").write(contentb)
+                updated = True
 
     # Retrieve main index file.
     ind_path = join(work_dir, MAVEN_INDEX_ARCHIVE)
@@ -82,7 +85,8 @@ def _download_indexes(base_url: str, work_dir: str) -> None:
 
         contentb = requests.get(ind_url).content
         open(ind_path, "wb").write(contentb)
-
+        updated = True
+    return updated
 
 @click.command()
 @click.option(
@@ -103,8 +107,14 @@ def _download_indexes(base_url: str, work_dir: str) -> None:
     help="Absolute path to the final directory.",
     default="/tmp/maven-index-exporter/publish/",
 )
-def main(base_url, work_dir, publish_dir):
+@click.option(
+    "--maven-repo",
+    help="Maven repository name.",
+    default="maven",
+)
+def main(base_url, work_dir, publish_dir, maven_repo):
     now = datetime.datetime.now()
+    work_dir = "/".join((work_dir, maven_repo))
     logger.info("Script: run_full_export")
     logger.info("Timestamp: %s", now.strftime("%Y-%m-%d %H:%M:%S"))
     logger.info("* URL: %s", base_url)
@@ -126,41 +136,42 @@ def main(base_url, work_dir, publish_dir):
 
     # Grab all the indexes
     # Only fetch the new ones, existing files won't be re-downloaded.
-    _download_indexes(base_url, work_dir)
+    updated = _download_indexes(base_url, work_dir)
 
-    try:
-        # Extract indexes into a .fld file to publish
-        # this can raise if something is badly wired or something goes wrong
-        check_call(["/opt/extract_indexes.sh", work_dir])
-    except CalledProcessError as e:
-        logger.error(e)
-        sys.exit(4)
+    if updated:
+        try:
+            # Extract indexes into a .fld file to publish
+            # this can raise if something is badly wired or something goes wrong
+            check_call(["/opt/extract_indexes.sh", work_dir])
+        except CalledProcessError as e:
+            logger.error(e)
+            sys.exit(4)
 
-    logger.info("Export directory has the following files:")
-    export_dir = join(work_dir, "export")
-    makedirs(export_dir, exist_ok=True)
-    chdir(export_dir)
-    fld_file = None
-    regexp_fld = re.compile(r".*\.fld$")
-    for file_ in glob.glob("*.*"):
-        logger.info("  - %s size %s", file_, getsize(file_))
-        if regexp_fld.match(file_):
-            fld_file = file_
+        logger.info("Export directory has the following files:")
+        export_dir = join(work_dir, "export")
+        makedirs(export_dir, exist_ok=True)
+        chdir(export_dir)
+        fld_file = None
+        regexp_fld = re.compile(r".*\.fld$")
+        for file_ in glob.glob("*.*"):
+            logger.info("  - %s size %s", file_, getsize(file_))
+            if regexp_fld.match(file_):
+                fld_file = file_
 
-    # Now copy the results to the desired location: publish_dir.
-    if fld_file and isfile(fld_file):
-        logger.info("Found fld file: %s", fld_file)
-    else:
-        logger.info("Cannot find .fld file. Exiting")
-        sys.exit(4)
+        # Now copy the results to the desired location: publish_dir.
+        if fld_file and isfile(fld_file):
+            logger.info("Found fld file: %s", fld_file)
+        else:
+            logger.info("Cannot find .fld file. Exiting")
+            sys.exit(4)
 
-    makedirs(publish_dir, exist_ok=True)
-    publish_file = join(publish_dir, "export.fld")
-    logger.info("Copying files to %s.", publish_file)
-    try:
-        copy2(fld_file, publish_file)
-    except OSError as error:
-        logger.info("Could not publish results in %s: %s.", publish_dir, error)
+        makedirs(publish_dir, exist_ok=True)
+        publish_file = join(publish_dir, "export-"+maven_repo+".fld")
+        logger.info("Copying files to %s.", publish_file)
+        try:
+            copy2(fld_file, publish_file)
+        except OSError as error:
+            logger.info("Could not publish results in %s: %s.", publish_dir, error)
 
     now = datetime.datetime.now()
     logger.info("Script finished on %s", now.strftime("%Y-%m-%d %H:%M:%S"))
