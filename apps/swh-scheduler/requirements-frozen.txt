@@ -56,7 +56,7 @@ scramp==1.4.5
 sentry-sdk==2.17.0
 six==1.16.0
 sortedcontainers==2.4.0
-swh.core==3.5.0
+swh.core==3.6.0
 swh.counters==0.11.0
 swh.journal==1.5.2
 swh.model==6.16.0
