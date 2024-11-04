@@ -28,7 +28,7 @@ dateparser==1.2.0
 defusedxml==0.7.1
 Deprecated==1.2.14
 distro==1.9.0
-dulwich==0.22.3
+dulwich==0.22.4
 exceptiongroup==1.2.2
 fastbencode==0.3.1
 Flask==3.0.3
@@ -37,7 +37,7 @@ geomet==0.2.1.post1
 gunicorn==23.0.0
 httplib2==0.22.0
 humanize==4.11.0
-hypothesis==6.115.6
+hypothesis==6.116.0
 idna==3.10
 importlib_metadata==8.5.0
 iso8601==2.1.0
@@ -55,7 +55,7 @@ merge3==0.0.15
 msgpack==1.1.0
 multidict==6.1.0
 mypy-extensions==1.0.0
-numpy==2.1.2
+numpy==2.1.3
 oauthlib==3.2.2
 packaging==24.1
 pandas==2.2.3
@@ -80,12 +80,12 @@ regex==2024.9.11
 repomd==0.2.1
 requests==2.32.3
 scramp==1.4.5
-sentry-sdk==2.17.0
+sentry-sdk==2.18.0
 six==1.16.0
 sortedcontainers==2.4.0
 soupsieve==2.6
 subvertpy==0.11.0
-swh.core==3.6.1
+swh.core==3.6.2
 swh.counters==0.11.0
 swh.journal==1.5.2
 swh.lister==6.9.1
@@ -106,7 +106,7 @@ urllib3==2.2.3
 vine==5.1.0
 wadllib==2.0.0
 wcwidth==0.2.13
-Werkzeug==3.0.6
+Werkzeug==3.1.1
 wrapt==1.16.0
-yarl==1.17.0
+yarl==1.17.1
 zipp==3.20.2
