@@ -6,7 +6,7 @@ apache-libcloud==3.8.0
 async-timeout==4.0.3
 attrs==24.2.0
 attrs-strict==1.0.1
-azure-core==1.31.0
+azure-core==1.32.0
 azure-storage-blob==12.23.1
 backports.entry-points-selectable==1.3.0
 blinker==1.8.2
@@ -25,7 +25,7 @@ frozendict==2.4.6
 frozenlist==1.5.0
 geomet==0.2.1.post1
 gunicorn==23.0.0
-hypothesis==6.115.6
+hypothesis==6.116.0
 idna==3.10
 iso8601==2.1.0
 isodate==0.7.2
@@ -51,10 +51,10 @@ PyYAML==6.0.2
 rdflib==7.1.1
 redis==5.2.0
 requests==2.32.3
-sentry-sdk==2.17.0
+sentry-sdk==2.18.0
 six==1.16.0
 sortedcontainers==2.4.0
-swh.core==3.6.1
+swh.core==3.6.2
 swh.counters==0.11.0
 swh.indexer==3.5.0
 swh.journal==1.5.2
@@ -65,7 +65,7 @@ swh.storage==2.8.0
 tenacity==9.0.0
 typing_extensions==4.12.2
 urllib3==2.2.3
-Werkzeug==3.0.6
+Werkzeug==3.1.1
 wrapt==1.16.0
 xmltodict==0.14.2
-yarl==1.17.0
+yarl==1.17.1
