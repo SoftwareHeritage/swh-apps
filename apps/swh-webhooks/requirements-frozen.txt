@@ -13,7 +13,7 @@ fqdn==1.5.1
 h11==0.14.0
 httpcore==1.0.6
 httpx==0.27.2
-hypothesis==6.115.6
+hypothesis==6.116.0
 idna==3.10
 iso8601==2.1.0
 isoduration==20.11.0
@@ -28,13 +28,13 @@ referencing==0.35.1
 requests==2.32.3
 rfc3339-validator==0.1.4
 rfc3987==1.3.8
-rpds-py==0.20.0
-sentry-sdk==2.17.0
+rpds-py==0.20.1
+sentry-sdk==2.18.0
 six==1.16.0
 sniffio==1.3.1
 sortedcontainers==2.4.0
 svix==1.35.0
-swh.core==3.6.1
+swh.core==3.6.2
 swh.journal==1.5.2
 swh.model==6.16.0
 swh.webhooks==0.3.1
