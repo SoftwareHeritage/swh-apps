@@ -38,10 +38,10 @@ python-mimeparse==2.0.0
 PyYAML==6.0.2
 redis==5.2.0
 requests==2.32.3
-sentry-sdk==2.17.0
+sentry-sdk==2.18.0
 six==1.16.0
 sortedcontainers==2.4.0
-swh.core==3.6.1
+swh.core==3.6.2
 swh.counters==0.11.0
 swh.journal==1.5.2
 swh.model==6.16.0
