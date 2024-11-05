@@ -71,11 +71,25 @@ class AppEnvBuilder(EnvBuilder):
 
         self.context = context
 
+        self.run_bootstrap_deps()
         self.run_pip("install", "--upgrade", "pip", "setuptools", "wheel")
 
-    def run_pip(self, *args, capture_output=False):
-        cmd = [self.context.env_exe, "-m", "pip", *args]
+    def run_bootstrap_deps(self, *args, capture_output=False):
+        """Install the necessary dependencies to run pip/uv."""
+        return self.run_command(
+            [self.context.env_exe, "-m", "pip", "install", "uv"],
+            capture_output=capture_output,
+        )
 
+    def run_pip(self, *args, capture_output=False):
+        """Execute pip command through the uv cli."""
+        return self.run_command(
+            [self.context.env_exe, "-m", "uv", "pip", *args],
+            capture_output=capture_output,
+        )
+
+    def run_command(self, cmd: List[str], capture_output=False):
+        """Actually execute the cmd."""
         return subprocess.run(cmd, capture_output=capture_output, check=True)
 
 
