@@ -135,9 +135,7 @@ def from_tag_to_version(version: str) -> str:
     return version.lstrip("v")
 
 
-def list_impacted_apps(
-    apps_dir: Path, application: str, version: str
-) -> Iterator[str]:
+def list_impacted_apps(apps_dir: Path, application: str, version: str) -> Iterator[str]:
     """List all apps whose constraint does not match `application==version.`.
 
     Expectedly, only applications who have `application` in their
@@ -224,19 +222,19 @@ def compute_yaml(updated_information: Dict[str, Dict[str, str]]) -> Dict[str, st
     return yaml_dict
 
 
-def application_tags(repo: Repo, application: Optional[str] = None) -> List[Tuple[str, str, str]]:
+def application_tags(
+    repo: Repo, application: Optional[str] = None
+) -> List[Tuple[str, str, str]]:
     """Returns list of tuple application (tag, date, increment) (from most recent to
     oldest)."""
     import re
 
     if application:
         pattern = re.compile(
-            fr"refs/tags/{re.escape(application)}-(?P<date>[0-9]+)\.(?P<inc>[0-9]+)"
+            rf"refs/tags/{re.escape(application)}-(?P<date>[0-9]+)\.(?P<inc>[0-9]+)"
         )
     else:
-        pattern = re.compile(
-            fr"refs/tags/.*-(?P<date>[0-9]+)\.(?P<inc>[0-9]+)"
-        )
+        pattern = re.compile(rf"refs/tags/.*-(?P<date>[0-9]+)\.(?P<inc>[0-9]+)")
 
     tags = []
     for current_ref in repo.get_refs():
@@ -259,7 +257,8 @@ def tag(ctx):
 
     """
     from dulwich.repo import Repo
-    repo_dirpath = ctx.obj["apps_dir"] / '..'
+
+    repo_dirpath = ctx.obj["apps_dir"] / ".."
 
     ctx.obj["repo"] = Repo(repo_dirpath)
 
@@ -326,18 +325,20 @@ def yaml_read(filepath: Path) -> Dict:
 
 def yaml_write(filepath: Path, data: Dict) -> None:
     """Read yaml file and returns its data as a Dict."""
-    with open(filepath, 'w') as f:
+    with open(filepath, "w") as f:
         f.write(yaml.dump(data))
 
 
 @app.command("update-versions")
 @click.option(
-    "-a", "--applications-filepath",
+    "-a",
+    "--applications-filepath",
     required=True,
     help="Path to the values.yaml file holding the current deployed image versions",
 )
 @click.option(
-    "-c", "--chart-filepath",
+    "-c",
+    "--chart-filepath",
     required=True,
     help="Path to the swh-charts:/swh/Charts.yaml",
 )
@@ -351,12 +352,13 @@ def update_values(ctx, applications_filepath: str, chart_filepath) -> None:
     """
 
     from dulwich.repo import Repo
-    apps_repository_path = ctx.obj["apps_dir"] / '..'
+
+    apps_repository_path = ctx.obj["apps_dir"] / ".."
     apps_repository = Repo(apps_repository_path)
 
     # Read chart application
     chart_information = yaml_read(chart_filepath)
-    app_version = int(chart_information['appVersion'])
+    app_version = int(chart_information["appVersion"])
 
     # Read application currently deployed
     applications_information = compute_information(yaml_read(applications_filepath))
@@ -394,9 +396,7 @@ def update_values(ctx, applications_filepath: str, chart_filepath) -> None:
             # FIXME: Fix the values.yaml to normalize the misnamed application. Lots of
             # charts to change immediately, so let's bypass them for now to focus on
             # wiring the automation first.
-            print(
-                f"Missing or inconsistent information for <{image_name}>"
-            )
+            print(f"Missing or inconsistent information for <{image_name}>")
             continue
 
         if image_version != current_info["version"]:
@@ -410,13 +410,14 @@ def update_values(ctx, applications_filepath: str, chart_filepath) -> None:
         updated_information[image_name] = info
 
     # Flush chart update
-    chart_information['appVersion'] = app_version + 1
+    chart_information["appVersion"] = app_version + 1
     yaml_write(chart_filepath, chart_information)
 
     # Flush new application information
-    yaml_write(applications_filepath, compute_yaml({
-        **applications_information, **updated_information
-    }))
+    yaml_write(
+        applications_filepath,
+        compute_yaml({**applications_information, **updated_information}),
+    )
 
 
 if __name__ == "__main__":
