@@ -115,11 +115,8 @@ def generate_requirements_frozen(app: str, absolute_apps_dirpath: Path) -> None:
     with tempfile.TemporaryDirectory(prefix=app) as envdir:
         builder = AppEnvBuilder.bootstrap_venv(envdir)
 
-        builder.run_pip("install", "-r", str(src_req_file))
-        freeze_output = builder.run_pip("freeze", capture_output=True)
-
         with tempfile.NamedTemporaryFile(mode="wb", dir=app_dir, delete=False) as f:
-            f.write(freeze_output.stdout)
+            builder.run_pip("compile", str(src_req_file), "-o", f.name)
             p = Path(f.name)
             p.chmod(0o644)
             p.rename(dst_req_file)
