@@ -75,7 +75,7 @@ swh.core==3.6.2
 swh.counters==0.11.0
 swh.dataset==1.7.0
 swh.graph==6.1.0
-swh.indexer==3.5.0
+swh.indexer==3.6.0
 swh.journal==1.5.2
 swh.model==6.16.0
 swh.objstorage==3.3.0
@@ -92,7 +92,7 @@ types-requests==2.31.0.6
 types-urllib3==1.26.25.14
 typing_extensions==4.12.2
 urllib3==1.26.20
-Werkzeug==3.1.1
+Werkzeug==3.1.2
 wrapt==1.16.0
 xmltodict==0.14.2
 yarl==1.17.1
