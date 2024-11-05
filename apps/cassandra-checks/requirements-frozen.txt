@@ -51,6 +51,6 @@ swh.storage==2.8.0
 tenacity==9.0.0
 typing_extensions==4.12.2
 urllib3==2.2.3
-Werkzeug==3.1.1
+Werkzeug==3.1.2
 wrapt==1.16.0
 yarl==1.17.1
