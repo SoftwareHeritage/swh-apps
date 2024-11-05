@@ -56,7 +56,7 @@ six==1.16.0
 sortedcontainers==2.4.0
 swh.core==3.6.2
 swh.counters==0.11.0
-swh.indexer==3.5.0
+swh.indexer==3.6.0
 swh.journal==1.5.2
 swh.model==6.16.0
 swh.objstorage==3.3.0
@@ -65,7 +65,7 @@ swh.storage==2.8.0
 tenacity==9.0.0
 typing_extensions==4.12.2
 urllib3==2.2.3
-Werkzeug==3.1.1
+Werkzeug==3.1.2
 wrapt==1.16.0
 xmltodict==0.14.2
 yarl==1.17.1
