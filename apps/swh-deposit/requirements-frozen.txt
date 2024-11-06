@@ -79,7 +79,7 @@ six==1.16.0
 sortedcontainers==2.4.0
 sqlparse==0.5.1
 swh.auth==0.9.1
-swh.core==3.6.2
+swh.core==3.6.3
 swh.counters==0.11.0
 swh.deposit==2.2.4
 swh.journal==1.5.2
