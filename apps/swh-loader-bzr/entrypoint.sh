@@ -2,6 +2,11 @@
 
 set -e
 
+# If a pod is killed by the OOM killer, the ephemeral volumes
+# are not recreated so it can remain the previous work dir content.
+echo "Cleaning /tmp..."
+rm -rf /tmp/*
+
 case "$1" in
   "shell")
     shift
