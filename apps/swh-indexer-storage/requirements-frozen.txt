@@ -53,7 +53,7 @@ six==1.16.0
 sortedcontainers==2.4.0
 swh.core==3.6.3
 swh.counters==0.11.0
-swh.indexer==3.6.0
+swh.indexer==3.6.1
 swh.journal==1.5.3
 swh.model==6.16.0
 swh.objstorage==3.3.0
