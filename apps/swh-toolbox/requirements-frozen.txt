@@ -131,7 +131,7 @@ swh.loader.core==5.18.3
 swh.loader.cvs==0.8.3
 swh.loader.git==2.12.0
 swh.loader.mercurial==3.6.0
-swh.loader.svn==2.2.1
+swh.loader.svn==2.2.2
 swh.model==6.16.0
 swh.objstorage==3.3.0
 swh.perfecthash==1.3.2
