@@ -1,5 +1,5 @@
 aiohappyeyeballs==2.4.3
-aiohttp==3.11.7
+aiohttp==3.11.8
 aiohttp-utils==3.2.1
 aiosignal==1.3.1
 async-timeout==5.0.1
@@ -7,8 +7,8 @@ attrs==24.2.0
 attrs-strict==1.0.1
 backports.entry-points-selectable==1.3.0
 blinker==1.9.0
-boto3==1.35.70
-botocore==1.35.70
+boto3==1.35.71
+botocore==1.35.71
 cassandra-driver==3.29.2
 certifi==2024.8.30
 cffi==1.17.1
@@ -23,7 +23,7 @@ geomet==0.2.1.post1
 grpcio==1.68.0
 grpcio-tools==1.62.3
 gunicorn==23.0.0
-hypothesis==6.119.4
+hypothesis==6.121.2
 idna==3.10
 iso8601==2.1.0
 itsdangerous==2.2.0
@@ -57,7 +57,7 @@ sortedcontainers==2.4.0
 swh.core==3.6.3
 swh.counters==0.11.0
 swh.dataset==1.7.1
-swh.graph==6.1.0
+swh.graph==6.2.0
 swh.journal==1.5.3
 swh.model==6.16.0
 swh.objstorage==3.3.0
