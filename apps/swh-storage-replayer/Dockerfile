@@ -3,7 +3,7 @@ FROM python:3.10-bullseye
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get install -y libcmph-dev librdkafka-dev strace gdb && \
+    apt-get install -y libcmph-dev librdkafka-dev && \
     apt clean && \
     addgroup --gid 1000 swh && \
     useradd --gid 1000 --uid 1000 -m -d /opt/swh swh && \
@@ -19,7 +19,7 @@ ENV PATH=/opt/swh/.local/bin:$PATH
 
 RUN /usr/local/bin/python -m pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements-frozen.txt && \
-    pip install memray py-spy
+    pip install gunicorn
 
 COPY --chown=swh:swh entrypoint.sh /opt/swh
 RUN chmod u+x /opt/swh/entrypoint.sh
