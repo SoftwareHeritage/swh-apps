@@ -1,2 +1,2 @@
-swh.objstorage.replayer
+swh.objstorage.replayer @ git+https://gitlab.softwareheritage.org/olasd/swh-objstorage-replayer.git@mr/overhaul-thread-reporting
 swh.objstorage[azure, libcloud]
