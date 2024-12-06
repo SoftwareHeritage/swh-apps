@@ -40,7 +40,7 @@ python-mimeparse==2.0.0
 PyYAML==6.0.2
 redis==5.2.0
 requests==2.32.3
-sentry-sdk==2.19.1
+sentry-sdk==2.19.2
 six==1.17.0
 sortedcontainers==2.4.0
 swh.core==3.6.4
