@@ -10,19 +10,25 @@ if [ ! -e "${SWH_CONFIG_FILENAME}" ]; then
   exit 1
 fi
 
-OPTIONS=""
+OPTIONS=()
 
 if [ "${CHECK_DST}" == "false" ]; then
-  OPTIONS="${OPTIONS} --no-check-dst"
+  OPTIONS+=("--no-check-dst")
 fi
 
 if [ -n "${FETCH_CONCURRENCY}" ]; then
-  OPTIONS="${OPTIONS} --concurrency ${FETCH_CONCURRENCY}"
+  OPTIONS+=("--concurrency" "${FETCH_CONCURRENCY}")
+fi
+
+if [ -n "${STALL_REPORT_FILENAME}" ]; then
+  OPTIONS+=("--stall-report-filename" "${STALL_REPORT_FILENAME}")
 fi
 
 # start the replayer
 echo "Starting the content replayer..."
-CMD="swh ${SWH_EXTRA_CLI_OPTIONS} objstorage replay ${OPTIONS}"
-echo "${CMD}"
+# word split $SWH_EXTRA_CLI_OPTIONS explicitly
+# shellcheck disable=SC2206
+CMD=("swh" $SWH_EXTRA_CLI_OPTIONS "objstorage" "replay" "${OPTIONS[@]}" "$@")
+echo "${CMD[@]}"
 
-exec ${CMD}
+exec "${CMD[@]}"
