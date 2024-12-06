@@ -1,5 +1,5 @@
 aiohappyeyeballs==2.4.4
-aiohttp==3.11.9
+aiohttp==3.11.10
 aiohttp-utils==3.2.1
 aiosignal==1.3.1
 apache-libcloud==3.8.0
@@ -47,7 +47,7 @@ swh.core==3.6.4
 swh.journal==1.5.3
 swh.model==6.16.0
 swh.objstorage==3.3.0
-swh.objstorage.replayer @ git+https://gitlab.softwareheritage.org/olasd/swh-objstorage-replayer.git@99c70d657ff728e9a122485016885f873e78958d
+swh.objstorage.replayer @ git+https://gitlab.softwareheritage.org/olasd/swh-objstorage-replayer.git@4d9b6ebef5ddfc1f287affbd697ec51b1535bbbe
 swh.perfecthash==1.3.2
 tenacity==9.0.0
 typing_extensions==4.12.2
