@@ -24,6 +24,11 @@ if [ -n "${STALL_REPORT_FILENAME}" ]; then
   OPTIONS+=("--stall-report-filename" "${STALL_REPORT_FILENAME}")
 fi
 
+if [ "${SET_KAFKA_GROUP_INSTANCE_ID_TO_HOSTNAME}" = "true" ]; then
+  KAFKA_GROUP_INSTANCE_ID="$(hostname)"
+  export KAFKA_GROUP_INSTANCE_ID
+fi
+
 # start the replayer
 echo "Starting the content replayer..."
 # word split $SWH_EXTRA_CLI_OPTIONS explicitly
