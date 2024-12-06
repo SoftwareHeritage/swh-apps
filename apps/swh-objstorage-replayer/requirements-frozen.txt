@@ -38,7 +38,7 @@ python-dateutil==2.9.0.post0
 python-magic==0.4.27
 python-mimeparse==2.0.0
 PyYAML==6.0.2
-redis==5.2.0
+redis==5.2.1
 requests==2.32.3
 sentry-sdk==2.19.2
 six==1.17.0
