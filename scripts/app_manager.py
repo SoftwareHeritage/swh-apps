@@ -136,11 +136,6 @@ def generate_frozen_requirements(ctx, applications):
         generate_requirements_frozen(app, absolute_apps_dirpath)
 
 
-def from_application_to_module(app_name: str) -> str:
-    """Compute python module name from the application name."""
-    return app_name.replace("-", ".")
-
-
 def from_tag_to_version(version: str) -> str:
     """Compute python module version from a version tag (prefixed with 'v')."""
     return version.lstrip("v")
@@ -155,10 +150,10 @@ def list_impacted_apps(apps_dir: Path, application: str, version: str) -> Iterat
     """
     # Old requirements-frozen.txt have their compound module name dot (.) separated
     # (e.g. swh.web)
-    app_module_with_dot = application
+    app_module_with_dot = application.replace(".", "-")
     # New requirements-frozen.txt have their compound module name dash (-) separated
     # (e.g swh-web)
-    app_module_with_dash = from_application_to_module(application)
+    app_module_with_dash = application.replace("-", ".")
     version = from_tag_to_version(version)
     for req_file in sorted(apps_dir.glob(f"*/{requirements_frozen}")):
         with open(req_file, "r") as f:
