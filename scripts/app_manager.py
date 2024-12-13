@@ -153,15 +153,24 @@ def list_impacted_apps(apps_dir: Path, application: str, version: str) -> Iterat
     requirements-frozen.txt have a chance to be listed.
 
     """
-    app_module = from_application_to_module(application)
+    # Old requirements-frozen.txt have their compound module name dot (.) separated
+    # (e.g. swh.web)
+    app_module_with_dot = application
+    # New requirements-frozen.txt have their compound module name dash (-) separated
+    # (e.g swh-web)
+    app_module_with_dash = from_application_to_module(application)
     version = from_tag_to_version(version)
     for req_file in sorted(apps_dir.glob(f"*/{requirements_frozen}")):
         with open(req_file, "r") as f:
             for line in f:
                 line = line.rstrip()
+                if "#" in line:
+                    # skip commented line
+                    continue
                 if "==" in line:  # we ignore the `@` case for now
                     module, version_ = line.rstrip().split("==")
-                    if module == app_module:
+                    # We check both module convention names for existence
+                    if module in (app_module_with_dot, app_module_with_dash):
                         if version == version_:
                             # Application is already built for the right version, stop
                             break
