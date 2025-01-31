@@ -36,15 +36,15 @@ RUN chown $UID:$GID /srv/graph /srv/dataset
 VOLUME /srv/graph /srv/dataset
 
 USER swh
+RUN /usr/local/bin/python -m venv /opt/swh/venv
 WORKDIR /opt/swh
 
+ENV PYTHONPATH=/opt/swh/venv
+ENV PATH=/opt/swh/venv/bin:$PATH
+
+RUN python -m pip install uv
 COPY --chown=swh:swh requirements-frozen.txt /opt/swh
-
-ENV PYTHONPATH=/opt/swh
-ENV PATH=/opt/swh/.local/bin:$PATH
-
-RUN /usr/bin/python3 -m pip install --upgrade pip --break-system-packages && \
-    pip install --no-cache-dir -r requirements-frozen.txt --break-system-packages
+RUN uv pip sync --no-cache requirements-frozen.txt
 
 COPY --from=rust_build /usr/local/cargo/bin/swh-graph* /usr/local/bin/
 ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
