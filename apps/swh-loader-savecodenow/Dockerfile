@@ -17,22 +17,22 @@ RUN apt-get -y update && \
     mkdir /etc/swh
 
 USER swh
-WORKDIR /opt/swh
+RUN /usr/local/bin/python -m venv /opt/swh/venv
+WORKDIR /opt/swh/venv
 
-COPY --chown=swh:swh requirements-frozen.txt /opt/swh
-COPY --chown=swh:swh entrypoint.sh /opt/swh
+COPY --chown=swh:swh requirements-frozen.txt /opt/swh/venv
+COPY --chown=swh:swh entrypoint.sh /opt/swh/venv
 
-ENV PYTHONPATH=/opt/swh
-ENV PATH=/opt/swh/.local/bin:$PATH
+ENV PYTHONPATH=/opt/swh/venv
+ENV PATH=/opt/swh/venv/bin:$PATH
 
-RUN chmod u+x /opt/swh/entrypoint.sh && \
-    /usr/local/bin/python -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements-frozen.txt && \
-    pip install gunicorn
+RUN chmod u+x /opt/swh/venv/entrypoint.sh && \
+    python -m pip install uv && \
+    uv pip sync --no-cache requirements-frozen.txt
 
 ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
 ENV SWH_WORKER_INSTANCE=loader
 ENV CONCURRENCY=1
 ENV MAX_TASKS_PER_CHILD=5
 
-ENTRYPOINT "/opt/swh/entrypoint.sh"
+ENTRYPOINT [ "/opt/swh/venv/entrypoint.sh" ]
