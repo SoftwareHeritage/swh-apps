@@ -16,6 +16,7 @@ case "$1" in
         # workdir as the ephemeral volumes are not recreated
         echo "Cleaning /tmp..."
         rm -rf /tmp/*
+
         echo Starting the swh Celery worker for ${SWH_WORKER_INSTANCE}
         exec python -m celery \
              --app=swh.scheduler.celery_backend.config.app \
