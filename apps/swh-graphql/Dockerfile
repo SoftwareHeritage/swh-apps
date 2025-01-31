@@ -6,22 +6,22 @@ RUN apt-get -y update && \
     apt-get install -y libcmph-dev librdkafka-dev && \
     apt clean && \
     addgroup --gid 1000 swh && \
-    useradd --gid 1000 --uid 1000 -m -d /opt/graphql swh && \
+    useradd --gid 1000 --uid 1000 -m -d /opt/swh swh && \
     mkdir /etc/swh
 
 USER swh
-WORKDIR /opt/graphql
+RUN /usr/local/bin/python -m venv /opt/swh/venv
+WORKDIR /opt/swh/venv
 
-COPY --chown=swh:swh requirements-frozen.txt /opt/graphql
-COPY --chown=swh:swh entrypoint.sh /opt/graphql
+COPY --chown=swh:swh requirements-frozen.txt /opt/swh/venv
+COPY --chown=swh:swh entrypoint.sh /opt/swh/venv/
 
-ENV PYTHONPATH=/opt/graphql
-ENV PATH=/opt/graphql/.local/bin:$PATH
+ENV PYTHONPATH=/opt/swh/venv
+ENV PATH=/opt/swh/venv/bin:$PATH
 
-RUN chmod u+x /opt/graphql/entrypoint.sh && \
-    /usr/local/bin/python -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements-frozen.txt && \
-    pip install gunicorn
+RUN chmod u+x /opt/swh/venv/entrypoint.sh && \
+    python -m pip install uv && \
+    uv pip sync --no-cache requirements-frozen.txt
 
 ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
 ENV PORT 5013
@@ -30,4 +30,4 @@ ENV THREADS 4
 ENV WORKERS 2
 ENV TIMEOUT 3600
 
-ENTRYPOINT "/opt/graphql/entrypoint.sh"
+ENTRYPOINT ["/opt/swh/venv/entrypoint.sh"]
