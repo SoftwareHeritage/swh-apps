@@ -36,22 +36,23 @@ RUN chown $UID:$GID /srv/graph /srv/dataset
 VOLUME /srv/graph /srv/dataset
 
 USER swh
-WORKDIR /opt/swh
+RUN /usr/local/bin/python -m venv /opt/swh/venv
+WORKDIR /opt/swh/venv
 
-COPY --chown=swh:swh requirements-frozen.txt /opt/swh
+COPY --chown=swh:swh requirements-frozen.txt /opt/swh/venv
 
-ENV PYTHONPATH=/opt/swh
-ENV PATH=/opt/swh/.local/bin:$PATH
+ENV PYTHONPATH=/opt/swh/venv
+ENV PATH=/opt/swh/venv/bin:$PATH
 
-RUN /usr/bin/python3 -m pip install --upgrade pip --break-system-packages && \
-    pip install --no-cache-dir -r requirements-frozen.txt --break-system-packages
+RUN python -m pip install uv && \
+    uv pip sync --no-cache requirements-frozen.txt
 
 COPY --from=rust_build /usr/local/cargo/bin/swh-graph* /usr/local/bin/
 ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
 ENV PORT 5009
 EXPOSE $PORT
 
-COPY --chown=swh:swh entrypoint.sh /opt/swh
-RUN chmod u+x /opt/swh/entrypoint.sh
+COPY --chown=swh:swh entrypoint.sh /opt/swh/venv
+RUN chmod u+x /opt/swh/venv/entrypoint.sh
 
-ENTRYPOINT ["/opt/swh/entrypoint.sh"]
+ENTRYPOINT ["/opt/swh/venv/entrypoint.sh"]
