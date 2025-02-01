@@ -16,15 +16,15 @@ RUN apt-get -y update && \
     mkdir /etc/swh
 
 USER swh
+RUN /usr/local/bin/python -m venv /opt/swh/venv
 WORKDIR /opt/swh
 
+ENV PYTHONPATH=/opt/swh/venv
+ENV PATH=/opt/swh/venv/bin:$PATH
+
+RUN python -m pip install uv
 COPY --chown=swh:swh requirements-frozen.txt /opt/swh
-
-ENV PYTHONPATH=/opt/swh
-ENV PATH=/opt/swh/.local/bin:$PATH
-
-RUN /usr/local/bin/python -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements-frozen.txt
+RUN uv pip sync --no-cache requirements-frozen.txt
 
 COPY --chown=swh:swh entrypoint.sh /opt/swh
 RUN chmod u+x /opt/swh/entrypoint.sh
