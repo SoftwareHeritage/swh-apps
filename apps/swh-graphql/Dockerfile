@@ -18,8 +18,7 @@ ENV PYTHONPATH=/opt/graphql
 ENV PATH=/opt/graphql/.local/bin:$PATH
 
 RUN /usr/local/bin/python -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements-frozen.txt && \
-    pip install gunicorn
+    pip install --no-cache-dir -r requirements-frozen.txt
 
 COPY --chown=swh:swh entrypoint.sh /opt/graphql
 RUN chmod u+x /opt/graphql/entrypoint.sh

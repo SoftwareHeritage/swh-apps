@@ -1,3 +1,4 @@
 swh.vault
 swh.objstorage[azure]
 python-json-logger
+gunicorn

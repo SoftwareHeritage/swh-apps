@@ -1,2 +1,3 @@
 swh.search
 python-json-logger
+gunicorn

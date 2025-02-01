@@ -23,8 +23,7 @@ ENV PATH=/opt/swh/.local/bin:$PATH
 
 RUN chmod u+x /opt/swh/entrypoint.sh && \
     /usr/local/bin/python -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements-frozen.txt && \
-    pip install gunicorn
+    pip install --no-cache-dir -r requirements-frozen.txt
 
 ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
 ENV PORT 5003

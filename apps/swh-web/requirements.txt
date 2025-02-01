@@ -1,2 +1,3 @@
 swh.web
 python-json-logger
+gunicorn

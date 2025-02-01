@@ -1,2 +1,3 @@
 swh.scheduler
 python-json-logger
+gunicorn

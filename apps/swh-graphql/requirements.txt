@@ -7,3 +7,4 @@ starlette
 typing-extensions
 swh-graphql
 python-json-logger
+gunicorn

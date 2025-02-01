@@ -1,2 +1,3 @@
 swh.counters
 python-json-logger
+gunicorn

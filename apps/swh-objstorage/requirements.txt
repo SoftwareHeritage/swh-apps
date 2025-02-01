@@ -1,2 +1,3 @@
 swh.objstorage
 python-json-logger
+gunicorn
