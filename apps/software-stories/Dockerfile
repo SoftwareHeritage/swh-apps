@@ -10,13 +10,13 @@ USER node
 ENV NODE_OPTIONS=--openssl-legacy-provider
 WORKDIR /opt/swh/swh-stories
 
-COPY --chown=node:node entrypoint.sh /opt/swh
-
-RUN chmod u+x /opt/swh/entrypoint.sh && \
-    git clone https://github.com/ScienceStories/swh-stories.git /opt/swh/swh-stories && \
+RUN git clone https://github.com/ScienceStories/swh-stories.git /opt/swh/swh-stories && \
     git checkout 7dcac1ac6edf376afc0a011465094b11c27683c5 && \
     rm package-lock.json && \
     npm install --no-audit && \
     npm run build
 
-ENTRYPOINT "/opt/swh/entrypoint.sh"
+COPY --chown=node:node entrypoint.sh /opt/swh
+RUN chmod u+x /opt/swh/entrypoint.sh
+
+ENTRYPOINT ["/opt/swh/entrypoint.sh"]
