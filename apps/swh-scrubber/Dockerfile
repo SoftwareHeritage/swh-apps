@@ -37,4 +37,4 @@ ENV FIRST_PARTITION=
 # LAST_PARTITION: The last partition id to check (exclusive)
 ENV LAST_PARTITION=
 
-ENTRYPOINT "/opt/swh/entrypoint.sh"
+ENTRYPOINT ["/opt/swh/entrypoint.sh"]
