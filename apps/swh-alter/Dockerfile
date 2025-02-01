@@ -57,4 +57,4 @@ RUN /usr/local/bin/python -m pip install --upgrade pip && \
 COPY --chown=${user}:${user} entrypoint.sh ${workdir}
 RUN chmod u+x ${workdir}/entrypoint.sh
 
-ENTRYPOINT "/opt/swh/entrypoint.sh"
+ENTRYPOINT ["/opt/swh/entrypoint.sh"]
