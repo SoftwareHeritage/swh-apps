@@ -11,8 +11,6 @@ ENV NODE_OPTIONS=--openssl-legacy-provider
 WORKDIR /opt/swh/swh-stories
 
 RUN git clone https://github.com/ScienceStories/swh-stories.git /opt/swh/swh-stories && \
-    git checkout 7dcac1ac6edf376afc0a011465094b11c27683c5 && \
-    rm package-lock.json && \
     npm install --no-audit && \
     npm run build
 
