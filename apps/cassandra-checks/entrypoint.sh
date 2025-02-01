@@ -14,13 +14,16 @@ else
 fi
 
 case "$1" in
-  "shell")
-    shift
-    echo "Running command $@"
-    exec bash -i "$@"
-    ;;
-  *)
-    echo Starting Cassandra objects checker.
-    exec $CLONE_DIR/sysadmin/cassandra_checks/get_journal_check_and_replay.py
-    ;;
+    "shell")
+        shift
+        if (( $# == 0)); then
+            exec bash -i
+        else
+            "$@"
+        fi
+        ;;
+    *)
+        echo Starting Cassandra objects checker.
+        exec $CLONE_DIR/sysadmin/cassandra_checks/get_journal_check_and_replay.py
+        ;;
 esac
