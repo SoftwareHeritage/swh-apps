@@ -17,8 +17,7 @@ ENV PYTHONPATH=/opt/swh
 ENV PATH=/opt/swh/.local/bin:$PATH
 
 RUN /usr/local/bin/python -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements-frozen.txt && \
-    pip install memray py-spy
+    pip install --no-cache-dir -r requirements-frozen.txt
 
 COPY --chown=swh:swh entrypoint.sh /opt/swh
 RUN chmod u+x /opt/swh/entrypoint.sh
