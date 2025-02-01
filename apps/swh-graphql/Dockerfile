@@ -13,15 +13,16 @@ USER swh
 WORKDIR /opt/graphql
 
 COPY --chown=swh:swh requirements-frozen.txt /opt/graphql
-COPY --chown=swh:swh entrypoint.sh /opt/graphql
 
 ENV PYTHONPATH=/opt/graphql
 ENV PATH=/opt/graphql/.local/bin:$PATH
 
-RUN chmod u+x /opt/graphql/entrypoint.sh && \
-    /usr/local/bin/python -m pip install --upgrade pip && \
+RUN /usr/local/bin/python -m pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements-frozen.txt && \
     pip install gunicorn
+
+COPY --chown=swh:swh entrypoint.sh /opt/graphql
+RUN chmod u+x /opt/graphql/entrypoint.sh
 
 ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
 ENV PORT 5013
@@ -30,4 +31,4 @@ ENV THREADS 4
 ENV WORKERS 2
 ENV TIMEOUT 3600
 
-ENTRYPOINT "/opt/graphql/entrypoint.sh"
+ENTRYPOINT ["/opt/graphql/entrypoint.sh"]
