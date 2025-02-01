@@ -28,4 +28,4 @@ ENV STATSD_PORT=9125
 ENV STATSD_HOST=prometheus-statsd-exporter
 ENV SWH_EXTRA_CLI_OPTIONS=""
 
-ENTRYPOINT "/opt/swh/entrypoint.sh"
+ENTRYPOINT ["/opt/swh/entrypoint.sh"]
