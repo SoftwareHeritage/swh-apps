@@ -28,4 +28,4 @@ ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
 ENV STATSD_PORT=9125
 ENV STATSD_HOST=prometheus-statsd-exporter
 
-ENTRYPOINT "/opt/swh/entrypoint.sh"
+ENTRYPOINT ["/opt/swh/entrypoint.sh"]
