@@ -4,8 +4,13 @@ set -e
 
 case "$1" in
     "shell")
-      exec bash -i
-      ;;
+        shift
+        if (( $# == 0)); then
+            exec bash -i
+        else
+            "$@"
+        fi
+        ;;
     "swh")
         shift
         echo "Running swh command $@"
