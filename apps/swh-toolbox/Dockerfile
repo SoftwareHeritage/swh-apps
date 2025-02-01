@@ -32,4 +32,4 @@ RUN /usr/local/bin/python -m pip install --upgrade pip && \
 COPY --chown=swh:swh entrypoint.sh /opt/swh
 RUN chmod u+x /opt/swh/entrypoint.sh
 
-ENTRYPOINT "/opt/swh/entrypoint.sh"
+ENTRYPOINT ["/opt/swh/entrypoint.sh"]
