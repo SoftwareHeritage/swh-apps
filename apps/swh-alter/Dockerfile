@@ -1,7 +1,11 @@
 FROM python:3.11-bullseye
 
+ARG userid=1000
+ARG groupid=1000
 ARG user=swh
 ARG workdir=/opt/${user}
+ARG venv=${workdir}/venv
+ARG configdir=/etc/${user}
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
@@ -20,13 +24,14 @@ RUN apt-get -y update && \
       strace \
       telnet \
       tmux \
-      vim \
-    && apt clean && \
-    addgroup --gid 1000 ${user} && \
-    useradd --gid 1000 --uid 1000 -m -d ${workdir} ${user} && \
-    mkdir /etc/${user}
+      vim && \
+    apt clean && \
+    addgroup --gid ${userid} swh && \
+    useradd --gid ${groupid} --uid ${userid} -m -d ${workdir} ${user} && \
+    mkdir ${configdir}
 
-USER ${user}
+USER swh
+RUN python -m venv ${venv}
 WORKDIR ${workdir}
 
 ENV CARGO_HOME="${workdir}/.cargo"
@@ -38,7 +43,6 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup-ini
   rm /tmp/rustup-init.sh
 
 ENV PATH="${CARGO_HOME}/bin:${PATH}"
-
 # install rage (for swh-alter)
 
 # Use the latest available version so we can detect if rage behavior has changed when
@@ -46,15 +50,14 @@ ENV PATH="${CARGO_HOME}/bin:${PATH}"
 # takedown notice or restoring a bundle… which would not be a nice experience.
 RUN cargo install rage
 
-COPY --chown=${user}:${user} requirements-frozen.txt ${workdir}
+ENV PYTHONPATH=${venv}
+ENV PATH=${venv}/bin:$PATH
 
-ENV PYTHONPATH=${workdir}
-ENV PATH=${workdir}/.local/bin:$PATH
+RUN python -m pip install uv
+COPY --chown=${userid}:${groupid} requirements-frozen.txt ${workdir}
+RUN uv pip sync --no-cache requirements-frozen.txt
 
-RUN /usr/local/bin/python -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements-frozen.txt
-
-COPY --chown=${user}:${user} entrypoint.sh ${workdir}
+COPY --chown=${userid}:${groupid} entrypoint.sh ${workdir}
 RUN chmod u+x ${workdir}/entrypoint.sh
 
 ENTRYPOINT ["/opt/swh/entrypoint.sh"]
