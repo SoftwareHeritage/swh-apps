@@ -1,11 +1,12 @@
-# build-deps container to call scripts/generate-frozen-requirements.txt on an
-# application (e.g. swh-loader-svn, swh-loader-git, ...)
-FROM python:3.10-bullseye
+# build-deps container to call various app_manager's subcommand on an swh application
+# (e.g. generate-frozen-requirements, list-application, ...)
+FROM python:3.11-bookworm
+
 ARG userid=1000
 ARG groupid=1000
-
-RUN addgroup --gid $groupid swh && \
-    useradd --gid $groupid --uid $userid -m -d /opt/swh swh
+ARG user=swh
+ARG workdir=/opt/${user}
+ARG venv=${workdir}/venv
 
 # First install the runtime deps of all swh applications
 RUN apt-get -y update && \
@@ -23,20 +24,24 @@ RUN apt-get -y update && \
       # swh lister's dependency on rpy2 need this
       r-base-dev \
     && \
-    apt clean
+    apt clean && \
+    addgroup --gid ${groupid} ${user} && \
+    useradd --gid ${groupid} --uid ${userid} -m -d ${workdir} ${user}
 
-RUN mkdir -p /opt/scripts/
-COPY app_manager.py /opt/scripts/
-COPY requirements.txt /opt/scripts/
-RUN chmod +x /opt/scripts/app_manager.py
+USER ${user}
+RUN python -m venv ${venv}
+WORKDIR ${workdir}
 
-USER swh
-WORKDIR /opt/swh
+ENV PYTHONPATH=${venv}
+ENV PATH=${venv}/bin:$PATH
 
-RUN pip install -U pip setuptools wheel && \
-    pip install -r /opt/scripts/requirements.txt
+RUN python -m pip install uv
+COPY --chown=${userid}:${groupid} requirements.txt ${workdir}
+RUN uv pip sync --no-cache requirements.txt
 
 # This expects the /src/ to be mounted on swh-apps repository folder at runtime
 ENV SWH_APPS_DIR=/src/apps
 
-ENTRYPOINT [ "/opt/scripts/app_manager.py" ]
+COPY --chown=${userid}:${groupid} app_manager.py ${workdir}
+RUN chmod u+x ${workdir}/app_manager.py
+ENTRYPOINT [ "/opt/swh/app_manager.py" ]
