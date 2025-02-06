@@ -1,13 +1,14 @@
-FROM python:3.11-bookworm
+ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
+ARG base_image=${REGISTRY}swh-base
+ARG base_image_version=latest
 
-ARG userid=1000
-ARG groupid=1000
+FROM ${base_image}:${base_image_version}
+
 ARG user=swh
 ARG workdir=/opt/${user}
-ARG venv=${workdir}/venv
-ARG configdir=/etc/${user}
 
-RUN apt-get -y update && \
+USER root
+RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get install -y \
       curl \
@@ -25,15 +26,13 @@ RUN apt-get -y update && \
       telnet \
       tmux \
       vim && \
-    apt clean && \
-    addgroup --gid ${userid} swh && \
-    useradd --gid ${groupid} --uid ${userid} -m -d ${workdir} ${user} && \
-    mkdir ${configdir}
+    apt-get clean
 
-USER swh
-RUN python -m venv ${venv}
-WORKDIR ${workdir}
+COPY --chmod=0644 requirements-frozen.txt ${workdir}
+RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
+    uv pip sync requirements-frozen.txt
 
+USER ${user}
 ENV CARGO_HOME="${workdir}/.cargo"
 ENV RUSTUP_HOME="${workdir}/.rustup"
 
@@ -48,16 +47,9 @@ ENV PATH="${CARGO_HOME}/bin:${PATH}"
 # Use the latest available version so we can detect if rage behavior has changed when
 # testing swh-alter. Otherwise, this might only be detected when processing a
 # takedown notice or restoring a bundle… which would not be a nice experience.
-RUN cargo install rage
+RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
+  cargo install rage
 
-ENV PYTHONPATH=${venv}
-ENV PATH=${venv}/bin:$PATH
-
-RUN python -m pip install uv
-COPY --chown=${userid}:${groupid} requirements-frozen.txt ${workdir}
-RUN uv pip sync --no-cache requirements-frozen.txt
-
-COPY --chown=${userid}:${groupid} entrypoint.sh ${workdir}
-RUN chmod u+x ${workdir}/entrypoint.sh
+COPY --chmod=0755 entrypoint.sh ${workdir}
 
 ENTRYPOINT ["/opt/swh/entrypoint.sh"]
