@@ -1,36 +1,29 @@
-# Deeply inspired from the Dockerfile of the swh-graphql project
-FROM python:3.11-bookworm
+ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
+ARG base_image=${REGISTRY}swh-base
+ARG base_image_version=latest
 
-# swhstorage user is 1005 on current static server (saam, ...). To avoid permission
-# changes on PB of data, we'll use the same uid/gid pair
-ARG userid=1005
-ARG groupid=1005
-ARG user=swh
-ARG workdir=/opt/${user}
-ARG venv=${workdir}/venv
+FROM ${base_image}:${base_image_version}
+
+ARG install_user=swh
+ARG workdir=/opt/${install_user}
 ARG configdir=/etc/${user}
 
-RUN apt-get -y update && \
-    apt-get -y upgrade && \
-    apt-get install -y libcmph-dev librdkafka-dev && \
-    apt clean && \
-    addgroup --gid ${userid} ${user} && \
-    useradd --gid ${groupid} --uid ${userid} -m -d ${workdir} ${user} && \
-    mkdir ${configdir}
+ARG run_userid=1005
+ARG run_groupid=1005
+ARG run_user=swhstorage
+ARG home_user=/opt/${run_user}
 
-USER ${user}
-RUN python -m venv ${venv}
-WORKDIR ${workdir}
+USER root
+COPY --chmod=0644 requirements-frozen.txt ${workdir}
+RUN --mount=type=cache,target=.cache,uid=1005,gid=1005 \
+    uv pip sync requirements-frozen.txt
 
-ENV PYTHONPATH=${venv}
-ENV PATH=${venv}/bin:$PATH
+COPY --chmod=0755 entrypoint.sh ${workdir}
 
-RUN python -m pip install uv
-COPY --chown=${userid}:${groupid} requirements-frozen.txt ${workdir}
-RUN uv pip sync --no-cache requirements-frozen.txt
+RUN addgroup --gid ${run_userid} ${run_user} && \
+    useradd --gid ${run_groupid} --uid ${run_userid} -m -d ${home_user} ${run_user}
 
-COPY --chown=${userid}:${groupid} entrypoint.sh ${workdir}
-RUN chmod u+x ${workdir}/entrypoint.sh
+USER ${run_user}
 
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
 ENV PORT 5003
