@@ -1,29 +1,24 @@
-FROM python:3.11-bookworm
+ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
+ARG base_image=${REGISTRY}swh-base
+ARG base_image_version=latest
 
-RUN apt-get -y update && \
-    apt-get -y upgrade && \
-    apt-get install -y libpq-dev git && \
-    apt clean && \
-    addgroup --gid 1000 swh && \
-    useradd --gid 1000 --uid 1000 -m -d /opt/swh swh && \
-    mkdir /etc/swh
+FROM ${base_image}:${base_image_version}
 
+ARG user=swh
+ARG workdir=/opt/${user}
+ARG configdir=/etc/${user}
+
+USER root
 RUN mkdir /volume && chown root: /volume
 
-USER swh
-WORKDIR /opt/swh
+COPY --chmod=0644 requirements-frozen.txt ${workdir}
+RUN --mount=type=cache,target=.cache,uid=1000,gid=1000,uid=1000,gid=1000 \
+    uv pip sync requirements-frozen.txt
 
-COPY --chown=swh:swh requirements-frozen.txt /opt/swh
+COPY --chmod=0755 entrypoint.sh ${workdir}
 
-ENV PYTHONPATH=/opt/swh
-ENV PATH=/opt/swh/.local/bin:$PATH
+USER ${user}
 
-RUN /usr/local/bin/python -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements-frozen.txt
-
-COPY --chown=swh:swh entrypoint.sh /opt/swh
-RUN chmod u+x /opt/swh/entrypoint.sh
-
-ENV SWH_CONFIG_FILENAME=/etc/swh/config.yml
+ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
 
 ENTRYPOINT ["/opt/swh/entrypoint.sh"]
