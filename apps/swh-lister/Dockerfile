@@ -7,19 +7,14 @@ ARG workdir=/opt/${user}
 ARG venv=${workdir}/venv
 ARG configdir=/etc/${user}
 
-RUN apt-get -y update && \
-    apt-get -y upgrade && \
-    apt-get install -y libcmph-dev librdkafka-dev libsystemd-dev \
-      opam git libsvn-dev \
-      sed && \
-    apt clean && \
-    addgroup --gid ${userid} swh && \
-    useradd --gid ${groupid} --uid ${userid} -m -d ${workdir} ${user} && \
-    mkdir ${configdir}
+USER root
+RUN apt-get update && \
+    apt-get install -y libsystemd-dev opam libsvn-dev && \
+    apt-get clean
 
-USER swh
-RUN python -m venv ${venv}
-WORKDIR ${workdir}
+COPY --chmod=0644 requirements-frozen.txt ${workdir}
+RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
+    uv pip sync requirements-frozen.txt
 
 ENV PYTHONPATH=${venv}
 ENV PATH=${venv}/bin:$PATH
