@@ -1,5 +1,5 @@
 # Deeply inspired from the Dockerfile of the swh-graphql project
-FROM python:3.10-bullseye
+FROM python:3.11-bookworm
 
 # swhstorage user is 1005 on current static server (saam, ...). To avoid permission
 # changes on PB of data, we'll use the same uid/gid pair

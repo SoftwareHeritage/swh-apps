@@ -1,4 +1,4 @@
-FROM python:3.10-bullseye
+FROM python:3.11-bookworm
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \

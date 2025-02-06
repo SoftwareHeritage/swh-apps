@@ -3,7 +3,7 @@ ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
 ARG RSVNDUMP=/usr/local/bin/rsvndump
 FROM ${REGISTRY}rsvndump-base:latest AS rsvndump_image
 
-FROM python:3.10-bullseye
+FROM python:3.11-bookworm
 COPY --from=rsvndump_image ${RSVNDUMP} ${RSVNDUMP}
 
 ARG userid=1000

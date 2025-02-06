@@ -1,5 +1,5 @@
 # Deeply inspired from the Dockerfile of the swh-graphql project
-FROM python:3.10-bullseye
+FROM python:3.11-bookworm
 
 ARG userid=1000
 ARG groupid=1000
