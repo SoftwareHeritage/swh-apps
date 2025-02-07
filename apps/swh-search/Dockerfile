@@ -1,35 +1,20 @@
-# Deeply inspired from the Dockerfile of the swh-storage project
-FROM python:3.11-bookworm
+ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
+ARG base_image=${REGISTRY}swh-base
+ARG base_image_version=latest
 
-ARG userid=1000
-ARG groupid=1000
+FROM ${base_image}:${base_image_version}
+
 ARG user=swh
 ARG workdir=/opt/${user}
-ARG venv=${workdir}/venv
 ARG configdir=/etc/${user}
 
-RUN apt-get -y update && \
-    apt-get -y upgrade && \
-    apt-get install -y libcmph-dev librdkafka-dev && \
-    apt clean && \
-    addgroup --gid ${userid} swh && \
-    useradd --gid ${groupid} --uid ${userid} -m -d ${workdir} ${user} && \
-    mkdir ${configdir}
+COPY --chmod=0644 requirements-frozen.txt ${workdir}
+RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
+    uv pip sync requirements-frozen.txt
 
-USER swh
-RUN python -m venv ${venv}
-WORKDIR ${workdir}
+COPY --chmod=0755 entrypoint.sh ${workdir}
 
-ENV PYTHONPATH=${venv}
-ENV PATH=${venv}/bin:$PATH
-
-RUN python -m pip install uv
-COPY --chown=${userid}:${groupid} requirements-frozen.txt ${workdir}
-RUN uv pip sync --no-cache requirements-frozen.txt
-
-COPY --chown=${userid}:${groupid} entrypoint.sh ${workdir}
-RUN chmod u+x ${workdir}/entrypoint.sh
-
+USER ${user}
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
 ENV PORT 5010
 EXPOSE $PORT
