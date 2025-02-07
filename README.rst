@@ -187,3 +187,35 @@ incrementally.
      app-manager update-versions \
        --applications-filepath /tmp/s-charts/values-swh-application-versions.yaml \
        --chart-filepath /tmp/swh-charts/swh/Chart.yaml
+
+Build application image
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Each application is stored in swh-apps:/apps/$application_dir/ folder.
+It usually holds the same set of files:
+- Dockerfile: The set of instructions to build the application's docker image
+- entrypoint.sh: The last Dockerfile instruction refers to this executable to run in the
+    image.
+- requirements.txt: The set of python dependencies the application requires to run.
+- requirements-frozen.txt: The derivative frozen set of dependencies to reproduce the
+    environment in the docker image. It's built by the app-manager out of the
+    requirements.txt file.
+
+Cli call to build the application locally:
+
+.. code::
+
+   $ DOCKER_BUILDKIT=1 docker build -t swh-toolbox:latest apps/swh-toolbox \
+     --build-arg REGISTRY=
+
+Note: The REGISTRY is empty so we only rely to local docker image. You can avoid
+changing it, in which case, it will use the swh's gitlab registry.
+
+Cli call to run the application and be dropped in a shell:
+
+.. code::
+
+   $ docker run -it swh-toolbox:latest shell
+
+Note: This is specific command depending on the entrypoint.sh. In that case, the
+entrypoint.sh allows a shell option to be dropped in an interactive bash session.
