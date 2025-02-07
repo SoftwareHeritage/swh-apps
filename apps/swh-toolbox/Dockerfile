@@ -1,22 +1,18 @@
-FROM python:3.11-bookworm
+ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
+# Depends on loader-savecodenow to inherit its runtime dependencies
+ARG base_image=${REGISTRY}loader-savecodenow
+ARG base_image_version=latest
 
-ARG userid=1000
-ARG groupid=1000
+FROM ${base_image}:${base_image_version}
+
 ARG user=swh
-ARG workdir=/opt/${user}
-ARG venv=${workdir}/venv
-ARG configdir=/etc/${user}
 
-RUN apt-get -y update && \
-    apt-get -y upgrade && \
-    apt-get install -y libcmph-dev librdkafka-dev libsystemd-dev \
-      opam git r-base-dev netcat-openbsd jq dnsutils \
-      sed curl telnet host emacs-nox vim postgresql-client \
-      subversion libsvn-dev && \
-    apt clean && \
-    addgroup --gid ${userid} ${user} && \
-    useradd --gid ${groupid} --uid ${userid} -m -d ${workdir} ${user} && \
-    mkdir ${configdir}
+USER root
+RUN apt-get update && \
+    apt-get install -y \
+      r-base-dev netcat-openbsd jq dnsutils \
+      curl telnet host emacs-nox vim postgresql-client && \
+    apt-get clean
 
 # Install svix cli
 RUN wget -q https://github.com/svix/svix-cli/releases/download/v0.21.1/svix_0.21.1_linux_amd64.deb && \
@@ -25,18 +21,12 @@ RUN wget -q https://github.com/svix/svix-cli/releases/download/v0.21.1/svix_0.21
 RUN wget -q https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_amd64.deb && \
     dpkg -i grpcurl_1.9.1_linux_amd64.deb
 
+COPY --chmod=0644 requirements-frozen.txt ${workdir}
+RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
+    uv pip sync requirements-frozen.txt
+
+COPY --chmod=0755 entrypoint.sh ${workdir}
+
 USER ${user}
-RUN python -m venv ${venv}
-WORKDIR ${workdir}
-
-ENV PYTHONPATH=${venv}
-ENV PATH=${venv}/bin:$PATH
-
-RUN python -m pip install uv
-COPY --chown=${userid}:${groupid} requirements-frozen.txt ${workdir}
-RUN uv pip sync --no-cache requirements-frozen.txt
-
-COPY --chown=${userid}:${groupid} entrypoint.sh ${workdir}
-RUN chmod u+x ${workdir}/entrypoint.sh
 
 ENTRYPOINT ["/opt/swh/entrypoint.sh"]
