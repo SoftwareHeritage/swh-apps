@@ -9,12 +9,10 @@ ARG workdir=/opt/${user}
 ARG configdir=/etc/${user}
 
 COPY --chmod=0644 requirements-frozen.txt ${workdir}
-RUN --mount=type=cache,target=.cache \
+RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
     uv pip sync requirements-frozen.txt
 
 COPY --chmod=0755 entrypoint.sh ${workdir}
-
-USER ${user}
 
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
 ENV PORT 5005
