@@ -9,7 +9,8 @@ ARG configdir=/etc/${user}
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y git sed && \
+    apt-get install -y git sed \
+      gzip lzip zstd cpio && \
     apt-get clean && \
     addgroup --gid ${userid} ${user} && \
     useradd --gid ${groupid} --uid ${userid} -m -d ${workdir} ${user} && \
@@ -22,5 +23,4 @@ WORKDIR ${workdir}
 ENV PYTHONPATH=${venv}
 ENV PATH=${venv}/bin:$PATH
 
-RUN python -m pip install uv
-USER root
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
