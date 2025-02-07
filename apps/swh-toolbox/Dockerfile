@@ -11,7 +11,7 @@ RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get install -y libcmph-dev librdkafka-dev libsystemd-dev \
       opam git r-base-dev netcat-openbsd jq dnsutils \
-      sed curl telnet host emacs-nox vim postgresql-client-13 \
+      sed curl telnet host emacs-nox vim postgresql-client \
       subversion libsvn-dev && \
     apt clean && \
     addgroup --gid ${userid} ${user} && \
