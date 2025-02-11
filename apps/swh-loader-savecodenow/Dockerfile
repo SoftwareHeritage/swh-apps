@@ -1,7 +1,7 @@
 # Deeply inspired from the Dockerfile of the swh-graph project
 ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
 # Depends on loader-package to inherit its runtime dependencies
-ARG base_image=${REGISTRY}loader-package
+ARG base_image=${REGISTRY}loader_package
 ARG base_image_version=latest
 
 FROM ${REGISTRY}rsvndump-base:latest AS rsvndump_image

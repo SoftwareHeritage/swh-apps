@@ -1,6 +1,6 @@
 ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
 # Depends on loader-savecodenow to inherit its runtime dependencies
-ARG base_image=${REGISTRY}loader-savecodenow
+ARG base_image=${REGISTRY}loader_savecodenow
 ARG base_image_version=latest
 
 FROM ${base_image}:${base_image_version}
