@@ -1,6 +1,6 @@
 FROM debian:bookworm-slim
 
-RUN apt-get -y update && \
+RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get install -y gettext-base curl && \
-    apt clean
+    apt-get clean
