@@ -27,15 +27,17 @@ case "$1" in
         if [ -n "${STATSD_SERVICE_TYPE}" ]; then
             EXTRA_CLI_FLAGS+=('--statsd-prefix' "${STATSD_SERVICE_TYPE}")
         fi
+        if [ -n "${SWH_DEV_MODE}" ]; then
+            EXTRA_CLI_FLAGS+=("--reload")
+        fi
 
-        echo 'Starting the swh-deposit API server'
+        echo 'Starting swh deposit API server'
         exec gunicorn --bind "0.0.0.0:${PORT}" \
              --log-level "${SWH_LOG_LEVEL:-INFO}" \
              "${EXTRA_CLI_FLAGS[@]}" \
              --threads "${THREADS}" \
              --workers "${WORKERS}" \
              --timeout "${TIMEOUT}" \
-             --reload \
              --env DJANGO_SETTINGS_MODULE="${DJANGO_SETTINGS_MODULE}" \
              --config 'python:swh.core.api.gunicorn_config' \
              'django.core.wsgi:get_wsgi_application()'
