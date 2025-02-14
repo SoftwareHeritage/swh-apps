@@ -12,3 +12,4 @@ swh.scrubber
 swh.vault
 swh.indexer
 swh.webhooks
+swh.objstorage[azure]
