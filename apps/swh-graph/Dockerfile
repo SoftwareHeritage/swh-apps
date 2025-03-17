@@ -8,7 +8,7 @@ ARG user=swh
 ARG workdir=/opt/${user}
 ARG configdir=/etc/${user}
 
-FROM rust:1.80-bookworm AS rust_build
+FROM rust:1.85-bookworm AS rust_build
 
 # ... build swh-graph rust deps
 RUN apt-get update && \
