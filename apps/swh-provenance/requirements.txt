@@ -1,3 +1,4 @@
 swh.provenance
 python-json-logger
 gunicorn
+awscli
