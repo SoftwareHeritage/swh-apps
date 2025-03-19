@@ -41,8 +41,14 @@ COPY --chmod=0755 entrypoint.sh ${workdir}
 
 USER ${user}
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
+# Default to be a rpc service
 ENV PORT 5014
+ENV PROVENANCE_TYPE "rpc"
+# Possible other value for grpc kind
+# ENV PORT 50141
+# ENV PROVENANCE_TYPE "grpc"
 EXPOSE $PORT
+# For rpc type, this maps directly to gunicorn env variables
 ENV WORKERS 8
 ENV THREADS 2
 ENV TIMEOUT 3600
