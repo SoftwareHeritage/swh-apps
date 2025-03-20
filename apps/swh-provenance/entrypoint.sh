@@ -45,8 +45,8 @@ case "$1" in
                 echo 'Starting the swh-provenance GRPC server'
                 exec swh-provenance-grpc-serve \
                     --graph "${GRAPH_PATH}" \
-                    --database "${PROVENANCE_PATH}" \
-                    --bind ":${PORT}"
+                    --database "file://${PROVENANCE_PATH}" \
+                    --bind ":::${PORT}"
                     "${EXTRA_CLI_FLAGS[@]}" \
                 ;;
 
