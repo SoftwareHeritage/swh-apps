@@ -43,13 +43,11 @@ case "$1" in
               ;;
             "grpc")
                 echo 'Starting the swh-provenance GRPC server'
-                exec swh-provenance-grpc-serve \
-                    --graph "${GRAPH_PATH}" \
+                exec swh-provenance-grpc-serve --bind "0.0.0.0:${PORT}" \
                     --database "file://${PROVENANCE_PATH}" \
-                    --bind ":::${PORT}"
+                    --graph "${GRAPH_PATH}" \
                     "${EXTRA_CLI_FLAGS[@]}" \
                 ;;
-
             *)
                 echo "Unknown provenance type <${PROVENANCE_TYPE}> (either rpc or gprc)"
                 exit 1
