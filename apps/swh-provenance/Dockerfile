@@ -29,15 +29,12 @@ RUN apt-get update && \
     apt-get install -y zstd && \
     apt-get clean
 
-FROM ${base_image}:${base_image_version}
-
 COPY --chmod=0644 requirements-frozen.txt ${workdir}
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
     uv pip sync requirements-frozen.txt
 
 COPY --chmod=0755 entrypoint.sh ${workdir}
 COPY --from=rust_build /usr/local/cargo/bin/swh-provenance* /usr/local/bin/
-COPY --chmod=0755 entrypoint.sh ${workdir}
 
 USER ${user}
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
