@@ -38,9 +38,9 @@ RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
 COPY --chmod=0755 entrypoint.sh ${workdir}
 COPY --from=rust_build /usr/local/cargo/bin/swh-provenance* /usr/local/bin/
 
-RUN mkdir -p /srv/dataset/graph /srv/dataset/provenance
-RUN chown ${userid}:${groupid} /srv/dataset /srv/dataset/graph /srv/dataset/provenance
-VOLUME /srv/dataset/graph /srv/dataset/provenance
+RUN mkdir -p /srv/dataset
+RUN chown ${userid}:${groupid} /srv/dataset
+VOLUME /srv/dataset
 
 USER ${user}
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
