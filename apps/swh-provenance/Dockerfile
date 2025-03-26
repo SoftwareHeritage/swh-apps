@@ -17,9 +17,11 @@ RUN apt-get update && \
       zstd protobuf-compiler default-jre && \
     apt-get clean
 
-# Install swh-graph feature swh-graph-grpc-serve
+# Compile and install swh-graph feature swh-graph-grpc-serve.
+# Note that we compile ^ with the set of cpu instructions supported by most
+# machines in our infrastructure
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
-  RUSTFLAGS="-C target-cpu=native" \
+  RUSTFLAGS="-C target-cpu=x86-64-v4" \
   cargo install swh-provenance --locked
 
 FROM ${base_image}:${base_image_version}
