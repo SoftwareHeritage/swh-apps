@@ -15,7 +15,7 @@ RUN apt-get update && \
 # Note that we compile ^ with the set of cpu instructions supported by most
 # machines in our infrastructure
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
-  RUSTFLAGS="-C target-cpu=x86-64-v4" \
+  RUSTFLAGS="-C target-cpu=x86-64-v3" \
   cargo install swh-provenance --locked
 
 FROM ${base_image}:${base_image_version}
