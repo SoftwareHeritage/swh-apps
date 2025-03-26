@@ -2,12 +2,6 @@ ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
 ARG base_image=${REGISTRY}base
 ARG base_image_version=latest
 
-ARG userid=1000
-ARG groupid=1000
-ARG user=swh
-ARG workdir=/opt/${user}
-ARG configdir=/etc/${user}
-
 FROM rust:1.85-bookworm AS rust_build
 
 # ... build swh-graph rust deps
@@ -25,6 +19,10 @@ RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
   cargo install swh-provenance --locked
 
 FROM ${base_image}:${base_image_version}
+
+ARG user=swh
+ARG workdir=/opt/${user}
+ARG configdir=/etc/${user}
 
 USER root
 RUN apt-get update && \
