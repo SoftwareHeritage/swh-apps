@@ -16,10 +16,10 @@ COPY --chmod=0755 entrypoint.sh ${workdir}
 
 USER ${user}
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
-ENV PORT 5010
+ENV PORT=5010
 EXPOSE $PORT
-ENV THREADS 2
-ENV WORKERS 2
-ENV TIMEOUT 3600
+ENV THREADS=2
+ENV WORKERS=2
+ENV TIMEOUT=3600
 
 ENTRYPOINT ["/opt/swh/entrypoint.sh"]
