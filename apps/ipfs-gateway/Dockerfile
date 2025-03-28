@@ -40,7 +40,7 @@ WORKDIR /home/ipfs
 
 USER ipfs
 WORKDIR /data/ipfs
-ENV IPFS_PATH /data/ipfs
+ENV IPFS_PATH=/data/ipfs
 
 # | true to ignore the empty directory error:
 # https://github.com/ipfs/kubo/issues/9155
