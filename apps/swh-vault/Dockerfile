@@ -15,10 +15,10 @@ RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
 COPY --chmod=0755 entrypoint.sh ${workdir}
 
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
-ENV PORT 5005
+ENV PORT=5005
 EXPOSE $PORT
-ENV THREADS 4
-ENV WORKERS 2
-ENV TIMEOUT 3600
+ENV THREADS=4
+ENV WORKERS=2
+ENV TIMEOUT=3600
 
 ENTRYPOINT ["/opt/swh/entrypoint.sh"]
