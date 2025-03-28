@@ -16,12 +16,12 @@ COPY --chmod=0755 entrypoint.sh ${workdir}
 
 USER ${user}
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
-ENV PORT 5006
+ENV PORT=5006
 EXPOSE $PORT
-ENV THREADS 2
-ENV WORKERS 2
-ENV TIMEOUT 3600
-ENV DJANGO_SETTINGS_MODULE swh.deposit.settings.production
-ENV SWH_MAIN_PACKAGE swh.deposit
+ENV THREADS=2
+ENV WORKERS=2
+ENV TIMEOUT=3600
+ENV DJANGO_SETTINGS_MODULE=swh.deposit.settings.production
+ENV SWH_MAIN_PACKAGE=swh.deposit
 
 ENTRYPOINT ["/opt/swh/entrypoint.sh"]
