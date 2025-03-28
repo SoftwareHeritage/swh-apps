@@ -26,10 +26,10 @@ RUN addgroup --gid ${run_userid} ${run_user} && \
 USER ${run_user}
 
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
-ENV PORT 5003
+ENV PORT=5003
 EXPOSE $PORT
-ENV THREADS 2
-ENV WORKERS 8
-ENV TIMEOUT 3600
+ENV THREADS=2
+ENV WORKERS=8
+ENV TIMEOUT=3600
 
 ENTRYPOINT ["/opt/swh/entrypoint.sh"]
