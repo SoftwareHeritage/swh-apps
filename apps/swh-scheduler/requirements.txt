@@ -1,3 +1,5 @@
 swh.scheduler
+# Required for the swh.scheduler.journal_client
+swh.journal
 python-json-logger
 gunicorn
