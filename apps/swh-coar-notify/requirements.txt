@@ -1,1 +1,2 @@
-swh.coar-notify
+swh.coarnotify
+gunicorn
