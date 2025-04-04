@@ -1,4 +1,4 @@
-ARG REGISTRY=rcontainer-registry.softwareheritage.org/swh/infra/swh-apps/
+ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
 ARG base_image=${REGISTRY}base
 ARG base_image_version=latest
 
