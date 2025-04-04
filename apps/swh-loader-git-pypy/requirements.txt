@@ -1,0 +1,3 @@
+swh-loader-git
+swh-loader-metadata
+python-json-logger
