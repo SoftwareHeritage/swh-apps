@@ -16,7 +16,7 @@ COPY --chmod=0755 entrypoint.sh ${workdir}
 
 USER ${user}
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
-ENV PORT=5009
+ENV PORT=5015
 EXPOSE $PORT
 ENV THREADS=2
 ENV WORKERS=2
