@@ -21,7 +21,7 @@ case "$1" in
                 ;;
             "luigi")
                 echo "Running luigid scheduler"
-                exec luigid --background \
+                exec luigid \
                      --pidfile "${LUIGI_PATH_TO_PIDFILE}" \
                      --logdir "${LUIGI_PATH_TO_LOGDIR}" \
                      --state-path "${LUIGI_PATH_TO_STATEFILE}"
