@@ -2,6 +2,10 @@
 
 set -e
 
+if [ -n "${SWH_DEBUG_ENTRYPOINT}" ]; then
+    set -x
+fi
+
 case "$1" in
     "shell")
         shift
