@@ -24,7 +24,9 @@ case "$1" in
                 exec luigid \
                      --pidfile "${LUIGI_PATH_TO_PIDFILE}" \
                      --logdir "${LUIGI_PATH_TO_LOGDIR}" \
-                     --state-path "${LUIGI_PATH_TO_STATEFILE}"
+                     --state-path "${LUIGI_PATH_TO_STATEFILE}" \
+                     --port "${PORT}" \
+                     --address "0.0.0.0"
                 ;;
             *)
                 echo Unknown command $@
