@@ -18,10 +18,9 @@ case "$1" in
         ;;
     *)
         case "${APP_NAME}" in
-            "swh")
-                shift
-                echo "Running swh command $@"
-                exec swh "$@"
+            "datasets")
+                echo "Running datasets export: `swh datasets luigi $@`"
+                exec swh datasets luigi "$@"
                 ;;
             "luigi")
                 echo "Running luigid scheduler"
