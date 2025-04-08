@@ -17,6 +17,13 @@ RUN apt-get update && \
     useradd --gid ${groupid} --uid ${userid} -m -d ${workdir} ${user} && \
     mkdir ${configdir}
 
+# Include winery TLS certificates in the system CA bundle
+COPY --chmod=0644 swh-objstorage-winery.crt /usr/local/share/ca-certificates/
+RUN update-ca-certificates
+
+# Make sure that requests uses the system CA bundle instead of the bundle shipped by certifi
+ENV REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+
 USER ${user}
 RUN python -m venv ${venv}
 WORKDIR ${workdir}
