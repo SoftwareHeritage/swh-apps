@@ -1,2 +1,3 @@
 swh.datasets
 luigi
+sqlalchemy
