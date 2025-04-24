@@ -18,7 +18,7 @@ RUN apt-get update && \
     mkdir ${configdir}
 
 # Include winery TLS certificates in the system CA bundle
-COPY --chmod=0644 swh-objstorage-winery.crt /usr/local/share/ca-certificates/
+COPY --chmod=0644 *.crt /usr/local/share/ca-certificates/
 RUN update-ca-certificates
 
 # Make sure that requests uses the system CA bundle instead of the bundle shipped by certifi
