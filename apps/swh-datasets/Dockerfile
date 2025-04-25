@@ -22,6 +22,10 @@ RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
       swh_graph_contributions \
       swh_graph_file_names
 
+# Install the swh-graph required compression binaries
+RUN RUSTFLAGS="-C target-cpu=${TARGET_CPU}" \
+    cargo install --features compression swh-graph
+
 FROM ${base_image}:${base_image_version}
 
 ARG userid=1000
@@ -42,6 +46,7 @@ RUN apt-get update && \
 ARG SRC_BIN=/usr/local/cargo/bin
 COPY --from=rust_build ${SRC_BIN}/aggregate* ${SRC_BIN}/export* \
     ${SRC_BIN}/origin* ${SRC_BIN}/list-files* ${SRC_BIN}/popular* \
+    ${SRC_BIN}/swh-graph* \
      /usr/local/bin/
 
 COPY --chmod=0644 requirements-frozen.txt ${workdir}
