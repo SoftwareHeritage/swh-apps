@@ -24,7 +24,7 @@ RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
 
 # Install the swh-graph required compression binaries
 RUN RUSTFLAGS="-C target-cpu=${TARGET_CPU}" \
-    cargo install --features compression swh-graph
+    cargo install --locked --features compression,orc swh-graph
 
 FROM ${base_image}:${base_image_version}
 
