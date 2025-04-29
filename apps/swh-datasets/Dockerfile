@@ -39,6 +39,12 @@ RUN apt-get update && \
     apt-get install -y zstd && \
     apt-get clean
 
+# To ease debugging
+# FIXME: Remove when this hits staging/production
+RUN apt-get update && \
+    apt-get install emacs-nox tree \
+    apt-get clean
+
 # RUN mkdir -p /srv/graph /srv/dataset
 # RUN chown ${userid}:${groupid} /srv/graph /srv/dataset
 # VOLUME /srv/graph /srv/dataset
