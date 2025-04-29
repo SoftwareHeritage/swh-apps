@@ -42,7 +42,7 @@ RUN apt-get update && \
 # To ease debugging
 # FIXME: Remove when this hits staging/production
 RUN apt-get update && \
-    apt-get install emacs-nox tree && \
+    apt-get install -y emacs-nox tree && \
     apt-get clean
 
 # RUN mkdir -p /srv/graph /srv/dataset
