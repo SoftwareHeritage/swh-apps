@@ -55,18 +55,19 @@ RUN apt-get update && \
 
 ARG SRC_BIN=/usr/local/cargo/bin
 ARG DST_BIN=/usr/local/bin
-# Copy all swh-graph tools
+
+# Copy all swh-graph tools we built (in the rust_build image)
 COPY --from=rust_build ${SRC_BIN}/aggregate* ${SRC_BIN}/export* \
     ${SRC_BIN}/origin* ${SRC_BIN}/list-files* ${SRC_BIN}/popular* \
     ${SRC_BIN}/swh-graph* \
     ${DST_BIN}
 
-COPY --from=graph_build ${SRC_BIN}/swh-graph-* \
-    ${DST_BIN}
-
-# Copy all rust tools too, this is needed for troubleshooting (and patching eventually
-# the graph locally)
+# Copy all rust tools as this may be needed for troubleshooting (and patching eventually
+# the graph in the container)
 COPY --from=rust_build ${SRC_BIN}/* ${DST_BIN}
+
+# Copy all graph tools from the graph image
+COPY --from=graph_build ${DST_BIN}/swh-graph-* ${DST_BIN}
 
 COPY --chmod=0644 requirements-frozen.txt ${workdir}
 COPY --chmod=0755 entrypoint.sh ${workdir}
