@@ -42,6 +42,13 @@ RUN apt-get update && \
     apt-get install -y emacs-nox tree && \
     apt-get clean
 
+# To ease troubleshooting when some graph data is ko and the current graph code does not
+# deal with it properly yet. We'll need to recompile the patched graph version
+RUN apt-get update && \
+    apt-get install -y build-essential libclang-dev \
+      zstd protobuf-compiler && \
+    apt-get clean
+
 # RUN mkdir -p /srv/graph /srv/dataset
 # RUN chown ${userid}:${groupid} /srv/graph /srv/dataset
 # VOLUME /srv/graph /srv/dataset
@@ -65,6 +72,9 @@ COPY --chmod=0644 requirements-frozen.txt ${workdir}
 COPY --chmod=0755 entrypoint.sh ${workdir}
 
 USER ${user}
+# To initialize the rust tooling
+RUN rustup default stable
+
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
     uv pip sync requirements-frozen.txt && uv pip install swh.export
 
