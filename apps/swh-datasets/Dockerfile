@@ -2,6 +2,7 @@ ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
 ARG base_image=${REGISTRY}base
 ARG base_image_version=latest
 
+FROM ${REGISTRY}graph:latest as graph_build
 FROM rust:1.85-bookworm AS rust_build
 
 # Build swh rust deps
@@ -21,10 +22,6 @@ RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
       swh_graph_aggregate \
       swh_graph_contributions \
       swh_graph_file_names
-
-# Install the swh-graph required compression binaries
-RUN RUSTFLAGS="-C target-cpu=${TARGET_CPU}" \
-    cargo install --locked --features compression,orc swh-graph
 
 FROM ${base_image}:${base_image_version}
 
@@ -50,10 +47,19 @@ RUN apt-get update && \
 # VOLUME /srv/graph /srv/dataset
 
 ARG SRC_BIN=/usr/local/cargo/bin
+ARG DST_BIN=/usr/local/bin
+# Copy all swh-graph tools
 COPY --from=rust_build ${SRC_BIN}/aggregate* ${SRC_BIN}/export* \
     ${SRC_BIN}/origin* ${SRC_BIN}/list-files* ${SRC_BIN}/popular* \
     ${SRC_BIN}/swh-graph* \
-     /usr/local/bin/
+    ${DST_BIN}
+
+COPY --from=graph_build ${SRC_BIN}/swh-graph-* \
+    ${DST_BIN}
+
+# Copy all rust tools too, this is needed for troubleshooting (and patching eventually
+# the graph locally)
+COPY --from=rust_build ${SRC_BIN}/* ${DST_BIN}
 
 COPY --chmod=0644 requirements-frozen.txt ${workdir}
 COPY --chmod=0755 entrypoint.sh ${workdir}
