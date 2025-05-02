@@ -11,10 +11,11 @@ RUN apt-get update && \
       zstd protobuf-compiler default-jre && \
     apt-get clean
 
-# Install swh-graph feature swh-graph-grpc-serve
+# Install the full-fledged swh-graph binaries
+# This will be reused by other images (see datasets)
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
   RUSTFLAGS="-C target-cpu=native" \
-  cargo install swh-graph swh-graph-grpc-server
+  cargo install --locked --all-features swh-graph swh-graph-grpc-server
 
 FROM ${base_image}:${base_image_version}
 
