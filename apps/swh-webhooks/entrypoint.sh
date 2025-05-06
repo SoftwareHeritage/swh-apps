@@ -12,7 +12,7 @@ case "$1" in
     "swh")
         shift
         echo "Running swh command $@"
-        exec swh $@
+        exec swh "$@"
         ;;
     *)
         echo "Start swh-webhooks journal-client"

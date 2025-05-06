@@ -14,7 +14,7 @@ case "$1" in
     "swh")
         shift
         echo "Running swh command $@"
-        exec swh $@
+        exec swh "$@"
         ;;
     *)
         EXTRA_CLI_FLAGS=()

@@ -14,7 +14,7 @@ case "$1" in
     "swh")
         shift
         echo "Running swh command $@"
-        exec swh $@
+        exec swh "$@"
         ;;
     "create-object-reference-partitions"|"create-object-references-partitions")
         echo "Running swh storage create-object-reference-partitions $(date +%Y-%m-%d) $(date -d '+1 month' +%Y-%m-%d)"
