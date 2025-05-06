@@ -19,6 +19,7 @@ case "$1" in
     *)
         case "${APP_NAME}" in
             "datasets")
+                shift
                 echo "Running datasets export: `swh datasets luigi $@`"
                 exec swh datasets luigi "$@"
                 ;;
