@@ -32,7 +32,7 @@ case "$1" in
                      --address "0.0.0.0"
                 ;;
             *)
-                echo Unknown command $@
+                echo "Unknown command $@"
                 exit 1
         esac
 esac

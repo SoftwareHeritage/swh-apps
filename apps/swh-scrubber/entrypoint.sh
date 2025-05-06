@@ -15,6 +15,6 @@ case "$1" in
         exec swh "$@"
         ;;
     *)
-        echo Unknown command $@
+        echo "Unknown command $@"
         exit 1
 esac
