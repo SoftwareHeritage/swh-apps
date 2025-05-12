@@ -1,10 +1,17 @@
 ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
 ARG base_image=${REGISTRY}base
 ARG base_image_version=latest
-# Whether to install from the git repository. It can happen we cannot compile swh-graph
-# because some dependencies are not released in crates.io yet. This allows to bypass
-# such installation to directly installs the rust binariies and the python deps from the
-# main development branch.
+
+# Whether to install as usual from the latest release (crates.io & pypi.org) or from
+# swh-graph's git repository (either latest commit, or a specific commit). The context
+# is sometimes swh-graph cannot compile rust binaries due to some unreleased
+# dependencies in crates.io (e.g. webgraph-rs). This build argument allows to bypass
+# such issue by directly specifying either:
+# - tag: the default if not specified
+# - dev: latest default branch's commit
+# - $commit: a specific swh-graph's git commit
+# This will then compiles and installs the rust binaries to the required version. Same
+# goes for the python module's version.
 ARG GRAPH_SOURCE_VERSION=tag
 ARG RUST_VERSION=1.85
 
