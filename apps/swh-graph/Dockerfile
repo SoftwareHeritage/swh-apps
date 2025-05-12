@@ -1,8 +1,16 @@
 ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
 ARG base_image=${REGISTRY}base
 ARG base_image_version=latest
+# Whether to install from the git repository. It can happen we cannot compile swh-graph
+# because some dependencies are not released in crates.io yet. This allows to bypass
+# such installation to directly installs the rust binariies and the python deps from the
+# main development branch.
+ARG GRAPH_SOURCE_VERSION=tag
+ARG RUST_VERSION=1.85
 
-FROM rust:1.85-bookworm AS rust_build
+FROM rust:${RUST_VERSION}-bookworm AS rust_build
+
+ARG GRAPH_SOURCE_VERSION=$GRAPH_SOURCE_VERSION
 
 # ... build swh-graph rust deps
 RUN apt-get update && \
@@ -14,8 +22,22 @@ RUN apt-get update && \
 # Install the full-fledged swh-graph binaries
 # This will be reused by other images (see datasets)
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
-  RUSTFLAGS="-C target-cpu=native" \
-  cargo install --locked --all-features swh-graph swh-graph-grpc-server
+    if [ "${GRAPH_SOURCE_VERSION}" = "tag" ]; then \
+        # Will build out of the latest release in crates.io (the default)
+        RUSTFLAGS="-C target-cpu=native" cargo install --locked \
+            --all-features swh-graph swh-graph-grpc-server; \
+    elif [ "${GRAPH_SOURCE_VERSION}" = "dev" ]; then \
+        # Will build out of the latest commit from the repository
+        RUSTFLAGS="-C target-cpu=native" cargo install --locked \
+            --git https://gitlab.softwareheritage.org/swh/devel/swh-graph.git \
+            --all-features swh-graph swh-graph-grpc-server; \
+    else \
+        # Assumes GRAPH_SOURCE_VERSION is a commit
+        RUSTFLAGS="-C target-cpu=native" cargo install --locked \
+            --git https://gitlab.softwareheritage.org/swh/devel/swh-graph.git \
+            --rev ${GRAPH_SOURCE_VERSION} \
+            --all-features swh-graph swh-graph-grpc-server; \
+    fi
 
 FROM ${base_image}:${base_image_version}
 
