@@ -60,6 +60,20 @@ COPY --chmod=0644 requirements-frozen.txt ${workdir}
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
     uv pip sync requirements-frozen.txt
 
+ARG GRAPH_SOURCE_VERSION=$GRAPH_SOURCE_VERSION
+
+RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
+    if [ "${GRAPH_SOURCE_VERSION}" = "tag" ]; then \
+        # nothing to do (already done by the uv pip sync earlier)
+        echo ; \
+    elif [ "${GRAPH_SOURCE_VERSION}" = "dev" ]; then \
+        # Will install the current associted python module swh-graph's latest master
+        uv pip install git+https://gitlab.softwareheritage.org/swh/devel/swh-graph.git; \
+    else \
+        # Will install the current associted python module swh-graph's commit version
+        uv pip install git+https://gitlab.softwareheritage.org/swh/devel/swh-graph.git@${GRAPH_SOURCE_VERSION}; \
+    fi
+
 COPY --from=rust_build /usr/local/cargo/bin/swh-graph* /usr/local/bin/
 COPY --chmod=0755 entrypoint.sh ${workdir}
 
