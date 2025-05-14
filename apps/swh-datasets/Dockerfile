@@ -2,6 +2,8 @@ ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
 ARG base_image=${REGISTRY}base
 ARG base_image_version=latest
 
+ARG TARGET_CPU=x86-64-v3
+
 FROM ${REGISTRY}graph:latest as graph_build
 FROM rust:1.85-bookworm AS rust_build
 
@@ -13,7 +15,7 @@ RUN apt-get update && \
     apt-get clean
 
 ARG REPO_DATASETS=https://gitlab.softwareheritage.org/swh/devel/swh-datasets.git
-ARG TARGET_CPU=x86-64-v3
+ARG TARGET_CPU=${TARGET_CPU}
 
 # Install swh-datasets rust applications
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \

@@ -2,6 +2,7 @@ ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
 ARG base_image=${REGISTRY}base
 ARG base_image_version=latest
 
+ARG TARGET_CPU=x86-64-v3
 FROM rust:1.85-bookworm AS rust_build
 
 # ... build swh-graph rust deps
@@ -11,11 +12,12 @@ RUN apt-get update && \
       zstd protobuf-compiler default-jre && \
     apt-get clean
 
+ARG TARGET_CPU=${TARGET_CPU}
 # Compile and install swh-graph feature swh-graph-grpc-serve.
 # Note that we compile ^ with the set of cpu instructions supported by most
 # machines in our infrastructure
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
-  RUSTFLAGS="-C target-cpu=x86-64-v3" \
+  RUSTFLAGS="-C target-cpu=${TARGET_CPU}" \
   cargo install swh-provenance --locked
 
 FROM ${base_image}:${base_image_version}

@@ -14,10 +14,12 @@ ARG base_image_version=latest
 # goes for the python module's version.
 ARG GRAPH_SOURCE_VERSION=tag
 ARG RUST_VERSION=1.85
+ARG TARGET_CPU=x86-64-v3
 
 FROM rust:${RUST_VERSION}-bookworm AS rust_build
 
 ARG GRAPH_SOURCE_VERSION=$GRAPH_SOURCE_VERSION
+ARG TARGET_CPU=${TARGET_CPU}
 
 # ... build swh-graph rust deps
 RUN apt-get update && \
@@ -31,16 +33,16 @@ RUN apt-get update && \
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
     if [ "${GRAPH_SOURCE_VERSION}" = "tag" ]; then \
         # Will build out of the latest release in crates.io (the default)
-        RUSTFLAGS="-C target-cpu=native" cargo install --locked \
+        RUSTFLAGS="-C target-cpu=${TARGET_CPU}" cargo install --locked \
             --all-features swh-graph swh-graph-grpc-server; \
     elif [ "${GRAPH_SOURCE_VERSION}" = "dev" ]; then \
         # Will build out of the latest commit from the repository
-        RUSTFLAGS="-C target-cpu=native" cargo install --locked \
+        RUSTFLAGS="-C target-cpu=${TARGET_CPU}" cargo install --locked \
             --git https://gitlab.softwareheritage.org/swh/devel/swh-graph.git \
             --all-features swh-graph swh-graph-grpc-server; \
     else \
         # Assumes GRAPH_SOURCE_VERSION is a commit
-        RUSTFLAGS="-C target-cpu=native" cargo install --locked \
+        RUSTFLAGS="-C target-cpu=${TARGET_CPU}" cargo install --locked \
             --git https://gitlab.softwareheritage.org/swh/devel/swh-graph.git \
             --rev ${GRAPH_SOURCE_VERSION} \
             --all-features swh-graph swh-graph-grpc-server; \
