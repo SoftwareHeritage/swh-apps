@@ -12,28 +12,23 @@ case "$1" in
         if (( $# == 0)); then
             exec bash -i
         else
-            "$@"
+            exec "$@"
         fi
         exit 0
         ;;
+    "swh")
+        # swh commands, i.e. swh export, swh datasets, ...
+        shift
+        exec swh "$@"
+        ;;
     *)
-        case "${APP_NAME}" in
-            "datasets")
-                shift
-                echo "Running datasets export: `swh datasets luigi $@`"
-                exec swh datasets luigi "$@"
-                ;;
-            "luigi")
-                echo "Running luigid scheduler"
-                exec luigid \
-                     --pidfile "${LUIGI_PATH_TO_PIDFILE}" \
-                     --logdir "${LUIGI_PATH_TO_LOGDIR}" \
-                     --state-path "${LUIGI_PATH_TO_STATEFILE}" \
-                     --port "${PORT}" \
-                     --address "0.0.0.0"
-                ;;
-            *)
-                echo "Unknown command $@"
-                exit 1
-        esac
+        # luigi scheduler command
+        echo "Running luigid scheduler"
+        exec luigid \
+             --pidfile "${LUIGI_PATH_TO_PIDFILE}" \
+             --logdir "${LUIGI_PATH_TO_LOGDIR}" \
+             --state-path "${LUIGI_PATH_TO_STATEFILE}" \
+             --port "${PORT}" \
+             --address "0.0.0.0"
+        ;;
 esac
