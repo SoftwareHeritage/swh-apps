@@ -41,7 +41,7 @@ RUN apt-get update && \
 # To ease debugging
 # FIXME: Remove when this hits staging/production
 RUN apt-get update && \
-    apt-get install -y emacs-nox tree && \
+    apt-get install -y emacs-nox tree tmux && \
     apt-get clean
 
 # To ease troubleshooting when some graph data is ko and the current graph code does not
