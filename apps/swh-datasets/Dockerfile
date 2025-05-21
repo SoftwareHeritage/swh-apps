@@ -83,7 +83,7 @@ RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
 
 USER ${user}
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
-ENV APP_NAME=luigi
+
 ARG LUIGI_DIRPATH=/tmp/luigid
 ENV LUIGI_PATH_TO_PIDFILE=${LUIGI_DIRPATH}/pid
 ENV LUIGI_PATH_TO_LOGDIR=${LUIGI_DIRPATH}/log
