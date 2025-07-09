@@ -46,6 +46,7 @@ App-manager
 ~~~~~~~~~~~
 
 It's the cli tools which allows to execute various actions:
+
 - list dependency between swh modules
 - manipulate the generation of frozen requirements for our python applications
 - helm chart dependency version update
@@ -85,8 +86,8 @@ Example:
 Freeze application dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This is in charge of using the existing requirements.txt declared besides the
-application's Dockerfile and generate an updated frozen-requirements.txt. This
+This is in charge of using the existing ``requirements.txt`` declared besides the
+application's Dockerfile and generate an updated ``frozen-requirements.txt``. This
 file is then used within the docker image to build an identical python
 environments within the image.
 
@@ -175,7 +176,7 @@ Update swh-charts' version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Providing access to both the swh-apps and the swh-charts repositories, this
-allows to update the values of values-swh-application-versions.yaml with the
+allows to update the values of ``values-swh-application-versions.yaml`` with the
 most recent docker image versions. This also bumps the Charts.yaml's version
 incrementally.
 
@@ -191,15 +192,16 @@ incrementally.
 Build application image
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Each application is stored in swh-apps:/apps/$application_dir/ folder.
+Each application is stored in ``swh-apps:/apps/$application_dir/`` folder.
 It usually holds the same set of files:
-- Dockerfile: The set of instructions to build the application's docker image
-- entrypoint.sh: The last Dockerfile instruction refers to this executable to run in the
+
+- ``Dockerfile``: The set of instructions to build the application's docker image
+- ``entrypoint.sh``: The last Dockerfile instruction refers to this executable to run in the
     image.
-- requirements.txt: The set of python dependencies the application requires to run.
-- requirements-frozen.txt: The derivative frozen set of dependencies to reproduce the
+- ``requirements.txt``: The set of python dependencies the application requires to run.
+- ``requirements-frozen.txt``: The derivative frozen set of dependencies to reproduce the
     environment in the docker image. It's built by the app-manager out of the
-    requirements.txt file.
+    ``requirements.txt`` file.
 
 Cli call to build the application locally:
 
@@ -208,7 +210,7 @@ Cli call to build the application locally:
    $ DOCKER_BUILDKIT=1 docker build -t swh-toolbox:latest apps/swh-toolbox \
      --build-arg REGISTRY=
 
-Note: The REGISTRY is empty so we only rely to local docker image. You can avoid
+Note: The ``REGISTRY`` is empty so we only rely to local docker image. You can avoid
 changing it, in which case, it will use the swh's gitlab registry.
 
 Cli call to run the application and be dropped in a shell:
@@ -217,5 +219,5 @@ Cli call to run the application and be dropped in a shell:
 
    $ docker run -it swh-toolbox:latest shell
 
-Note: This is specific command depending on the entrypoint.sh. In that case, the
-entrypoint.sh allows a shell option to be dropped in an interactive bash session.
+Note: This is specific command depending on the ``entrypoint.sh``. In that case, the
+``entrypoint.sh`` allows a shell option to be dropped in an interactive bash session.
