@@ -9,8 +9,10 @@ ARG workdir=/opt/${user}
 ARG configdir=/etc/${user}
 
 USER root
-RUN echo deb http://deb.debian.org/debian/ bullseye-backports main \
-      > /etc/apt/sources.list.d/backports.list
+# As per [0], bullseye-backports reached eol
+# [0] https://backports.debian.org/news/bullseye_backports_discontinued/
+# RUN echo deb http://deb.debian.org/debian/ bullseye-backports main \
+#       > /etc/apt/sources.list.d/backports.list
 RUN echo deb [trusted=yes] https://debian.softwareheritage.org/ bullseye-swh main  \
       > /etc/apt/sources.list.d/softwareheritage.list
 
