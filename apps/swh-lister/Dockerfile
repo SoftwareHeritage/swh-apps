@@ -10,7 +10,8 @@ ARG configdir=/etc/${user}
 
 USER root
 RUN apt-get update && \
-    apt-get install -y libsystemd-dev opam libsvn-dev && \
+    apt-get install -y libsystemd-dev opam libsvn-dev \
+        postgresql && \
     apt-get clean
 
 COPY --chmod=0644 requirements-frozen.txt ${workdir}
