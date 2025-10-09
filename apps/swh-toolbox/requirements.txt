@@ -1,3 +1,4 @@
+cqlsh
 swh.scheduler
 swh.lister
 swh.loader.bzr
