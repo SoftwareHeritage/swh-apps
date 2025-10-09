@@ -13,8 +13,21 @@ case "$1" in
         ;;
     "swh")
         shift
-        echo "Running swh command $@"
-        exec swh "$@"
+        declare -a cmd
+
+        if [ "${MEMRAY_ENABLED}" = "true" ]; then
+            # we expect MEMRAY_OPTIONS to contain quoted values
+            # shellcheck disable=SC2206
+            cmd=(memray run --native ${MEMRAY_OPTIONS})
+            if [ -n "${MEMRAY_LIVE_REMOTE_PORT}" ]; then
+                cmd+=(--live-remote --live-port="${MEMRAY_LIVE_REMOTE_PORT}")
+            fi
+        fi
+
+        cmd+=(swh "$@")
+
+        set -x
+        exec "${cmd[@]}"
         ;;
     *)
         EXTRA_CLI_FLAGS=()

@@ -25,6 +25,8 @@ COPY --chmod=0755 entrypoint.sh ${workdir}
 USER ${user}
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
 ENV PORT=5011
+ENV MEMRAY_ENABLED=false
+ENV MEMRAY_OPTIONS=
 EXPOSE $PORT
 ENV THREADS=2
 ENV WORKERS=2
