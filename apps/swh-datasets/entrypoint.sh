@@ -22,12 +22,21 @@ case "$1" in
         exec swh "$@"
         ;;
     *)
+        EXTRA_CLI_FLAGS=()
+        if [ -n "${LUIGI_PATH_TO_PIDFILE}" ]; then
+            EXTRA_CLI_FLAGS+=('--pidfile' "${LUIGI_PATH_TO_PIDFILE}")
+        fi
+        if [ -n "${LUIGI_PATH_TO_LOGDIR}" ]; then
+            EXTRA_CLI_FLAGS+=('--logdir' "${LUIGI_PATH_TO_LOGDIR}")
+        fi
+        if [ -n "${LUIGI_PATH_TO_STATEFILE}" ]; then
+            EXTRA_CLI_FLAGS+=('--state-path' "${LUIGI_PATH_TO_STATEFILE}")
+        fi
+
         # luigi scheduler command
         echo "Running luigid scheduler"
         exec luigid \
-             --pidfile "${LUIGI_PATH_TO_PIDFILE}" \
-             --logdir "${LUIGI_PATH_TO_LOGDIR}" \
-             --state-path "${LUIGI_PATH_TO_STATEFILE}" \
+             "${EXTRA_CLI_FLAGS[@]}" \
              --port "${PORT}" \
              --address "0.0.0.0"
         ;;
