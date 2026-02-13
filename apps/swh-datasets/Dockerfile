@@ -87,6 +87,5 @@ ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
 ARG LUIGI_DIRPATH=/tmp/luigid
 ENV LUIGI_CONFIG_PATH=/etc/luigi/luigi.cfg
 ENV PORT=8082
-RUN mkdir -p ${LUIGI_PATH_TO_LOGDIR}
 
 ENTRYPOINT ["/opt/swh/entrypoint.sh"]
