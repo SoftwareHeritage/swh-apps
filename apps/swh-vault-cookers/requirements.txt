@@ -2,3 +2,4 @@ swh-objstorage[azure,libcloud]
 swh-vault
 python-json-logger
 swh-graph
+memray
