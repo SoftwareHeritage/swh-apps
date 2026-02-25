@@ -1,3 +1,4 @@
 swh.datasets[luigi]
 luigi
 sqlalchemy
+setuptools<82
