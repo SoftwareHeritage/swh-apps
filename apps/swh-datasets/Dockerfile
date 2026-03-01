@@ -5,7 +5,7 @@ ARG base_image_version=latest
 ARG TARGET_CPU=x86-64-v3
 
 FROM ${REGISTRY}graph:latest as graph_build
-FROM rust:1.85-bookworm AS rust_build
+FROM rust:1.89-bookworm AS rust_build
 
 # Build swh rust deps
 RUN apt-get update && \
