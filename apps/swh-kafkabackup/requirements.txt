@@ -1,0 +1,1 @@
+git+https://gitlab.softwareheritage.org/swh/infra/swh-kafkabackup.git
