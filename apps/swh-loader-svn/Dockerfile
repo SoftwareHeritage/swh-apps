@@ -28,5 +28,10 @@ ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
 ENV SWH_WORKER_INSTANCE=loader
 ENV CONCURRENCY=1
 ENV MAX_TASKS_PER_CHILD=1
+# workaround issue in subvertpy 0.11.1 installed from binary wheels
+# that prevents communication with a remote svn repository through HTTPS,
+# will be fixed in next subvertpy release on PyPI
+# https://github.com/jelmer/subvertpy/pull/213
+ENV SSL_CERT_DIR=/etc/ssl/certs
 
 ENTRYPOINT ["/opt/swh/entrypoint.sh"]
