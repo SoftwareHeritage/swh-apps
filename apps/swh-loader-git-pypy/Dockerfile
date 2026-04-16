@@ -37,7 +37,7 @@ RUN apt-get update && \
 
 USER root
 RUN apt-get update && \
-    apt-get install -y libcmph-dev && \
+    apt-get install -y libcmph-dev libev-dev && \
     apt-get clean
 
 COPY --chmod=0644 requirements-frozen.txt ${workdir}

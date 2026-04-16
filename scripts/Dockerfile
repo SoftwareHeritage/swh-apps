@@ -23,6 +23,8 @@ RUN apt-get -y update && \
       pkg-config \
       # swh lister's dependency on rpy2 need this
       r-base-dev \
+      # pypy build for cassandra-driver (loader-git-pypy)
+      libev-dev \
     && \
     apt clean && \
     addgroup --gid ${groupid} ${user} && \
