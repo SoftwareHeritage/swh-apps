@@ -1,2 +1,3 @@
 swh-objstorage[azure,libcloud]
 swh-indexer
+py-spy

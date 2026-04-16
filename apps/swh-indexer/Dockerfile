@@ -17,7 +17,7 @@ RUN echo deb [trusted=yes] https://debian.softwareheritage.org/ bullseye-swh mai
       > /etc/apt/sources.list.d/softwareheritage.list
 
 RUN apt-get update && \
-    apt-get install -y fossology-nomossa && \
+    apt-get install -y fossology-nomossa linux-perf && \
     apt-get clean
 
 COPY --chmod=0644 requirements-frozen.txt ${workdir}
