@@ -26,4 +26,10 @@ COPY --chmod=0755 entrypoint.sh ${workdir}
 
 USER ${user}
 
+# workaround issue in subvertpy 0.11.1 installed from binary wheels
+# that prevents communication with a remote svn repository through HTTPS,
+# will be fixed in next subvertpy release on PyPI
+# https://github.com/jelmer/subvertpy/pull/213
+ENV SSL_CERT_DIR=/etc/ssl/certs
+
 ENTRYPOINT [ "/opt/swh/entrypoint.sh" ]
