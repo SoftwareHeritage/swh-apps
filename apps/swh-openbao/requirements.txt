@@ -1,0 +1,6 @@
+hvac
+click
+kubernetes==35.0.0
+# optional deps
+pdbpp
+ipython
