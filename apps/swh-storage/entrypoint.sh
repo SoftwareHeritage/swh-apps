@@ -25,8 +25,9 @@ case "$1" in
         if [ -n "${SWH_LOG_CONFIG_JSON}" ]; then
             EXTRA_CLI_FLAGS+=('--log-config-json' "${SWH_LOG_CONFIG_JSON}")
         fi
-        if [ -n "${STATSD_HOST}" -a -n "${STATSD_PORT}" ]; then
+        if [ -n "${STATSD_HOST}" ] && [ -n "${STATSD_PORT}" ]; then
             EXTRA_CLI_FLAGS+=('--statsd-host' "${STATSD_HOST}:${STATSD_PORT}")
+            EXTRA_CLI_FLAGS+=('--dogstatsd-tags' "pod:${HOSTNAME}")
         fi
         if [ -n "${STATSD_SERVICE_TYPE}" ]; then
             EXTRA_CLI_FLAGS+=('--statsd-prefix' "${STATSD_SERVICE_TYPE}")
