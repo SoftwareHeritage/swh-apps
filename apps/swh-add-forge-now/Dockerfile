@@ -1,17 +1,39 @@
-ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
-ARG base_image=${REGISTRY}base
-ARG base_image_version=latest
+FROM python:3.13-trixie
 
-FROM ${base_image}:${base_image_version}
-
+ARG userid=1000
+ARG groupid=1000
 ARG user=swh
 ARG workdir=/opt/${user}
+ARG venv=${workdir}/venv
 ARG configdir=/etc/${user}
 
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y git sed \
+      gzip lzip zstd cpio \
+      less netcat-openbsd jq && \
+    apt-get clean && \
+    addgroup --gid ${userid} ${user} && \
+    useradd --gid ${groupid} --uid ${userid} -m -d ${workdir} ${user} && \
+    mkdir ${configdir}
+
+# Include winery TLS certificates in the system CA bundle
+COPY --chmod=0644 *.crt /usr/local/share/ca-certificates/
+RUN update-ca-certificates
+
+# Make sure that requests uses the system CA bundle instead of the bundle shipped by certifi
+ENV REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+
+USER ${user}
+RUN python -m venv ${venv}
+WORKDIR ${workdir}
+
+ENV PYTHONPATH=${venv}
+ENV PATH=${venv}/bin:$PATH
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
 USER root
-RUN apt-get -y update && \
-    apt-get install -y netcat-openbsd jq && \
-    apt-get clean
 
 COPY --chmod=0644 requirements-frozen.txt ${workdir}
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
