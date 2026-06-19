@@ -1,0 +1,5 @@
+swh.storage
+swh.objstorage[azure]
+git+https://gitlab.softwareheritage.org/swh/devel/experiments/ingestion-benchmarks
+locust
+ipython
