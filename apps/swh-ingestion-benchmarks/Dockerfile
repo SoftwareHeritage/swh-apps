@@ -11,7 +11,7 @@ ENV LOCUST_LOCUSTFILE=${workdir}/ingestion-benchmarks/ingestion_benchmarks/objst
 USER root
 RUN apt-get update && \
     apt-get install -y \
-      netcat-openbsd jq dnsutils \
+      netcat-openbsd jq dnsutils iperf3 \
       curl emacs-nox vim git tmux && \
     apt-get clean
 
