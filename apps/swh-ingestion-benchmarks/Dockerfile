@@ -16,6 +16,9 @@ RUN apt-get update && \
     apt-get clean
 
 COPY --chmod=0644 requirements-frozen.txt ${workdir}
+
+USER ${user}
+
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
     uv pip sync requirements-frozen.txt
 RUN git clone https://gitlab.softwareheritage.org/swh/devel/experiments/ingestion-benchmarks
@@ -23,7 +26,5 @@ RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
     uv pip install -e ingestion-benchmarks
 
 COPY --chmod=0755 entrypoint.sh ${workdir}
-
-USER ${user}
 
 ENTRYPOINT ["/opt/swh/entrypoint.sh"]
