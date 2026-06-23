@@ -1,0 +1,3 @@
+swh.objstorage[azure,libcloud] @ git+https://gitlab.softwareheritage.org/swh/devel/swh-objstorage@azure-concurrent-add-concurrent-presence
+python-json-logger
+gunicorn
