@@ -13,7 +13,7 @@ ARG base_image_version=latest
 # This will then compiles and installs the rust binaries to the required version. Same
 # goes for the python module's version.
 ARG GRAPH_SOURCE_VERSION=tag
-ARG RUST_VERSION=1.85
+ARG RUST_VERSION=1.96
 ARG TARGET_CPU=x86-64-v3
 
 FROM rust:${RUST_VERSION}-bookworm AS rust_build
