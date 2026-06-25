@@ -32,7 +32,7 @@ ARG configdir=/etc/${user}
 
 USER root
 RUN apt-get update && \
-    apt-get install -y zstd && \
+    apt-get install -y zstd awscli && \
     apt-get clean
 
 RUN mkdir -p /srv/graph /srv/dataset
