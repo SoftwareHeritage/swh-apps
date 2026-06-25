@@ -1,2 +1,4 @@
 swh.graph
+# temporary fix, this is required now (fixed upstream but no release yet)
+tqdm
 python-json-logger
