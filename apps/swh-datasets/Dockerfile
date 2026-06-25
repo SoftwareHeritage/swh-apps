@@ -8,6 +8,8 @@ ARG RUST_VERSION=1.96
 FROM ${REGISTRY}graph:latest as graph_build
 FROM rust:${RUST_VERSION}-bookworm AS rust_build
 
+ARG TARGET_CPU
+
 # Build swh rust deps
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -16,7 +18,6 @@ RUN apt-get update && \
     apt-get clean
 
 ARG REPO_DATASETS=https://gitlab.softwareheritage.org/swh/devel/swh-datasets.git
-ARG TARGET_CPU
 
 # Install swh-datasets rust applications
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
