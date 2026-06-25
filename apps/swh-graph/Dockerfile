@@ -18,8 +18,8 @@ ARG TARGET_CPU=x86-64-v3
 
 FROM rust:${RUST_VERSION}-bookworm AS rust_build
 
-ARG GRAPH_SOURCE_VERSION=$GRAPH_SOURCE_VERSION
-ARG TARGET_CPU=${TARGET_CPU}
+ARG GRAPH_SOURCE_VERSION
+ARG TARGET_CPU
 
 # ... build swh-graph rust deps
 RUN apt-get update && \
@@ -69,7 +69,7 @@ COPY --chmod=0644 requirements-frozen.txt ${workdir}
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
     uv pip sync requirements-frozen.txt
 
-ARG GRAPH_SOURCE_VERSION=$GRAPH_SOURCE_VERSION
+ARG GRAPH_SOURCE_VERSION
 
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
     if [ "${GRAPH_SOURCE_VERSION}" = "tag" ]; then \
