@@ -16,7 +16,7 @@ RUN apt-get update && \
     apt-get clean
 
 ARG REPO_DATASETS=https://gitlab.softwareheritage.org/swh/devel/swh-datasets.git
-ARG TARGET_CPU=${TARGET_CPU}
+ARG TARGET_CPU
 
 # Install swh-datasets rust applications
 RUN --mount=type=cache,target=.cache,uid=1000,gid=1000 \
