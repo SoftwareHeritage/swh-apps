@@ -1,58 +1,36 @@
-# -------------Stage 1 : Build -------------------
+# -------------- Build stage --------------------
+FROM debian:bookworm AS downloader
 
-FROM python:3.11-bookworm AS builder
+ARG swh_docs_publish_job_id=lastStableBuild
 
-ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        unzip \ 
+        wget \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y \
-    git \
-    make \
-    gcc \
-    g++ \
-    build-essential \
-    graphviz \
-    plantuml \
-    inkscape \
-    crudini \
-    myrepos \
-    libapr1-dev \
-    libaprutil1-dev \
-    libsvn-dev \
-    postgresql-client \
- && rm -rf /var/lib/apt/lists/*
+WORKDIR /tmp
 
-RUN pip install --no-cache-dir \
-    tox \
-    pre-commit \
-    pifpaf
+# Download the documentation archive from the Jenkins publish job.
+RUN wget \
+    -O archive.zip \
+    "https://jenkins.softwareheritage.org/job/DDOC/job/publish/${swh_docs_publish_job_id}/artifact/*zip*/archive.zip"
 
-WORKDIR /workspace
+# Extract the archive.
+RUN unzip archive.zip
 
-# ------------- Clone docs-swh-repo -----------------------
-
-RUN git clone --depth 1 https://gitlab.softwareheritage.org/swh/devel/swh-environment.git .
-
-RUN crudini --del .mrconfig snippets || true && \
-    crudini --del .mrconfig swh-py-template || true && \
-    sed -i '/swh-docs/!s/git clone/git clone --single-branch/g' .mrconfig
-
-# ------------- Cloning all necessarie module -------------------
-RUN mr -j4 update
-
-WORKDIR /workspace/swh-docs
-
-RUN SKIP=mypy pre-commit run --all-files --show-diff-on-failure
-
-# ----------- Doc generation ---------------------
-RUN SPHINXOPTS="-W -T --jobs auto --keep-going -w errors.log" \
-    SPHINXOPTCOLOR="--no-color" \
-    tox -vv run -e sphinx-dev -x testenv:sphinx-dev.basepython=py311
-
-# --------------- Stage 2 : Runtime ------------------
+# ------------- Runtime stage ----------------------------
 
 FROM nginx:alpine
 
-COPY --from=builder /workspace/swh-docs/docs/_build/html/ /usr/share/nginx/html/
+# Remove the default nginx content.
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy the generated documentation.
+COPY --from=downloader \
+    /tmp/archive/swh-docs/docs/_build/html/ \
+    /usr/share/nginx/html/
 
 EXPOSE 80
 

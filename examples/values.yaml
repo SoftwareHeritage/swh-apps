@@ -18,3 +18,5 @@ swh_loader_svn_image: container-registry.softwareheritage.org/swh/infra/swh-apps
 swh_loader_svn_image_version: '20221112.1'
 swh_storage_replayer_image: container-registry.softwareheritage.org/swh/infra/swh-apps/storage-replayer
 swh_storage_replayer_image_version: '20221226.1'
+swh_docs_image: container-registry.softwareheritage.org/swh/infra/swh-apps/swh-docs
+swh_docs_image_version: '20260707.1'
