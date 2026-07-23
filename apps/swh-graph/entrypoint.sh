@@ -15,13 +15,13 @@ case "$1" in
     *)
         case "${GRAPH_TYPE}" in
             "rpc")
-                subcmd="rpc-serve -h 0.0.0.0 -p ${PORT}"
+                subcmd="rpc-serve --host 0.0.0.0 --port ${PORT}"
                 if [ ! -z "${GRAPH_PATH}" ]; then
                     subcmd+=" -g ${GRAPH_PATH}"
                 fi
                 ;;
             "grpc")
-                subcmd="grpc-serve -g ${GRAPH_PATH} -p ${PORT}"
+                subcmd="grpc-serve --graph ${GRAPH_PATH} --port ${PORT}"
                 ;;
             *)
                 echo "Unknown graph type <$GRAPH_TYPE> (either rpc or gprc)"
@@ -29,7 +29,7 @@ case "$1" in
         esac
 
         echo "Starting the swh-graph ${GRAPH_TYPE} server"
-        cmd="swh graph -C ${SWH_CONFIG_FILENAME} $subcmd"
+        cmd="swh graph $subcmd"
         echo $cmd
         $cmd
 esac
