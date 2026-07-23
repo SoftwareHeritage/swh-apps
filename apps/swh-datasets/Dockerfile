@@ -5,7 +5,7 @@ ARG base_image_version=latest
 ARG TARGET_CPU=x86-64-v3
 ARG RUST_VERSION=1.96
 
-FROM ${REGISTRY}graph:latest as graph_build
+FROM ${REGISTRY}graph:latest AS graph_build
 FROM rust:${RUST_VERSION}-bookworm AS rust_build
 
 ARG TARGET_CPU
