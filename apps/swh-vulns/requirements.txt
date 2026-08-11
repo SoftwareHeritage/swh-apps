@@ -1,2 +1,3 @@
+swh.vulns
 swh.graph
 python-json-logger
