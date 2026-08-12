@@ -25,6 +25,6 @@ case "$1" in
         exec swh \
              metadata-loader \
              --config-file $SWH_CONFIG_FILENAME \
-             journal-client $SWH_INDEXER_TYPE
+             journal-client
         ;;
 esac
