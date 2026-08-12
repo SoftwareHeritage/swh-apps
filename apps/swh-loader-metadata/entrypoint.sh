@@ -24,7 +24,6 @@ case "$1" in
         echo "Starting loader metadata journal client..."
         exec swh \
              metadata-loader \
-             --config-file $SWH_CONFIG_FILENAME \
              journal-client
         ;;
 esac
