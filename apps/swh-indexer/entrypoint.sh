@@ -28,7 +28,6 @@ case "$1" in
         exec swh \
              --log-level azure.core.pipeline.policies.http_logging_policy:WARNING \
              indexer \
-             --config-file $SWH_CONFIG_FILENAME \
              journal-client $SWH_INDEXER_TYPE
         ;;
 esac
