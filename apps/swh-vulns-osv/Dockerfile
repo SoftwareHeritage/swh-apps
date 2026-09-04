@@ -16,11 +16,17 @@ COPY --chmod=0755 entrypoint.sh ${workdir}
 
 USER ${user}
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
-ENV SWH_WORKER_INSTANCE=vulns-crawler
+
+# Related rpc configuration (gunicorn)
 ENV PORT=5016
 EXPOSE $PORT
 ENV THREADS=4
 ENV WORKERS=2
 ENV TIMEOUT=3600
+
+# Related celery configuration
+ENV SWH_WORKER_INSTANCE=vulns-crawler
+ENV CONCURRENCY=1
+ENV MAX_TASKS_PER_CHILD=1
 
 ENTRYPOINT ["/opt/swh/entrypoint.sh"]
