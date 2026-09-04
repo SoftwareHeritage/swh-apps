@@ -16,3 +16,4 @@ swh.indexer
 swh.webhooks
 swh.objstorage[azure]
 swh.coarnotify
+swh.vulns
