@@ -1,0 +1,3 @@
+swh.vulns
+python-json-logger
+gunicorn
