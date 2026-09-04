@@ -16,6 +16,7 @@ COPY --chmod=0755 entrypoint.sh ${workdir}
 
 USER ${user}
 ENV SWH_CONFIG_FILENAME=${configdir}/config.yml
+ENV SWH_WORKER_INSTANCE=vulns-crawler
 ENV PORT=5016
 EXPOSE $PORT
 ENV THREADS=4

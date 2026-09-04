@@ -16,7 +16,26 @@ case "$1" in
         echo "Running swh command $@"
         exec swh "$@"
         ;;
+    "create-report-processing-tasks")
+        shift
+        echo "Create report processing tasks in scheduler db"
+        exec swh vulns osv create-report-processing-tasks
+        ;;
+    "compute-report-tasks")
+        echo "Starting the swh Celery worker for ${SWH_WORKER_INSTANCE}"
+        exec python -m celery \
+             --app=swh.scheduler.celery_backend.config.app \
+             worker \
+             --pool=prefork \
+             --concurrency=${CONCURRENCY} \
+             --max-tasks-per-child=${MAX_TASKS_PER_CHILD} \
+             -Ofair \
+             --loglevel=${SWH_LOG_LEVEL:-INFO} \
+             --without-gossip --without-mingle --without-heartbeat \
+             --hostname "${SWH_WORKER_INSTANCE}@%h"
+        ;;
     *)
+        # The default behavior is to run the rpc server
         EXTRA_CLI_FLAGS=()
         if [ -n "${SWH_LOG_CONFIG_JSON}" ]; then
             EXTRA_CLI_FLAGS+=('--log-config-json' "${SWH_LOG_CONFIG_JSON}")
