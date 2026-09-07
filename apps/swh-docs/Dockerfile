@@ -6,7 +6,7 @@ ARG swh_docs_publish_job_id=lastStableBuild
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         ca-certificates \
-        unzip \ 
+        unzip \
         wget \
     && rm -rf /var/lib/apt/lists/*
 
