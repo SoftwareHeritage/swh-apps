@@ -3,12 +3,12 @@
 set -e
 
 case "$1" in
-  "shell")
+"shell")
     shift
     echo "Running command $@"
     exec bash -i "$@"
     ;;
-  *)
-    exec serve -s build
+*)
+    exec /opt/swh/swh-stories/node_modules/.bin/vite --host --port 3000
     ;;
 esac

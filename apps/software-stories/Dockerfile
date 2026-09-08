@@ -2,12 +2,11 @@ FROM node:22-trixie
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    npm install -g serve && \
     mkdir -p /opt/swh/swh-stories && \
     chown -R node:node /opt/swh
 
 USER node
-ENV NODE_OPTIONS=--openssl-legacy-provider
+
 WORKDIR /opt/swh/swh-stories
 
 RUN git clone https://github.com/ScienceStories/swh-stories.git /opt/swh/swh-stories && \
