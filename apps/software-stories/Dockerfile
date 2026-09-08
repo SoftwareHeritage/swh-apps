@@ -3,7 +3,8 @@ FROM node:22-trixie
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     mkdir -p /opt/swh/swh-stories && \
-    chown -R node:node /opt/swh
+    chown -R node:node /opt/swh && \
+    apt-get clean
 
 USER node
 
