@@ -1,5 +1,5 @@
 # Build svnrdump
-FROM debian:bullseye AS rsvndump
+FROM debian:trixie AS rsvndump
 ARG VERSION=0.6.1
 ARG TARBALL_NAME=rsvndump-${VERSION}
 ARG TARBALL=${TARBALL_NAME}.tar.gz

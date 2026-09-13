@@ -1,5 +1,5 @@
 # -------------- Build stage --------------------
-FROM debian:bookworm AS downloader
+FROM debian:trixie AS downloader
 
 ARG swh_docs_publish_job_id=lastStableBuild
 
