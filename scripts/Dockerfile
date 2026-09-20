@@ -1,6 +1,6 @@
 # build-deps container to call various app_manager's subcommand on an swh application
 # (e.g. generate-frozen-requirements, list-application, ...)
-FROM python:3.11-bookworm
+FROM python:3.12-bookworm
 
 ARG userid=1000
 ARG groupid=1000
