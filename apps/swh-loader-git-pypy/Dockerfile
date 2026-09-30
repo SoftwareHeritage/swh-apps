@@ -1,4 +1,4 @@
-FROM pypy:3.11-bookworm
+FROM pypy:3.12-bookworm
 
 ARG userid=1000
 ARG groupid=1000
