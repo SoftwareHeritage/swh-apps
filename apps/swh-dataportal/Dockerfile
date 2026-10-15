@@ -1,38 +1,42 @@
 #
-# Build
+# Retrieve artifacts from the jenkins build
 #
-FROM python:3.11-slim AS build
+FROM debian:bookworm AS downloader
+
+ARG swh_dataportal_publish_job_id=lastStableBuild
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     VIRTUAL_ENV=/app/.venv
 
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y git npm && \
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
+      ca-certificates \
+      unzip \
+      wget && \
     rm -rf /var/lib/apt/lists/*
-RUN useradd --home /app --create-home --shell /bin/bash dataportal
-USER dataportal
 
-RUN git clone https://gitlab.softwareheritage.org/swh/devel/swh-dataportal /app/swh-dataportal
-WORKDIR /app/swh-dataportal
+WORKDIR /tmp
 
-RUN npm ci
-ENV PATH="/app/node_modules/.bin:/app/.venv/bin:$PATH"
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+# Download the documentation archive from the Jenkins publish job.
+RUN wget \
+    -O archive.zip \
+    "https://jenkins.softwareheritage.org/job/swh-dataportal/job/gitlab-builds/${swh_dataportal_publish_job_id}/artifact/output/html/*zip*/html.zip"
 
-# Generate documentation from the repository
-# TODO: Make the html documentation generation an artifact to download
-# from jenkins (see swh-docs's publish step build)
-RUN pip install --upgrade pip uv && \
-    uv pip install /app/swh-dataportal && \
-    swh dataportal build
+# Extract the archive.
+RUN unzip archive.zip
 
-#
+FROM nginx:alpine
+# Remove the default nginx content.
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy the generated documentation.
+COPY --from=downloader \
+    /tmp/html/ \
+    /usr/share/nginx/html/
+
 # Runtime
 #
-FROM nginx:alpine
-COPY --from=build /app/swh-dataportal/output/html/ \
-    /usr/share/nginx/html/
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
