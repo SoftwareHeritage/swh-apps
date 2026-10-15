@@ -1,7 +1,7 @@
 #
 # Retrieve artifacts from the jenkins build
 #
-FROM debian:bookworm AS downloader
+FROM debian:trixie-slim AS downloader
 
 ARG swh_dataportal_publish_job_id=lastStableBuild
 
