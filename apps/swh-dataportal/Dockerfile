@@ -22,7 +22,7 @@ WORKDIR /tmp
 # Download the documentation archive from the Jenkins publish job.
 RUN wget \
     -O archive.zip \
-    "https://jenkins.softwareheritage.org/job/swh-dataportal/job/gitlab-builds/${swh_dataportal_publish_job_id}/artifact/output/html/*zip*/html.zip"
+    "https://jenkins.softwareheritage.org/job/swh-dataportal/job/master/${swh_dataportal_publish_job_id}/artifact/output/html/*zip*/html.zip"
 
 # Extract the archive.
 RUN unzip archive.zip
