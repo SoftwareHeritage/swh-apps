@@ -2,7 +2,7 @@ ARG REGISTRY=container-registry.softwareheritage.org/swh/infra/swh-apps/
 ARG base_image=${REGISTRY}base
 ARG base_image_version=latest
 
-FROM softwareheritage/maven-index-exporter:v0.4.1 AS maven_index_exporter_image
+FROM container-registry.softwareheritage.org/swh/devel/fixtures/maven-index-exporter/softwareheritage/maven-index-exporter:v0.4.1 AS maven_index_exporter_image
 FROM ${base_image}:${base_image_version}
 
 ARG user=swh
