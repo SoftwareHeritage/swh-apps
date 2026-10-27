@@ -12,7 +12,7 @@ USER root
 RUN apt-get update && \
     apt-get install -y \
       r-base-dev netcat-openbsd jq dnsutils iputils-ping mtr-tiny iperf3 \
-      curl telnet host emacs-nox vim postgresql-client && \
+      curl telnet host emacs-nox vim postgresql-client tmux && \
     apt-get clean
 
 # Install svix cli
