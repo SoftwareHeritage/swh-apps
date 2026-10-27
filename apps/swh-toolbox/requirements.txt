@@ -13,6 +13,7 @@ swh.loader.svn
 swh.objstorage[azure]
 swh.scheduler
 swh.scrubber
+swh.search
 swh.storage
 swh.vault
 swh.vulns
