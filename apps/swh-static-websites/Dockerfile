@@ -1,5 +1,5 @@
 # ---------- Build ----------
-FROM python:3.12-bookworm AS builder
+FROM python:3.14-bookworm AS builder
 
 RUN apt-get update && apt-get install -y \
     git \
