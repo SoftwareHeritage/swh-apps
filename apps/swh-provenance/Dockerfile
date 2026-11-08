@@ -3,7 +3,7 @@ ARG base_image=${REGISTRY}base
 ARG base_image_version=latest
 
 ARG TARGET_CPU=x86-64-v3
-FROM rust:1.85-bookworm AS rust_build
+FROM rust:1.87-bookworm AS rust_build
 
 # ... build swh-graph rust deps
 RUN apt-get update && \
