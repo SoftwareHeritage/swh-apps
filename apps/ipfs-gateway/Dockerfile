@@ -5,7 +5,7 @@
 ARG REPOSITORY=https://github.com/obsidiansystems/go-ipfs-swh-plugin.git
 ARG GIT_HEAD=2380683e3309e2c5bb167dbbbcb50f71eed063bb # master at 2023-01-31
 
-FROM debian:bullseye as build
+FROM debian:trixie as build
 
 RUN apt update -y && apt dist-upgrade -y && apt install -y git nix
 
@@ -22,7 +22,7 @@ RUN cd /src/go-ipfs-swh-plugin && \
 # # final image
 # #############
 
-FROM debian:bullseye
+FROM debian:trixie
 
 RUN apt update && apt dist-upgrade -y && apt install -y nix && apt clean
 
